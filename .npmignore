@@ -1,0 +1,35 @@
+# Source and configs
+src/
+.storybook/
+.eslintrc.js
+.babelrc.js
+.babelrc
+vite.config.ts
+tsconfig.json
+
+# Testing
+coverage/
+**/__tests__/
+**/*.test.ts
+**/*.test.tsx
+**/*.stories.ts
+**/*.stories.tsx
+**/*.stories.js
+
+# Build files
+node_modules/
+storybook-static/
+.cache/
+
+# IDE files
+.idea/
+.vscode/
+
+# Misc
+.github/
+.husky/
+.circleci/
+CLAUDE.md
+fonts/
+styles/
+ios/
