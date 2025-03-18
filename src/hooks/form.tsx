@@ -2,6 +2,8 @@ import { InputField } from '../components/input';
 import { createFormHook } from '@tanstack/react-form'
 import { fieldContext, formContext, useFormContext } from './form-context'
 import { Button } from 'baseui/button'
+import { TextareaField } from '../components/textarea';
+import { RadioGroupField } from '../components/radio-group';
 
 function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext()
@@ -14,7 +16,9 @@ function SubscribeButton({ label }: { label: string }) {
 
 export const { useAppForm, withForm } = createFormHook({
   fieldComponents: {
-    InputField: InputField,
+    InputField,
+    TextareaField,
+    RadioGroupField
   },
   formComponents: {
     SubscribeButton,
