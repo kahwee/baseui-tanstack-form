@@ -11,7 +11,7 @@ export const ChildForm = withForm({
   props: {
     title: 'Child Form',
   },
-  render: ({ form, title }: { form: any; title: string }) => {
+  render: ({ form, title }) => {
     return (
       <Card>
         <StyledBody>
@@ -19,8 +19,9 @@ export const ChildForm = withForm({
           <Block marginBottom="16px">
             <form.AppField
               name="firstName"
-              children={(field: any) => <field.InputField label="First Name" />}
-            />
+            >
+              {(field) => <field.InputField label="First Name" />}
+            </form.AppField>
           </Block>
         </StyledBody>
         <StyledAction>
