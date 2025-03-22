@@ -10,9 +10,9 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/baseui-tanstack-form.es.js",
-      "require": "./dist/baseui-tanstack-form.cjs.js",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/baseui-tanstack-form.cjs.js"
     }
   },
   "author": "KahWee Teng <tengkahwee@gmail.com>",
