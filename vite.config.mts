@@ -10,7 +10,8 @@ export default defineConfig({
     dts({ 
       include: ['src/**/*.ts', 'src/**/*.tsx'],
       exclude: ['src/**/*.stories.tsx', 'src/**/__tests__/**/*', 'src/**/stories.tsx'],
-      rollupTypes: true
+      rollupTypes: true,
+      outDir: 'dist/types'
     })
   ],
   resolve: {
@@ -20,7 +21,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(__dirname, 'src/index.tsx'),
       name: 'baseui-tanstack-form',
       fileName: (format) => `baseui-tanstack-form.${format}.js`,
       formats: ['es', 'umd', 'cjs']
