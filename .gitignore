@@ -7,7 +7,6 @@ lib
 es
 *.tmp.*
 .idea
-package-lock.json
 
 .DS_Store
 docs/_build/*
