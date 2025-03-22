@@ -55,7 +55,7 @@ const { useAppForm, withForm } = createFormHook({
 });
 
 // Form section with withForm HOC
-const ChildForm = withForm({
+const GroupForm = withForm({
   defaultValues: { firstName: 'John', lastName: 'Doe' },
   props: { title: 'Child Form' },
   render: function({ form, title }) {
@@ -93,7 +93,7 @@ function ParentForm() {
       e.stopPropagation();
       form.handleSubmit();
     }}>
-      <ChildForm form={form} title="Person Information" />
+      <GroupForm form={form} title="Person Information" />
     </form>
   );
 }

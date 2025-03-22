@@ -1,15 +1,15 @@
 import React from 'react';
 import { withForm } from '../../hooks/form';
-import { formOpts } from './shared-form';
+import { formOpts } from '../../features/group/shared-form';
 import { Card, StyledBody, StyledAction } from 'baseui/card';
 import { HeadingSmall } from 'baseui/typography';
 import { Block } from 'baseui/block';
 
-export const ChildForm = withForm({
+export const GroupForm = withForm({
   ...formOpts,
   // Optional, but adds props to the `render` function outside of `form`
   props: {
-    title: 'Child Form',
+    title: 'Group Form',
   },
   render: ({ form, title }) => {
     return (
@@ -18,9 +18,9 @@ export const ChildForm = withForm({
           <HeadingSmall>{title}</HeadingSmall>
           <Block marginBottom="16px">
             <form.AppField
-              name="firstName"
+              name="name"
             >
-              {(field) => <field.InputField label="First Name" />}
+              {(field) => <field.InputField label="Name" />}
             </form.AppField>
           </Block>
         </StyledBody>

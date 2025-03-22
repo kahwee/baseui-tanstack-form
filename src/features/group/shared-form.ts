@@ -1,13 +1,11 @@
 import { formOptions } from '@tanstack/react-form'
 
 export interface FormValues {
-  firstName: string;
-  lastName: string;
+  name: string;
 }
 
 export const formOpts = formOptions({
   defaultValues: {
-    firstName: 'John',
-    lastName: 'Doe',
-  } as FormValues,
+    name: 'John Group',
+  } satisfies FormValues,
 });
