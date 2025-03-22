@@ -3,6 +3,9 @@
 Adapter between `@tanstack/react-form` and `baseui`.
 
 [![npm](https://img.shields.io/npm/v/baseui-tanstack-form.svg)](https://www.npmjs.com/package/baseui-tanstack-form)
+[![Build and Deploy Storybook](https://github.com/kahwee/baseui-tanstack-form/actions/workflows/static.yml/badge.svg)](https://github.com/kahwee/baseui-tanstack-form/actions/workflows/static.yml)
+
+📚 **View our component library**: [Storybook](https://kahwee.github.io/baseui-tanstack-form/)
 
 ## Prerequisites
 
