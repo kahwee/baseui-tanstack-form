@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -40,8 +43,9 @@ export default defineConfig({
     },
     sourcemap: true,
     minify: 'esbuild',
-    target: 'es2020',
-    outDir: 'dist'
+    target: 'esnext',
+    outDir: 'dist',
+    emptyOutDir: true
   },
   test: {
     globals: true,
