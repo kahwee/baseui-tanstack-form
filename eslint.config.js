@@ -42,7 +42,8 @@ export default [
       'react/react-in-jsx-scope': 'error',
       'react/prop-types': 'off',
       'react/no-children-prop': 'warn',
-      '@typescript-eslint/no-explicit-any': 'warn'
+      '@typescript-eslint/no-explicit-any': 'warn',
+      'indent': ['error', 2]
     },
     settings: {
       react: {
