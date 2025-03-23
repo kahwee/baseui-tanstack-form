@@ -14,17 +14,18 @@ const GroupPageWrapper = () => (
   </Block>
 );
 
-// Beatles band members story with pre-filled data
-const BeatlesGroupStory = () => {
+// Fleetwood Mac band members story with pre-filled data
+const FleetwoodMacGroupStory = () => {
   const form = useAppForm({
     ...formOpts,
     defaultValues: {
-      name: 'The Beatles',
+      name: 'Fleetwood Mac',
       people: [
-        { firstName: 'John', lastName: 'Lennon', sex: 'male' },
-        { firstName: 'Paul', lastName: 'McCartney', sex: 'male' },
-        { firstName: 'George', lastName: 'Harrison', sex: 'male' },
-        { firstName: 'Ringo', lastName: 'Starr', sex: 'male' }
+        { firstName: 'Stevie', lastName: 'Nicks', sex: 'female' },
+        { firstName: 'Christine', lastName: 'McVie', sex: 'female' },
+        { firstName: 'Lindsey', lastName: 'Buckingham', sex: 'male' },
+        { firstName: 'Mick', lastName: 'Fleetwood', sex: 'male' },
+        { firstName: 'John', lastName: 'McVie', sex: 'male' }
       ]
     } as Group,
     validators: {
@@ -43,7 +44,7 @@ const BeatlesGroupStory = () => {
           e.stopPropagation();
           form.handleSubmit();
         }}>
-        <GroupForm form={form} title="The Beatles" />
+        <GroupForm form={form} title="Fleetwood Mac" />
       </form>
     </Block>
   );
@@ -64,6 +65,6 @@ export const Default: Story = {
   args: {},
 };
 
-export const BeatlesExample = {
-  render: () => <BeatlesGroupStory />
+export const FleetwoodMacExample = {
+  render: () => <FleetwoodMacGroupStory />
 };
