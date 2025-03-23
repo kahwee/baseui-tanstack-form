@@ -1,6 +1,6 @@
 import React from 'react';
 import { withForm } from '../../hooks/form';
-import { formOpts } from '../../features/group/shared-form';
+import { formOpts } from './shared-form';
 import { Card, StyledBody, StyledAction } from 'baseui/card';
 import { HeadingSmall } from 'baseui/typography';
 import { Block } from 'baseui/block';

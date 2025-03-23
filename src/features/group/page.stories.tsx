@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Parent } from '../features/group/page';
+import { Parent } from './page';
 import { Block } from 'baseui/block';
 
 // Wrapper component with BaseUI styling
@@ -11,12 +11,11 @@ const GroupPageWrapper = () => (
 );
 
 const meta = {
-  title: 'Features/Group/Parent',
+  title: 'Features / Group',
   component: GroupPageWrapper,
   parameters: {
     layout: 'fullscreen',
   },
-  tags: ['autodocs'],
 } satisfies Meta<typeof GroupPageWrapper>;
 
 export default meta;
