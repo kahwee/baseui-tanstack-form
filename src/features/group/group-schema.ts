@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { PersonSchema } from '../people/people-schema';
+import { PersonSchema } from '../person/person-schema';
 
 export const GroupSchema = z.object({
   name: z
