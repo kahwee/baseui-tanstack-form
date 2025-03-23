@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GroupForm } from '../features/group/nested-form';
+import { GroupForm } from '../features/group/group-form';
 import { useAppForm } from '../hooks/form';
 import { formOpts } from '../features/group/shared-form';
 import { Block } from 'baseui/block';
@@ -33,7 +33,6 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  tags: ['autodocs'],
   argTypes: {
     title: { control: 'text' }
   }
