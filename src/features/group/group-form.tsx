@@ -4,6 +4,7 @@ import { formOpts } from './shared-form';
 import { Card, StyledBody, StyledAction } from 'baseui/card';
 import { HeadingSmall } from 'baseui/typography';
 import { Block } from 'baseui/block';
+import { Button } from 'baseui/button';
 
 export const GroupForm = withForm({
   ...formOpts,
@@ -21,6 +22,37 @@ export const GroupForm = withForm({
               name="name"
             >
               {(field) => <field.InputField label="Name" />}
+            </form.AppField>
+            <form.AppField
+              mode='array'
+              name="people"
+            >{(field) => <div key={`s${field.state.value.length}`}>
+                {field.state.value.map((_, index) => (
+                  <div key={index}>
+                    <form.AppField
+                      name={`people[${index}].firstName`}
+                    >
+                      {(subField) => <subField.InputField label="First name" />}
+                    </form.AppField>
+                    <form.AppField
+                      name={`people[${index}].lastName`}
+                    >{(subField) => <subField.InputField label="Last name" />}
+                    </form.AppField>
+                    <form.AppField
+                      name={`people[${index}].sex`}
+                    >{(subField) => <subField.RadioGroupField label="Sex" options={[
+                        { label: 'Male', value: 'male' },
+                        { label: 'Female', value: 'female' },
+                      ]} />}</form.AppField>
+                  </div>
+                ))}
+
+                <Button onClick={() => field.pushValue({
+                  firstName: '',
+                  lastName: '',
+                  sex: 'male'
+                })}>Add Person</Button>
+              </div>}
             </form.AppField>
           </Block>
         </StyledBody>

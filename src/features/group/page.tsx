@@ -13,6 +13,7 @@ export const Parent: React.FC = () => {
       onChange: GroupSchema
     },
     onSubmit: (values) => {
+      console.log('hihi')
       console.log('Form submitted with values:', values);
     }
   });
