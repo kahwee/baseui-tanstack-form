@@ -1,11 +1,10 @@
 import { formOptions } from '@tanstack/react-form'
+import { Group } from './group-schema';
 
-export interface FormValues {
-  name: string;
-}
 
 export const formOpts = formOptions({
   defaultValues: {
     name: 'John Group',
-  } satisfies FormValues,
+    people: []
+  } as Group,
 });

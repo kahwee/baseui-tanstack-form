@@ -21,6 +21,7 @@
     "build": "vite build && tsc --emitDeclarationOnly",
     "clean": "rm -rf dist coverage",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit --skipLibCheck",
     "storybook": "NODE_OPTIONS=--no-warnings storybook dev -p 6006",
     "build:storybook": "NODE_OPTIONS=--no-warnings storybook build",
