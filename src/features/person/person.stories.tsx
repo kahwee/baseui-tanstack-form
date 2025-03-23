@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GroupForm } from '../features/group/group-form';
-import { useAppForm } from '../hooks/form';
-import { formOpts } from '../features/group/shared-form';
+import { useAppForm } from '../../hooks/form';
+import { formOpts } from '../group/shared-form';
 import { Block } from 'baseui/block';
+import { GroupForm } from '../group/group-form';
 
 const GroupFormWrapper = (args: { title: string }) => {
   const form = useAppForm({
