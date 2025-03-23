@@ -39,7 +39,7 @@ export default [
       ...tseslint.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
-      'react/react-in-jsx-scope': 'off',
+      'react/react-in-jsx-scope': 'error',
       'react/prop-types': 'off',
       'react/no-children-prop': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn'
