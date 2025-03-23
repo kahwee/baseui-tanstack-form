@@ -5,6 +5,7 @@ import { Card, StyledBody, StyledAction } from 'baseui/card';
 import { HeadingSmall } from 'baseui/typography';
 import { Block } from 'baseui/block';
 import { Button } from 'baseui/button';
+import Delete from 'baseui/icon/delete'
 
 export const GroupForm = withForm({
   ...formOpts,
@@ -28,7 +29,21 @@ export const GroupForm = withForm({
               name="people"
             >{(field) => <div key={`s${field.state.value.length}`}>
                 {field.state.value.map((_, index) => (
-                  <div key={index}>
+                  <Block key={index} marginBottom="16px" display="flex" flexDirection="column">
+                    <Block display="flex" alignItems="center" justifyContent="space-between" marginBottom="8px">
+                      <HeadingSmall margin="0">Person #{index + 1}</HeadingSmall>
+                      <Button
+                        kind="tertiary"
+                        size="mini"
+                        shape="circle"
+                        onClick={() => {
+                        // Remove this person from the array
+                          field.removeValue(index);
+                        }}
+                      >
+                        <Delete size={24} />
+                      </Button>
+                    </Block>
                     <form.AppField
                       name={`people[${index}].firstName`}
                     >
@@ -47,7 +62,7 @@ export const GroupForm = withForm({
                         { label: 'Female', value: 'female' },
                       ]} />}
                     </form.AppField>
-                  </div>
+                  </Block>
                 ))}
 
                 <Button onClick={() => field.pushValue({
