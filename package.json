@@ -62,7 +62,7 @@
     "react-dom": "^18.2.0",
     "storybook": "^8.6.6",
     "typescript": "^5.3.3",
-    "vite": "^6.2.2",
+    "vite": "^6.2.3",
     "vite-plugin-dts": "^3.7.2",
     "vitest": "^3.0.8",
     "zod": "^3.22.4"
