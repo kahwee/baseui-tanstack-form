@@ -5,7 +5,7 @@ import { Block } from 'baseui/block';
 import { useAppForm } from '../../hooks/form';
 import { formOpts } from './shared-form';
 import { GroupForm } from './group-form';
-import { Group, GroupSchema } from './group-schema';
+import { Group, groupSchema } from './group-schema';
 
 // Wrapper component with BaseUI styling
 const GroupPageWrapper = () => (
@@ -29,7 +29,14 @@ const FleetwoodMacGroupStory = () => {
       ]
     } as Group,
     validators: {
-      onChange: GroupSchema
+      onBlur: (values) => {
+        const result = groupSchema.safeParse(values)
+        if (result.success) {
+          return undefined;
+        } else {
+          return result.error.format();
+        }
+      }
     },
     onSubmit: (values) => {
       console.log('Form submitted with values:', values);
