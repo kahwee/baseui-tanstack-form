@@ -44,6 +44,7 @@
 - `RadioGroup` - BaseUI radio group with form integration
 - `Select` - BaseUI select (dropdown) with single and multi-select support
 - `Checkbox` - BaseUI checkbox for boolean values
+- `CheckboxGroup` - Multiple checkboxes that return an array of selected values
 - `SubscribeButton` - Submit button with loading state
 - Field access with `form.AppField` pattern and `field.ComponentName` usage
 - Form submission with `form.handleSubmit()`
@@ -91,7 +92,8 @@ function ParentForm() {
       preference: '',
       category: '',
       tags: [],
-      agreeToTerms: false
+      agreeToTerms: false,
+      interests: []
     },
     onSubmit: (values) => {
       console.log('Form submitted with values:', values);
@@ -156,6 +158,21 @@ function ParentForm() {
           />
         )}
       </form.AppField>
+      
+      <form.AppField name="interests">
+        {(field) => (
+          <field.CheckboxGroup
+            label="Select your interests"
+            inline={true}
+            options={[
+              { value: 'technology', label: 'Technology' },
+              { value: 'science', label: 'Science' },
+              { value: 'art', label: 'Art' },
+              { value: 'music', label: 'Music' }
+            ]}
+          />
+        )}
+      </form.AppField>
     </form>
   );
 }
@@ -193,7 +210,8 @@ const schema = z.object({
   tags: z.array(z.string()).min(1, 'Select at least one tag'),
   agreeToTerms: z.literal(true, {
     errorMap: () => ({ message: 'You must agree to the terms and conditions' })
-  })
+  }),
+  interests: z.array(z.string()).min(2, 'Select at least two interests')
 });
 
 const form = useAppForm({

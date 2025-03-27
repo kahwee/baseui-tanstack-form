@@ -120,16 +120,16 @@ export default MyComponent;
 
 This library wraps corresponding `baseui` components and integrates them with TanStack Form. The components are registered in the form hook and accessed through the field context:
 
-| Component | Description | Usage |
-|-----------|-------------|-------|
-| `Input` | Integrates BaseUI Input with TanStack Form | `<field.Input label="Name" />` |
-| `Textarea` | Multi-line text input integration | `<field.Textarea label="Comments" />` |
-| `RadioGroup` | Radio button group integration | `<field.RadioGroup label="Options" options={[...]} />` |
-| `Select` | Dropdown selection component (single & multi) | `<field.Select label="Color" options={[...]} />` |
-| `Checkbox` | Single checkbox for boolean values | `<field.Checkbox label="I agree to terms" />` |
-| `CheckboxGroup` | Multiple checkboxes as a group | `<field.CheckboxGroup options={[...]} />` |
-| `DatePicker` | Date selection component | `<field.DatePicker />` |
-| `Toggle` | Toggle switch component | `<field.Toggle>Label</field.Toggle>` |
+| Component | Description | Usage | Value Type |
+|-----------|-------------|-------|-----------|
+| `Input` | Integrates BaseUI Input with TanStack Form | `<field.Input label="Name" />` | `string` |
+| `Textarea` | Multi-line text input integration | `<field.Textarea label="Comments" />` | `string` |
+| `RadioGroup` | Radio button group integration | `<field.RadioGroup label="Options" options={[...]} />` | `string` |
+| `Select` | Dropdown selection component (single & multi) | `<field.Select label="Color" options={[...]} />` | `string` or `string[]` |
+| `Checkbox` | Single checkbox for boolean values | `<field.Checkbox label="I agree to terms" />` | `boolean` |
+| `CheckboxGroup` | Multiple checkboxes returning selected values | `<field.CheckboxGroup label="Interests" options={[...]} />` | `string[]` |
+| `DatePicker` | Date selection component | `<field.DatePicker />` | `Date` |
+| `Toggle` | Toggle switch component | `<field.Toggle>Label</field.Toggle>` | `boolean` |
 
 ## Form Composition
 
@@ -227,6 +227,22 @@ const form = useAppForm<UserForm>({
   {(field) => (
     <field.Checkbox
       label="I agree to the terms and conditions"
+    />
+  )}
+</form.AppField>
+
+// CheckboxGroup component
+<form.AppField name="interests">
+  {(field) => (
+    <field.CheckboxGroup
+      label="Select your interests"
+      inline={true}
+      options={[
+        { value: 'tech', label: 'Technology' },
+        { value: 'science', label: 'Science' },
+        { value: 'art', label: 'Art' },
+        { value: 'music', label: 'Music' }
+      ]}
     />
   )}
 </form.AppField>
