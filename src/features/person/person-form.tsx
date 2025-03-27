@@ -20,7 +20,7 @@ export const PersonForm = withForm({
             <form.AppField
               name="name"
             >
-              {(field) => <field.InputField label="Name" />}
+              {(field) => <field.Input label="Name" />}
             </form.AppField>
           </Block>
         </StyledBody>
