@@ -3,7 +3,10 @@
 module.exports = {
   preset: 'ts-jest/presets/js-with-ts-esm',
   testEnvironment: 'jsdom',
-  testMatch: ['**/*.test.{ts,tsx}'],
+  testMatch: [
+    '**/__tests__/**/*.browser.{ts,tsx}', // Browser tests
+    '**/__tests__/**/*.node.{ts,tsx}',     // Node tests
+  ],
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
