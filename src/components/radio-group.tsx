@@ -3,6 +3,7 @@ import { useFieldContext } from '../hooks/form-context';
 import { FormControl } from 'baseui/form-control';
 import { RadioGroup, Radio, RadioProps, RadioGroupProps } from 'baseui/radio';
 import { FormControlProps } from 'baseui/form-control';
+import { useFieldError } from './use-field-error';
 
 type RadioOption = {
   value: string;
@@ -25,10 +26,7 @@ export function RadioGroupField({
   ...restProps
 }: RadioGroupFieldProps) {
   const field = useFieldContext<string>();
-  const hasError = Boolean(field.state.meta?.errors?.length);
-  const errorMessage = hasError && field.state.meta?.errors?.[0]
-    ? field.state.meta.errors[0]
-    : null;
+  const { hasError, errorMessage } = useFieldError(field);
 
   return (
     <FormControl

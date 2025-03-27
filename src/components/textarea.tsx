@@ -3,6 +3,7 @@ import { useFieldContext } from '../hooks/form-context';
 import { FormControl } from 'baseui/form-control';
 import { Textarea, TextareaProps } from 'baseui/textarea';
 import { FormControlProps } from 'baseui/form-control';
+import { useFieldError } from './use-field-error';
 
 type TextareaFieldProps = {
   label: string;
@@ -11,14 +12,11 @@ type TextareaFieldProps = {
 
 export function TextareaField({ label, formControlProps, ...restProps }: TextareaFieldProps) {
   const field = useFieldContext<string>();
-  const hasError = Boolean(field.state.meta?.errors?.length);
-  const errorMessage = hasError && field.state.meta?.errors?.[0] 
-    ? field.state.meta.errors[0]
-    : null;
-  
+  const { hasError, errorMessage } = useFieldError(field);
+
   return (
-    <FormControl 
-      label={label} 
+    <FormControl
+      label={label}
       error={errorMessage}
       {...formControlProps}
     >
@@ -26,6 +24,7 @@ export function TextareaField({ label, formControlProps, ...restProps }: Textare
         id={field.name}
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
+        onBlur={field.handleBlur}
         error={hasError}
         {...restProps}
       />
