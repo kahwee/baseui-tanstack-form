@@ -11,6 +11,7 @@ type InputFieldProps = {
 
 export function InputField({ label, formControlProps, ...restProps }: InputFieldProps) {
   const field = useFieldContext<string>();
+  console.log('field', field.form.getAllErrors(), field.name);
   const { hasError, errorMessage } = useFieldError(field);
 
   return (
