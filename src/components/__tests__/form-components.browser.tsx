@@ -28,6 +28,162 @@ type TestSchema = {
 }
 
 describe('Form Components', () => {
+  describe('Checkbox component', () => {
+    it('renders with default value and can be toggled', async () => {
+      function TestCheckboxForm() {
+        const form = useAppForm({
+          defaultValues: {
+            agreed: false
+          }
+        });
+
+        return (
+          <form>
+            <form.AppField name="agreed">
+              {(field) => (
+                <field.Checkbox
+                  label="I agree to the terms and conditions"
+                />
+              )}
+            </form.AppField>
+          </form>
+        );
+      }
+
+      render(
+        <TestWrapper>
+          <TestCheckboxForm />
+        </TestWrapper>
+      );
+
+      // Find the checkbox label
+      const checkboxLabel = screen.getByText('I agree to the terms and conditions');
+      expect(checkboxLabel).toBeInTheDocument();
+      
+      // Find the checkbox input
+      const checkboxInput = checkboxLabel.closest('label')?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+      expect(checkboxInput).not.toBeNull();
+      
+      // Initially it should be unchecked
+      expect(checkboxInput.checked).toBe(false);
+      
+      // Click the checkbox to check it
+      await userEvent.click(checkboxLabel);
+      
+      // Verify it's now checked
+      expect(checkboxInput.checked).toBe(true);
+      
+      // Click again to uncheck
+      await userEvent.click(checkboxLabel);
+      
+      // Verify it's unchecked again
+      expect(checkboxInput.checked).toBe(false);
+    });
+  });
+  
+  describe('Select component', () => {
+    it('renders with default value and allows selection', async () => {
+      function TestSelectForm() {
+        const form = useAppForm({
+          defaultValues: {
+            color: 'blue'
+          }
+        });
+
+        return (
+          <form>
+            <form.AppField name="color">
+              {(field) => (
+                <field.Select
+                  label="Color"
+                  options={[
+                    { id: 'blue', label: 'Blue' },
+                    { id: 'red', label: 'Red' },
+                    { id: 'green', label: 'Green' }
+                  ]}
+                />
+              )}
+            </form.AppField>
+          </form>
+        );
+      }
+
+      render(
+        <TestWrapper>
+          <TestSelectForm />
+        </TestWrapper>
+      );
+
+      // Check that the label is rendered
+      expect(screen.getByText('Color')).toBeInTheDocument();
+      
+      // Open the select dropdown
+      const selectInput = screen.getByRole('combobox');
+      expect(selectInput).toBeInTheDocument();
+      
+      await userEvent.click(selectInput);
+      
+      // Find and click an option
+      const redOption = await screen.findByText('Red');
+      expect(redOption).toBeInTheDocument();
+      
+      await userEvent.click(redOption);
+      
+      // Verify the selection (checking for Red in the input)
+      expect(screen.getByText('Red')).toBeInTheDocument();
+    });
+    
+    it('supports multi-select mode', async () => {
+      function TestMultiSelectForm() {
+        const form = useAppForm({
+          defaultValues: {
+            colors: []
+          }
+        });
+
+        return (
+          <form>
+            <form.AppField name="colors">
+              {(field) => (
+                <field.Select
+                  label="Colors"
+                  multi={true}
+                  options={[
+                    { id: 'blue', label: 'Blue' },
+                    { id: 'red', label: 'Red' },
+                    { id: 'green', label: 'Green' }
+                  ]}
+                />
+              )}
+            </form.AppField>
+          </form>
+        );
+      }
+
+      render(
+        <TestWrapper>
+          <TestMultiSelectForm />
+        </TestWrapper>
+      );
+
+      // Open the select dropdown
+      const selectInput = screen.getByRole('combobox');
+      await userEvent.click(selectInput);
+      
+      // Select multiple options
+      const blueOption = await screen.findByText('Blue');
+      await userEvent.click(blueOption);
+      
+      // Reopen the dropdown to select another option
+      await userEvent.click(selectInput);
+      const greenOption = await screen.findByText('Green');
+      await userEvent.click(greenOption);
+      
+      // Verify multiple selections appear
+      expect(screen.getByText('Blue')).toBeInTheDocument();
+      expect(screen.getByText('Green')).toBeInTheDocument();
+    });
+  });
   describe('Input component', () => {
     it('renders with default value', async () => {
       // Create test component that sets up the form
@@ -115,7 +271,7 @@ describe('Form Components', () => {
         return (
           <form>
             <form.AppField name="comments">
-              {(field) => <field.Input label="Comments" />}
+              {(field) => <field.Textarea label="Comments" />}
             </form.AppField>
           </form>
         );

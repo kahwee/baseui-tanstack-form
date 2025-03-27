@@ -20,8 +20,7 @@ export const Parent: React.FC = () => {
       }
     },
     onSubmit: (values) => {
-      console.log('hihi')
-      console.log('Form submitted with values:', values);
+      console.info('Form submitted with values:', values);
     }
   });
 

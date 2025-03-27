@@ -9,7 +9,7 @@ const GroupFormWrapper = (args: { title: string }) => {
   const form = useAppForm({
     ...formOpts,
     onSubmit: (values) => {
-      console.log('Form submitted with values:', values);
+      console.info('Form submitted with values:', values);
     }
   });
 
