@@ -43,7 +43,8 @@ export default [
       'react/prop-types': 'off',
       'react/no-children-prop': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
-      'indent': ['error', 2]
+      'indent': ['error', 2],
+      'quotes': ['error', 'single', { 'avoidEscape': true }]
     },
     settings: {
       react: {

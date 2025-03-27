@@ -29,8 +29,8 @@ const FleetwoodMacGroupStory = () => {
       ]
     } as Group,
     validators: {
-      onBlur: (values) => {
-        const result = groupSchema.safeParse(values)
+      onBlur: ({ value }) => {
+        const result = groupSchema.safeParse(value)
         if (result.success) {
           return undefined;
         } else {
