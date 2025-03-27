@@ -7,6 +7,7 @@ import { TextareaField } from '../components/textarea';
 import { RadioGroupField } from '../components/radio-group';
 import { SelectField } from '../components/select';
 import { CheckboxField } from '../components/checkbox';
+import { CheckboxGroupField } from '../components/checkbox-group';
 
 function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext()
@@ -23,7 +24,8 @@ export const { useAppForm, withForm } = createFormHook({
     Textarea: TextareaField,
     RadioGroup: RadioGroupField,
     Select: SelectField,
-    Checkbox: CheckboxField
+    Checkbox: CheckboxField,
+    CheckboxGroup: CheckboxGroupField
   },
   formComponents: {
     SubscribeButton,
