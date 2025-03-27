@@ -17,9 +17,9 @@ function SubscribeButton({ label }: { label: string }) {
 
 export const { useAppForm, withForm } = createFormHook({
   fieldComponents: {
-    InputField,
-    TextareaField,
-    RadioGroupField
+    Input: InputField,
+    Textarea: TextareaField,
+    RadioGroup: RadioGroupField
   },
   formComponents: {
     SubscribeButton,

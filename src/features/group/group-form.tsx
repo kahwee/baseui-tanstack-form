@@ -22,7 +22,7 @@ export const GroupForm = withForm({
             <form.AppField
               name="name"
             >
-              {(field) => <field.InputField label="Name" />}
+              {(field) => <field.Input label="Name" />}
             </form.AppField>
             <form.AppField
               mode='array'
@@ -47,17 +47,17 @@ export const GroupForm = withForm({
                     <form.AppField
                       name={`people[${index}].firstName`}
                     >
-                      {(subField) => <subField.InputField label="First name" />}
+                      {(subField) => <subField.Input label="First name" />}
                     </form.AppField>
                     <form.AppField
                       name={`people[${index}].lastName`}
                     >
-                      {(subField) => <subField.InputField label="Last name" />}
+                      {(subField) => <subField.Input label="Last name" />}
                     </form.AppField>
                     <form.AppField
                       name={`people[${index}].sex`}
                     >
-                      {(subField) => <subField.RadioGroupField label="Sex" options={[
+                      {(subField) => <subField.RadioGroup label="Sex" options={[
                         { label: 'Male', value: 'male' },
                         { label: 'Female', value: 'female' },
                       ]} />}
