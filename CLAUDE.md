@@ -45,6 +45,7 @@
 - `Select` - BaseUI select (dropdown) with single and multi-select support
 - `Checkbox` - BaseUI checkbox for boolean values
 - `CheckboxGroup` - Multiple checkboxes that return an array of selected values
+- `DatePicker` - Date selection with optional range picking
 - `SubscribeButton` - Submit button with loading state
 - Field access with `form.AppField` pattern and `field.ComponentName` usage
 - Form submission with `form.handleSubmit()`

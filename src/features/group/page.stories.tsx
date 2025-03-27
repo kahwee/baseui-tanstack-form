@@ -20,12 +20,58 @@ const FleetwoodMacGroupStory = () => {
     ...formOpts,
     defaultValues: {
       name: 'Fleetwood Mac',
+      description: 'British-American rock band formed in London in 1967.',
+      established: new Date('1967-07-11'),
+      genre: 'rock',
+      isActive: true,
+      albums: ['Rumours', 'Tusk', 'Fleetwood Mac'],
+      awards: ['grammy', 'hall-of-fame'],
       people: [
-        { firstName: 'Stevie', lastName: 'Nicks', sex: 'female' },
-        { firstName: 'Christine', lastName: 'McVie', sex: 'female' },
-        { firstName: 'Lindsey', lastName: 'Buckingham', sex: 'male' },
-        { firstName: 'Mick', lastName: 'Fleetwood', sex: 'male' },
-        { firstName: 'John', lastName: 'McVie', sex: 'male' }
+        { 
+          firstName: 'Stevie', 
+          lastName: 'Nicks', 
+          sex: 'female',
+          bio: 'American singer-songwriter known for her mystical stage persona.',
+          role: 'Lead Vocalist',
+          instruments: ['vocals', 'tambourine'],
+          isOriginalMember: false
+        },
+        { 
+          firstName: 'Christine', 
+          lastName: 'McVie', 
+          sex: 'female',
+          bio: 'English musician and vocalist who played keyboard.',
+          role: 'Keyboardist',
+          instruments: ['keyboard', 'vocals'],
+          isOriginalMember: false
+        },
+        { 
+          firstName: 'Lindsey', 
+          lastName: 'Buckingham', 
+          sex: 'male',
+          bio: 'American musician, singer, songwriter, and producer.',
+          role: 'Lead Guitarist',
+          instruments: ['guitar', 'vocals'],
+          isOriginalMember: false
+        },
+        { 
+          firstName: 'Mick', 
+          lastName: 'Fleetwood', 
+          sex: 'male',
+          bio: 'British musician and co-founder of Fleetwood Mac.',
+          role: 'Drummer',
+          instruments: ['drums'],
+          isOriginalMember: true
+        },
+        { 
+          firstName: 'John', 
+          lastName: 'McVie', 
+          sex: 'male',
+          bio: 'British bass guitarist and co-founder of Fleetwood Mac.',
+          role: 'Bassist',
+          instruments: ['bass'],
+          isOriginalMember: true
+        }
       ]
     } as Group,
     validators: {

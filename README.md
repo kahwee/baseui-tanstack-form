@@ -128,7 +128,7 @@ This library wraps corresponding `baseui` components and integrates them with Ta
 | `Select` | Dropdown selection component (single & multi) | `<field.Select label="Color" options={[...]} />` | `string` or `string[]` |
 | `Checkbox` | Single checkbox for boolean values | `<field.Checkbox label="I agree to terms" />` | `boolean` |
 | `CheckboxGroup` | Multiple checkboxes returning selected values | `<field.CheckboxGroup label="Interests" options={[...]} />` | `string[]` |
-| `DatePicker` | Date selection component | `<field.DatePicker />` | `Date` |
+| `DatePicker` | Date selection component | `<field.DatePicker label="Date" />` | `Date` or `string` |
 | `Toggle` | Toggle switch component | `<field.Toggle>Label</field.Toggle>` | `boolean` |
 
 ## Form Composition
@@ -243,6 +243,20 @@ const form = useAppForm<UserForm>({
         { value: 'art', label: 'Art' },
         { value: 'music', label: 'Music' }
       ]}
+    />
+  )}
+</form.AppField>
+
+// DatePicker component
+<form.AppField name="eventDate">
+  {(field) => (
+    <field.DatePicker
+      label="Event Date"
+      // Optional: range selection
+      // range
+      // Optional: specific min/max dates
+      // minDate={new Date(2023, 0, 1)}
+      // maxDate={new Date(2023, 11, 31)}
     />
   )}
 </form.AppField>
