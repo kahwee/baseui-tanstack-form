@@ -8,6 +8,7 @@ import { RadioGroupField } from '../components/radio-group';
 import { SelectField } from '../components/select';
 import { CheckboxField } from '../components/checkbox';
 import { CheckboxGroupField } from '../components/checkbox-group';
+import { DatePickerField } from '../components/datepicker';
 
 function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext()
@@ -25,7 +26,8 @@ export const { useAppForm, withForm } = createFormHook({
     RadioGroup: RadioGroupField,
     Select: SelectField,
     Checkbox: CheckboxField,
-    CheckboxGroup: CheckboxGroupField
+    CheckboxGroup: CheckboxGroupField,
+    DatePicker: DatePickerField
   },
   formComponents: {
     SubscribeButton,
