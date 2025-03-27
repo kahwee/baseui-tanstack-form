@@ -35,18 +35,13 @@ Sample component:
 ```tsx
 import React from 'react';
 import { Button } from 'baseui/button';
-import { InputField } from 'baseui-tanstack-form/input';
-import { Select } from 'baseui-tanstack-form/select';
-import { Form, useAppForm } from 'baseui-tanstack-form/form';
+import { useAppForm } from 'baseui-tanstack-form/form';
 import { z } from 'zod';
 
 const schema = z.object({
   name: z.string().min(2, 'Name must have at least 2 characters'),
   email: z.string().email('Invalid email address'),
-  favoriteColor: z.object({
-    id: z.string(),
-    label: z.string()
-  })
+  favoriteColor: z.string()
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -56,41 +51,65 @@ const MyComponent = () => {
     defaultValues: {
       name: '',
       email: '',
-      favoriteColor: { id: 'blue', label: 'Blue' }
+      favoriteColor: 'blue'
     },
-    validatorAdapter: 'zod',
-    validator: schema
+    onSubmit: async (values) => {
+      const result = schema.safeParse(values);
+      if (!result.success) {
+        // Handle validation errors
+        return { error: result.error };
+      }
+      console.log('Form submitted with:', values);
+    }
   });
 
   return (
-    <Form form={form} onSubmit={(values) => console.log(values)}>
-      <InputField
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      form.handleSubmit();
+    }}>
+      <form.AppField
         name="name"
-        label="Name"
-        caption="Enter your full name"
-        placeholder="John Doe"
+        children={(field) => (
+          <field.Input 
+            label="Name"
+            caption="Enter your full name"
+            placeholder="John Doe"
+          />
+        )}
       />
       
-      <InputField
+      <form.AppField
         name="email"
-        label="Email"
-        caption="Enter your email address"
-        placeholder="john@example.com"
+        children={(field) => (
+          <field.Input 
+            label="Email"
+            caption="Enter your email address"
+            placeholder="john@example.com"
+          />
+        )}
       />
       
-      <Select
+      <form.AppField
         name="favoriteColor"
-        label="Favorite Color"
-        options={[
-          { id: 'blue', label: 'Blue' },
-          { id: 'red', label: 'Red' },
-          { id: 'green', label: 'Green' },
-          { id: 'yellow', label: 'Yellow' }
-        ]}
+        children={(field) => (
+          <field.RadioGroup
+            label="Favorite Color"
+            options={[
+              { value: 'blue', label: 'Blue' },
+              { value: 'red', label: 'Red' },
+              { value: 'green', label: 'Green' },
+              { value: 'yellow', label: 'Yellow' }
+            ]}
+          />
+        )}
       />
       
-      <Button type="submit">Submit</Button>
-    </Form>
+      <form.AppForm>
+        <form.SubscribeButton label="Submit" />
+      </form.AppForm>
+    </form>
   );
 };
 
@@ -99,24 +118,31 @@ export default MyComponent;
 
 ## How this works?
 
-This library wraps corresponding `baseui` components and integrates them with TanStack Form:
+This library wraps corresponding `baseui` components and integrates them with TanStack Form. The components are registered in the form hook and accessed through the field context:
 
-| Component | Description |
-|-----------|-------------|
-| `InputField` | Integrates BaseUI Input with TanStack Form |
-| `Checkbox` | Integrates BaseUI Checkbox with TanStack Form |
-| `CheckboxGroup` | Multiple checkboxes as a group |
-| `RadioGroup` | Radio button group integration |
-| `Select` | Integrates BaseUI Select with TanStack Form |
-| `DatePicker` | Date selection component |
-| `Textarea` | Multi-line text input integration |
-| `Toggle` | Toggle switch component |
+| Component | Description | Usage |
+|-----------|-------------|-------|
+| `Input` | Integrates BaseUI Input with TanStack Form | `<field.Input label="Name" />` |
+| `Textarea` | Multi-line text input integration | `<field.Textarea label="Comments" />` |
+| `RadioGroup` | Radio button group integration | `<field.RadioGroup label="Options" options={[...]} />` |
+| `Checkbox` | Integrates BaseUI Checkbox with TanStack Form | `<field.Checkbox>Label</field.Checkbox>` |
+| `CheckboxGroup` | Multiple checkboxes as a group | `<field.CheckboxGroup options={[...]} />` |
+| `Select` | Integrates BaseUI Select with TanStack Form | `<field.Select options={[...]} />` |
+| `DatePicker` | Date selection component | `<field.DatePicker />` |
+| `Toggle` | Toggle switch component | `<field.Toggle>Label</field.Toggle>` |
+
+## Form Composition
+
+For complex forms, this library provides powerful form composition patterns that allow you to create modular, reusable form sections. 
+
+See the [Form Composition Guide](./FORM_COMPOSITION.md) for detailed examples and patterns.
 
 ## Form Validation with Zod
 
 This library uses Zod for schema validation with full TypeScript integration:
 
 ```tsx
+import { z } from 'zod';
 // Define your schema
 const schema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
@@ -134,9 +160,35 @@ const form = useAppForm<UserForm>({
     age: 0,
     email: ''
   },
-  validatorAdapter: 'zod',
-  validator: schema
+  onSubmit: async (values) => {
+    // Validate values against schema
+    const result = schema.safeParse(values);
+    if (!result.success) {
+      // Handle validation errors
+      return { error: result.error };
+    }
+    // Continue with submission
+    console.log('Valid form data:', values);
+  }
 });
+
+// Field-level validation can also be applied
+<form.AppField
+  name="username"
+>
+  {(field) => {
+    // Validate on change
+    const error = field.state.value.length < 3 
+      ? 'Username must be at least 3 characters' 
+      : undefined;
+    
+    return <field.Input 
+      label="Username" 
+      error={!!error}
+      caption={error}
+    />;
+  }}
+</form.AppField>
 ```
 
 ## Development

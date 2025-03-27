@@ -39,20 +39,17 @@
 - Field values are accessed via field context
 
 ### Components
-- `InputField` - BaseUI input field with form integration
+- `Input` - BaseUI input field with form integration
+- `Textarea` - BaseUI textarea with form integration
+- `RadioGroup` - BaseUI radio group with form integration
 - `SubscribeButton` - Submit button with loading state
-- Field access with `form.AppField` pattern
+- Field access with `form.AppField` pattern and `field.ComponentName` usage
 - Form submission with `form.handleSubmit()`
 
 ### Example
 ```tsx
-// Create a form hook
-const { useAppForm, withForm } = createFormHook({
-  fieldComponents: { InputField },
-  formComponents: { SubscribeButton },
-  fieldContext,
-  formContext,
-});
+// Import the pre-configured form hook
+import { useAppForm, withForm } from './hooks/form';
 
 // Form section with withForm HOC
 const GroupForm = withForm({
@@ -65,7 +62,11 @@ const GroupForm = withForm({
           <HeadingSmall>{title}</HeadingSmall>
           <form.AppField
             name="firstName"
-            children={(field) => <field.InputField label="First Name" />}
+            children={(field) => <field.Input label="First Name" />}
+          />
+          <form.AppField
+            name="comments"
+            children={(field) => <field.Textarea label="Comments" />}
           />
         </StyledBody>
         <StyledAction>
@@ -81,7 +82,12 @@ const GroupForm = withForm({
 // Main form
 function ParentForm() {
   const form = useAppForm({
-    defaultValues: { firstName: 'John', lastName: 'Doe' },
+    defaultValues: { 
+      firstName: 'John', 
+      lastName: 'Doe',
+      comments: '',
+      preference: ''
+    },
     onSubmit: (values) => {
       console.log('Form submitted with values:', values);
     }
@@ -94,6 +100,20 @@ function ParentForm() {
       form.handleSubmit();
     }}>
       <GroupForm form={form} title="Person Information" />
+      
+      <form.AppField
+        name="preference"
+        children={(field) => (
+          <field.RadioGroup
+            label="Preference"
+            options={[
+              { value: 'option1', label: 'Option 1' },
+              { value: 'option2', label: 'Option 2' },
+              { value: 'option3', label: 'Option 3' }
+            ]}
+          />
+        )}
+      />
     </form>
   );
 }
@@ -101,31 +121,50 @@ function ParentForm() {
 
 ## Validation
 ```tsx
-// Field validation (can be added to InputField)
+// Field validation
 <form.AppField
   name="username"
-  validators={{
-    onChange: ({ value }) => 
-      value.length < 3 ? 'Username must be at least 3 characters' : undefined
-  }}
 >
-  {(field) => <field.InputField label="Username" />}
+  {(field) => {
+    // Manual validation logic
+    const error = field.state.value.length < 3 
+      ? 'Username must be at least 3 characters' 
+      : undefined;
+    
+    return <field.Input 
+      label="Username" 
+      error={!!error} 
+      caption={error} 
+    />;
+  }}
 </form.AppField>
 
 // Schema validation with Zod
 import { z } from 'zod';
-import { zodValidator } from '@tanstack/zod-form-adapter';
 
 const schema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
-  email: z.string().email('Invalid email address')
+  email: z.string().email('Invalid email address'),
+  comments: z.string().optional(),
+  preference: z.enum(['option1', 'option2', 'option3'])
 });
 
 const form = useAppForm({
-  defaultValues: { username: '', email: '' },
-  validatorAdapter: zodValidator,
-  validators: {
-    onSubmit: schema,
+  defaultValues: { 
+    username: '', 
+    email: '',
+    comments: '',
+    preference: 'option1'
+  },
+  onSubmit: async (values) => {
+    // Validate with Zod
+    const result = schema.safeParse(values);
+    if (!result.success) {
+      // Return validation errors
+      return { error: result.error };
+    }
+    // Process valid form data
+    console.log('Form submitted with valid data:', values);
   }
 });
 ```
