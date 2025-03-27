@@ -125,9 +125,9 @@ This library wraps corresponding `baseui` components and integrates them with Ta
 | `Input` | Integrates BaseUI Input with TanStack Form | `<field.Input label="Name" />` |
 | `Textarea` | Multi-line text input integration | `<field.Textarea label="Comments" />` |
 | `RadioGroup` | Radio button group integration | `<field.RadioGroup label="Options" options={[...]} />` |
-| `Checkbox` | Integrates BaseUI Checkbox with TanStack Form | `<field.Checkbox>Label</field.Checkbox>` |
+| `Select` | Dropdown selection component (single & multi) | `<field.Select label="Color" options={[...]} />` |
+| `Checkbox` | Single checkbox for boolean values | `<field.Checkbox label="I agree to terms" />` |
 | `CheckboxGroup` | Multiple checkboxes as a group | `<field.CheckboxGroup options={[...]} />` |
-| `Select` | Integrates BaseUI Select with TanStack Form | `<field.Select options={[...]} />` |
 | `DatePicker` | Date selection component | `<field.DatePicker />` |
 | `Toggle` | Toggle switch component | `<field.Toggle>Label</field.Toggle>` |
 
@@ -188,6 +188,47 @@ const form = useAppForm<UserForm>({
       caption={error}
     />;
   }}
+</form.AppField>
+
+// Single select component
+<form.AppField name="favoriteColor">
+  {(field) => (
+    <field.Select
+      label="Favorite Color"
+      options={[
+        { id: 'blue', label: 'Blue' },
+        { id: 'red', label: 'Red' },
+        { id: 'green', label: 'Green' }
+      ]}
+      placeholder="Choose a color"
+    />
+  )}
+</form.AppField>
+
+// Multi-select component
+<form.AppField name="skills">
+  {(field) => (
+    <field.Select
+      label="Skills"
+      multi={true}
+      options={[
+        { id: 'javascript', label: 'JavaScript' },
+        { id: 'typescript', label: 'TypeScript' },
+        { id: 'react', label: 'React' },
+        { id: 'node', label: 'Node.js' }
+      ]}
+      placeholder="Select skills"
+    />
+  )}
+</form.AppField>
+
+// Checkbox component
+<form.AppField name="agreeToTerms">
+  {(field) => (
+    <field.Checkbox
+      label="I agree to the terms and conditions"
+    />
+  )}
 </form.AppField>
 ```
 

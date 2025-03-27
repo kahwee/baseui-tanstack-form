@@ -42,6 +42,8 @@
 - `Input` - BaseUI input field with form integration
 - `Textarea` - BaseUI textarea with form integration
 - `RadioGroup` - BaseUI radio group with form integration
+- `Select` - BaseUI select (dropdown) with single and multi-select support
+- `Checkbox` - BaseUI checkbox for boolean values
 - `SubscribeButton` - Submit button with loading state
 - Field access with `form.AppField` pattern and `field.ComponentName` usage
 - Form submission with `form.handleSubmit()`
@@ -86,7 +88,10 @@ function ParentForm() {
       firstName: 'John', 
       lastName: 'Doe',
       comments: '',
-      preference: ''
+      preference: '',
+      category: '',
+      tags: [],
+      agreeToTerms: false
     },
     onSubmit: (values) => {
       console.log('Form submitted with values:', values);
@@ -101,9 +106,8 @@ function ParentForm() {
     }}>
       <GroupForm form={form} title="Person Information" />
       
-      <form.AppField
-        name="preference"
-        children={(field) => (
+      <form.AppField name="preference">
+        {(field) => (
           <field.RadioGroup
             label="Preference"
             options={[
@@ -113,7 +117,45 @@ function ParentForm() {
             ]}
           />
         )}
-      />
+      </form.AppField>
+      
+      <form.AppField name="category">
+        {(field) => (
+          <field.Select
+            label="Category"
+            options={[
+              { id: 'electronics', label: 'Electronics' },
+              { id: 'books', label: 'Books' },
+              { id: 'clothing', label: 'Clothing' }
+            ]}
+            placeholder="Select a category"
+          />
+        )}
+      </form.AppField>
+      
+      <form.AppField name="tags">
+        {(field) => (
+          <field.Select
+            label="Tags"
+            multi={true}
+            options={[
+              { id: 'new', label: 'New' },
+              { id: 'sale', label: 'Sale' },
+              { id: 'featured', label: 'Featured' },
+              { id: 'limited', label: 'Limited Edition' }
+            ]}
+            placeholder="Select tags"
+          />
+        )}
+      </form.AppField>
+      
+      <form.AppField name="agreeToTerms">
+        {(field) => (
+          <field.Checkbox
+            label="I agree to the terms and conditions"
+          />
+        )}
+      </form.AppField>
     </form>
   );
 }
@@ -146,7 +188,12 @@ const schema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
   email: z.string().email('Invalid email address'),
   comments: z.string().optional(),
-  preference: z.enum(['option1', 'option2', 'option3'])
+  preference: z.enum(['option1', 'option2', 'option3']),
+  category: z.string().min(1, 'Please select a category'),
+  tags: z.array(z.string()).min(1, 'Select at least one tag'),
+  agreeToTerms: z.literal(true, {
+    errorMap: () => ({ message: 'You must agree to the terms and conditions' })
+  })
 });
 
 const form = useAppForm({
@@ -154,7 +201,10 @@ const form = useAppForm({
     username: '', 
     email: '',
     comments: '',
-    preference: 'option1'
+    preference: 'option1',
+    category: '',
+    tags: [],
+    agreeToTerms: false
   },
   onSubmit: async (values) => {
     // Validate with Zod
