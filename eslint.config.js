@@ -19,13 +19,14 @@ export default [
     },
   },
   {
-    files: ['**/*.test.{ts,tsx}', '**/setup-tests.ts'],
+    files: ['**/*.test.{ts,tsx}', '**/__tests__/**/*.{ts,tsx}', '**/setup-tests.ts'],
     languageOptions: {
       globals: {
         // Jest globals
         jest: 'readonly',
         describe: 'readonly',
         it: 'readonly',
+        test: 'readonly',
         expect: 'readonly',
         beforeAll: 'readonly',
         afterAll: 'readonly',
