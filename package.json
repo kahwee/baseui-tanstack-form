@@ -61,6 +61,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook": "^8.6.6",
+    "styletron-engine-atomic": "^1.6.2",
     "typescript": "^5.3.3",
     "vite": "^6.2.2",
     "vite-plugin-dts": "^3.7.2",
@@ -86,8 +87,5 @@
     "type": "git",
     "url": "https://github.com/kahwee/baseui-tanstack-form.git"
   },
-  "license": "MIT",
-  "dependencies": {
-    "styletron-engine-atomic": "^1.6.2"
-  }
+  "license": "MIT"
 }

@@ -4,13 +4,20 @@ import { formOpts } from '../../features/group/shared-form';
 import { GroupForm } from './group-form';
 import { Block } from 'baseui/block';
 import { HeadingLarge } from 'baseui/typography';
-import { GroupSchema } from './group-schema';
+import { groupSchema } from './group-schema';
 
 export const Parent: React.FC = () => {
   const form = useAppForm({
     ...formOpts,
     validators: {
-      onChange: GroupSchema
+      onBlur: (values) => {
+        const result = groupSchema.safeParse(values)
+        if (result.success) {
+          return undefined;
+        } else {
+          return "whater'"; //result.error.format();
+        }
+      }
     },
     onSubmit: (values) => {
       console.log('hihi')
@@ -23,7 +30,6 @@ export const Parent: React.FC = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          e.stopPropagation()
           form.handleSubmit()
         }}>
         <HeadingLarge marginBottom="24px">Group Form</HeadingLarge>
