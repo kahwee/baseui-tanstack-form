@@ -1,132 +1,216 @@
 import React from 'react';
-import { render, screen, } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { Client as Styletron } from 'styletron-engine-atomic';
-import { Provider as StyletronProvider } from 'styletron-react';
-import { LightTheme, BaseProvider } from 'baseui';
+import { render, screen } from '../../test-utils/rtl'; 
 import userEvent from '@testing-library/user-event';
-// Import the form hook directly from the app
 import { useAppForm } from '../../hooks/form';
 
-// Set up Styletron for BaseUI components
-const engine = new Styletron();
+describe('Select component', () => {
+  // Common test options
+  const colorOptions = [
+    { id: 'blue', label: 'Blue' },
+    { id: 'red', label: 'Red' },
+    { id: 'green', label: 'Green' },
+    { id: 'yellow', label: 'Yellow', disabled: true },
+  ];
 
-// Test wrapper component that provides all necessary context providers
-function TestWrapper({ children }: { children: React.ReactNode }) {
-  return (
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
-        {children}
-      </BaseProvider>
-    </StyletronProvider>
-  );
-}
+  // Helper function to create a test component with different props
+  const createSingleSelectComponent = (initialValue = 'blue', customProps = {}, errorMessage = '') => {
+    // Mock a validation function to test error state
+    const validate = () => errorMessage ? errorMessage : undefined;
+    
+    return function TestSelectForm() {
+      const form = useAppForm({
+        defaultValues: {
+          color: initialValue
+        }
+      });
 
-describe('Form Components', () => {
-
-
-  describe('Select component', () => {
-    it('renders with default value and allows selection', async () => {
-      function TestSelectForm() {
-        const form = useAppForm({
-          defaultValues: {
-            color: 'blue'
-          }
-        });
-
-        return (
-          <form>
-            <form.AppField name="color">
-              {(field) => (
-                <field.Select
-                  label="Color"
-                  options={[
-                    { id: 'blue', label: 'Blue' },
-                    { id: 'red', label: 'Red' },
-                    { id: 'green', label: 'Green' }
-                  ]}
-                />
-              )}
-            </form.AppField>
-          </form>
-        );
-      }
-
-      render(
-        <TestWrapper>
-          <TestSelectForm />
-        </TestWrapper>
+      return (
+        <form>
+          <form.AppField 
+            name="color"
+            validators={{ onChange: validate }}
+          >
+            {(field) => (
+              <field.Select
+                label="Color"
+                options={colorOptions}
+                placeholder="Select a color"
+                {...customProps}
+              />
+            )}
+          </form.AppField>
+        </form>
       );
+    };
+  };
 
-      // Check that the label is rendered
+  // Helper for multi-select
+  const createMultiSelectComponent = (initialValues: string[] = [], customProps = {}, errorMessage = '') => {
+    const validate = () => errorMessage ? errorMessage : undefined;
+    
+    return function TestMultiSelectForm() {
+      const form = useAppForm({
+        defaultValues: {
+          colors: initialValues
+        }
+      });
+
+      return (
+        <form>
+          <form.AppField 
+            name="colors"
+            validators={{ onChange: validate }}
+          >
+            {(field) => (
+              <field.Select
+                label="Colors"
+                options={colorOptions}
+                multi={true}
+                placeholder="Select colors"
+                {...customProps}
+              />
+            )}
+          </form.AppField>
+        </form>
+      );
+    };
+  };
+
+  describe('Single-select mode', () => {
+    it('renders with correct label and placeholder', async () => {
+      const TestComponent = createSingleSelectComponent('');
+      render(<TestComponent />);
+
+      // Check label and placeholder
       expect(screen.getByText('Color')).toBeInTheDocument();
-
-      // Open the select dropdown
-      const selectInput = screen.getByRole('combobox');
-      expect(selectInput).toBeInTheDocument();
-
-      await userEvent.click(selectInput);
-
-      // Find and click an option
-      const redOption = await screen.findByText('Red');
-      expect(redOption).toBeInTheDocument();
-
-      await userEvent.click(redOption);
-
-      // Verify the selection (checking for Red in the input)
-      const redElements = screen.getAllByText('Red');
-      expect(redElements.length).toBeGreaterThan(0);
+      expect(screen.getByText('Select a color')).toBeInTheDocument();
     });
 
-    it('supports multi-select mode', async () => {
-      function TestMultiSelectForm() {
-        const form = useAppForm({
-          defaultValues: {
-            colors: []
-          }
-        });
+    it('displays initial selected value', async () => {
+      const TestComponent = createSingleSelectComponent('blue');
+      render(<TestComponent />);
 
-        return (
-          <form>
-            <form.AppField name="colors">
-              {(field) => (
-                <field.Select
-                  label="Colors"
-                  multi={true}
-                  options={[
-                    { id: 'blue', label: 'Blue' },
-                    { id: 'red', label: 'Red' },
-                    { id: 'green', label: 'Green' }
-                  ]}
-                />
-              )}
-            </form.AppField>
-          </form>
-        );
-      }
+      // Verify initial value is displayed (Blue should be visible as selected)
+      expect(screen.getByText('Blue')).toBeInTheDocument();
+    });
 
-      render(
-        <TestWrapper>
-          <TestMultiSelectForm />
-        </TestWrapper>
-      );
+    it('allows selecting a different option', async () => {
+      const TestComponent = createSingleSelectComponent('blue');
+      render(<TestComponent />);
 
-      // Open the select dropdown
+      // Open the dropdown
       const selectInput = screen.getByRole('combobox');
       await userEvent.click(selectInput);
 
-      // Select multiple options
+      // Find and click the Red option
+      const redOption = await screen.findByText('Red');
+      await userEvent.click(redOption);
+
+      // Verify Red is now selected by checking the aria-label on the combobox
+      // This is more reliable than looking for text nodes when multiple elements contain the same text
+      const updatedSelectInput = screen.getByRole('combobox');
+      expect(updatedSelectInput.getAttribute('aria-label')).toContain('Selected Red');
+    });
+
+    it('includes a disabled option in the dropdown', async () => {
+      const TestComponent = createSingleSelectComponent('blue');
+      render(<TestComponent />);
+
+      // Open the dropdown
+      const selectInput = screen.getByRole('combobox');
+      await userEvent.click(selectInput);
+
+      // Check that the Yellow option is visible in the dropdown
+      const yellowOption = await screen.findByText('Yellow');
+      expect(yellowOption).toBeInTheDocument();
+      
+      // Note: Testing disabled state is implementation-specific to BaseUI
+      // and might require different approach depending on the library version
+    });
+
+    it('displays validation errors', async () => {
+      const errorMessage = 'Please select a valid color';
+      const TestComponent = createSingleSelectComponent('', {}, errorMessage);
+      render(<TestComponent />);
+
+      // Open and select an option to trigger validation
+      const selectInput = screen.getByRole('combobox');
+      await userEvent.click(selectInput);
+      
+      const redOption = await screen.findByText('Red');
+      await userEvent.click(redOption);
+      
+      // Verify error message appears
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    });
+  });
+
+  describe('Multi-select mode', () => {
+    it('initializes with empty selection', async () => {
+      const TestComponent = createMultiSelectComponent();
+      render(<TestComponent />);
+
+      // Should display placeholder when no options are selected
+      expect(screen.getByText('Select colors')).toBeInTheDocument();
+    });
+
+    it('initializes with preset values', async () => {
+      const TestComponent = createMultiSelectComponent(['blue', 'red']);
+      render(<TestComponent />);
+
+      // Both colors should appear as selected
+      expect(screen.getByText('Blue')).toBeInTheDocument();
+      expect(screen.getByText('Red')).toBeInTheDocument();
+    });
+
+    it('allows selecting multiple options', async () => {
+      const TestComponent = createMultiSelectComponent();
+      render(<TestComponent />);
+
+      // Open dropdown and select Blue
+      const selectInput = screen.getByRole('combobox');
+      await userEvent.click(selectInput);
+
       const blueOption = await screen.findByText('Blue');
       await userEvent.click(blueOption);
 
-      // Reopen the dropdown to select another option
+      // Reopen dropdown and select Green
       await userEvent.click(selectInput);
       const greenOption = await screen.findByText('Green');
       await userEvent.click(greenOption);
 
-      // Verify multiple selections appear
+      // Verify both options are selected
       expect(screen.getByText('Blue')).toBeInTheDocument();
       expect(screen.getByText('Green')).toBeInTheDocument();
+    });
+
+    it('displays selected options as chips/tags', async () => {
+      const TestComponent = createMultiSelectComponent(['blue', 'red']);
+      render(<TestComponent />);
+
+      // Both options should be visible initially as selected chips/tags
+      expect(screen.getByText('Blue')).toBeInTheDocument();
+      expect(screen.getByText('Red')).toBeInTheDocument();
+      
+      // Testing that the clear functionality works would be better
+      // with a dedicated integration test that can detect the specific
+      // DOM structure of the BaseUI Select component
+    });
+
+    it('displays validation errors', async () => {
+      const errorMessage = 'Please select at least two colors';
+      const TestComponent = createMultiSelectComponent([], {}, errorMessage);
+      render(<TestComponent />);
+
+      // Select an option to trigger validation
+      const selectInput = screen.getByRole('combobox');
+      await userEvent.click(selectInput);
+      
+      const redOption = await screen.findByText('Red');
+      await userEvent.click(redOption);
+      
+      // Verify error message appears
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
     });
   });
 });
