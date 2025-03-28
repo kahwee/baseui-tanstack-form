@@ -5,7 +5,7 @@ import { fieldContext, formContext, useFormContext } from './form-context'
 import { Button } from 'baseui/button'
 import { TextareaField } from '../components/textarea';
 import { RadioGroupField } from '../components/radio-group';
-import { SelectField } from '../components/select';
+import { SelectSingleField, SelectMultiField } from '../components/select';
 import { CheckboxField } from '../components/checkbox';
 import { CheckboxGroupField } from '../components/checkbox-group';
 import { DatePickerField } from '../components/datepicker';
@@ -24,7 +24,8 @@ export const { useAppForm, withForm } = createFormHook({
     Input: InputField,
     Textarea: TextareaField,
     RadioGroup: RadioGroupField,
-    Select: SelectField,
+    SelectSingle: SelectSingleField,  // Single-select component
+    SelectMulti: SelectMultiField,    // Multi-select component
     Checkbox: CheckboxField,
     CheckboxGroup: CheckboxGroupField,
     DatePicker: DatePickerField

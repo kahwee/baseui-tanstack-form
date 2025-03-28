@@ -35,7 +35,7 @@ export const GroupForm = withForm({
             
             <form.AppField name="genre">
               {(field) => (
-                <field.Select
+                <field.SelectSingle
                   label="Genre"
                   options={[
                     { id: 'rock', label: 'Rock' },
@@ -54,15 +54,14 @@ export const GroupForm = withForm({
             
             <form.AppField name="albums">
               {(field) => (
-                <field.Select
+                <field.SelectMulti
                   label="Notable Albums"
-                  multi={true}
                   options={[
-                    { id: 'Rumours', label: 'Rumours (1977)' },
-                    { id: 'Tusk', label: 'Tusk (1979)' },
-                    { id: 'Fleetwood Mac', label: 'Fleetwood Mac (1975)' },
-                    { id: 'Mirage', label: 'Mirage (1982)' },
-                    { id: 'Tango in the Night', label: 'Tango in the Night (1987)' }
+                    { id: 'Rumours', label: 'Rumours (1977)', description: 'Over 40 million copies sold worldwide' },
+                    { id: 'Tusk', label: 'Tusk (1979)', description: 'Double album, experimental follow-up to Rumours' },
+                    { id: 'Fleetwood Mac', label: 'Fleetwood Mac (1975)', description: 'Often called the "White Album"' },
+                    { id: 'Mirage', label: 'Mirage (1982)', description: 'Return to more commercial sound' },
+                    { id: 'Tango in the Night', label: 'Tango in the Night (1987)', description: 'Second-highest selling album' }
                   ]}
                 />
               )}
@@ -129,7 +128,7 @@ export const GroupForm = withForm({
                       name={`people[${index}].role`}
                     >
                       {(subField) => (
-                        <subField.Select
+                        <subField.SelectSingle
                           label="Role in Band"
                           options={[
                             { id: 'Lead Vocalist', label: 'Lead Vocalist' },
