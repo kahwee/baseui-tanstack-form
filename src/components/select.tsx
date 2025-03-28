@@ -79,6 +79,7 @@ export function SelectSingleField({
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
       <BaseSelect
+        id={field.name}
         options={formattedOptions}
         value={formattedValue}
         onChange={handleChange}
