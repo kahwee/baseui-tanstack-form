@@ -16,6 +16,7 @@ export function InputField({ label, formControlProps, ...restProps }: InputField
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
       <Input
+        id={field.name}
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value ?? '')}
         onBlur={field.handleBlur}
