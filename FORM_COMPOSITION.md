@@ -51,18 +51,15 @@ function SimpleForm() {
       e.preventDefault();
       handleSubmit();
     }}>
-      <form.AppField
-        name="firstName"
-        children={(field) => <field.Input label="First Name" />}
-      />
-      <form.AppField
-        name="lastName"
-        children={(field) => <field.Input label="Last Name" />}
-      />
-      <form.AppField
-        name="email"
-        children={(field) => <field.Input label="Email" />}
-      />
+      <form.AppField name="firstName">
+        {(field) => <field.Input label="First Name" />}
+      </form.AppField>
+      <form.AppField name="lastName">
+        {(field) => <field.Input label="Last Name" />}
+      </form.AppField>
+      <form.AppField name="email">
+        {(field) => <field.Input label="Email" />}
+      </form.AppField>
       <button type="submit">Submit</button>
     </form>
   );
@@ -98,18 +95,15 @@ const PersonalInfoForm = withForm({
       <Card>
         <StyledBody>
           <HeadingSmall>{title}</HeadingSmall>
-          <form.AppField
-            name="firstName"
-            children={(field) => <field.Input label="First Name" />}
-          />
-          <form.AppField
-            name="lastName"
-            children={(field) => <field.Input label="Last Name" />}
-          />
-          <form.AppField
-            name="email"
-            children={(field) => <field.Input label="Email" />}
-          />
+          <form.AppField name="firstName">
+            {(field) => <field.Input label="First Name" />}
+          </form.AppField>
+          <form.AppField name="lastName">
+            {(field) => <field.Input label="Last Name" />}
+          </form.AppField>
+          <form.AppField name="email">
+            {(field) => <field.Input label="Email" />}
+          </form.AppField>
         </StyledBody>
         <StyledAction>
           <Button type="submit">Save</Button>
@@ -160,22 +154,18 @@ const AddressForm = withForm({
   render: ({ form, title }) => (
     <div>
       <h3>{title}</h3>
-      <form.AppField
-        name="street"
-        children={(field) => <field.Input label="Street" />}
-      />
-      <form.AppField
-        name="city"
-        children={(field) => <field.Input label="City" />}
-      />
-      <form.AppField
-        name="state"
-        children={(field) => <field.Input label="State" />}
-      />
-      <form.AppField
-        name="zip"
-        children={(field) => <field.Input label="Zip Code" />}
-      />
+      <form.AppField name="street">
+        {(field) => <field.Input label="Street" />}
+      </form.AppField>
+      <form.AppField name="city">
+        {(field) => <field.Input label="City" />}
+      </form.AppField>
+      <form.AppField name="state">
+        {(field) => <field.Input label="State" />}
+      </form.AppField>
+      <form.AppField name="zip">
+        {(field) => <field.Input label="Zip Code" />}
+      </form.AppField>
     </div>
   )
 });
@@ -186,14 +176,12 @@ const UserProfileForm = withForm({
   render: ({ form, title }) => (
     <div>
       <h2>{title}</h2>
-      <form.AppField
-        name="fullName"
-        children={(field) => <field.Input label="Full Name" />}
-      />
-      <form.AppField
-        name="email"
-        children={(field) => <field.Input label="Email" />}
-      />
+      <form.AppField name="fullName">
+        {(field) => <field.Input label="Full Name" />}
+      </form.AppField>
+      <form.AppField name="email">
+        {(field) => <field.Input label="Email" />}
+      </form.AppField>
       
       {/* Nested address form */}
       <form.AppField name="address">
@@ -277,20 +265,17 @@ const ContactsForm = withForm({
     return (
       <div>
         <h3>{title}</h3>
-        <form.FieldArray
-          name="contacts"
-          children={({ fields }) => (
+        <form.FieldArray name="contacts">
+          {({ fields }) => (
             <div>
               {fields.map((field, index) => (
                 <div key={field.key}>
-                  <form.AppField
-                    name={`contacts[${index}].name`}
-                    children={(nameField) => <nameField.Input label="Name" />}
-                  />
-                  <form.AppField
-                    name={`contacts[${index}].email`}
-                    children={(emailField) => <emailField.Input label="Email" />}
-                  />
+                  <form.AppField name={`contacts[${index}].name`}>
+                    {(nameField) => <nameField.Input label="Name" />}
+                  </form.AppField>
+                  <form.AppField name={`contacts[${index}].email`}>
+                    {(emailField) => <emailField.Input label="Email" />}
+                  </form.AppField>
                   <Button onClick={() => fields.remove(index)}>Remove</Button>
                 </div>
               ))}
@@ -299,7 +284,7 @@ const ContactsForm = withForm({
               </Button>
             </div>
           )}
-        />
+        </form.FieldArray>
       </div>
     );
   }
@@ -318,9 +303,8 @@ const ShippingForm = withForm({
     
     return (
       <div>
-        <form.AppField
-          name="shippingMethod"
-          children={(field) => (
+        <form.AppField name="shippingMethod">
+          {(field) => (
             <field.RadioGroup
               label="Shipping Method"
               options={[
@@ -330,26 +314,23 @@ const ShippingForm = withForm({
               ]}
             />
           )}
-        />
+        </form.AppField>
         
         {shippingMethod === 'international' && (
           <>
-            <form.AppField
-              name="customsInfo"
-              children={(field) => <field.Input label="Customs Information" />}
-            />
-            <form.AppField
-              name="countryCode"
-              children={(field) => <field.Input label="Country Code" />}
-            />
+            <form.AppField name="customsInfo">
+              {(field) => <field.Input label="Customs Information" />}
+            </form.AppField>
+            <form.AppField name="countryCode">
+              {(field) => <field.Input label="Country Code" />}
+            </form.AppField>
           </>
         )}
         
         {shippingMethod === 'express' && (
-          <form.AppField
-            name="phoneNumber"
-            children={(field) => <field.Input label="Contact Phone Number" />}
-          />
+          <form.AppField name="phoneNumber">
+            {(field) => <field.Input label="Contact Phone Number" />}
+          </form.AppField>
         )}
       </div>
     );
@@ -376,9 +357,8 @@ const DynamicQuestionnaireForm = withForm({
         <h3>Questionnaire</h3>
         {questions.map(question => (
           <div key={question.id}>
-            <form.AppField
-              name={question.id}
-              children={(field) => {
+            <form.AppField name={question.id}>
+              {(field) => {
                 if (question.type === 'textarea') {
                   return <field.Textarea label={question.text} />;
                 } else if (question.type === 'number') {
@@ -387,7 +367,7 @@ const DynamicQuestionnaireForm = withForm({
                   return <field.Input label={question.text} />;
                 }
               }}
-            />
+            </form.AppField>
           </div>
         ))}
       </div>
@@ -411,8 +391,9 @@ Form composition works well with various validation approaches:
       !value.includes('@') ? 'Invalid email address' : 
       undefined
   }}
-  children={(field) => <field.Input label="Email" />}
-/>
+>
+  {(field) => <field.Input label="Email" />}
+</form.AppField>
 ```
 
 ### Form Section Validation
@@ -526,18 +507,15 @@ const PersonalInfoForm = withForm({
     <Card>
       <StyledBody>
         <HeadingSmall>{title}</HeadingSmall>
-        <form.AppField
-          name="firstName"
-          children={(field) => <field.Input label="First Name" />}
-        />
-        <form.AppField
-          name="lastName"
-          children={(field) => <field.Input label="Last Name" />}
-        />
-        <form.AppField
-          name="email"
-          children={(field) => <field.Input label="Email" />}
-        />
+        <form.AppField name="firstName">
+          {(field) => <field.Input label="First Name" />}
+        </form.AppField>
+        <form.AppField name="lastName">
+          {(field) => <field.Input label="Last Name" />}
+        </form.AppField>
+        <form.AppField name="email">
+          {(field) => <field.Input label="Email" />}
+        </form.AppField>
       </StyledBody>
     </Card>
   )
@@ -550,22 +528,18 @@ const AddressForm = withForm({
     <Card>
       <StyledBody>
         <HeadingSmall>{title}</HeadingSmall>
-        <form.AppField
-          name="street"
-          children={(field) => <field.Input label="Street Address" />}
-        />
-        <form.AppField
-          name="city"
-          children={(field) => <field.Input label="City" />}
-        />
-        <form.AppField
-          name="state"
-          children={(field) => <field.Input label="State" />}
-        />
-        <form.AppField
-          name="zip"
-          children={(field) => <field.Input label="ZIP Code" />}
-        />
+        <form.AppField name="street">
+          {(field) => <field.Input label="Street Address" />}
+        </form.AppField>
+        <form.AppField name="city">
+          {(field) => <field.Input label="City" />}
+        </form.AppField>
+        <form.AppField name="state">
+          {(field) => <field.Input label="State" />}
+        </form.AppField>
+        <form.AppField name="zip">
+          {(field) => <field.Input label="ZIP Code" />}
+        </form.AppField>
       </StyledBody>
     </Card>
   )
@@ -640,14 +614,13 @@ function UserProfileForm() {
           )}
         </form.AppField>
         
-        <form.AppField
-          name="useSameAddress"
-          children={(field) => (
+        <form.AppField name="useSameAddress">
+          {(field) => (
             <field.Checkbox
               label="Use same address for billing"
             />
           )}
-        />
+        </form.AppField>
         
         {!useSameAddress && (
           <form.AppField name="billingAddress">

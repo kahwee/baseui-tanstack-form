@@ -69,31 +69,28 @@ const MyComponent = () => {
       e.stopPropagation();
       form.handleSubmit();
     }}>
-      <form.AppField
-        name="name"
-        children={(field) => (
+      <form.AppField name="name">
+        {(field) => (
           <field.Input 
             label="Name"
             caption="Enter your full name"
             placeholder="John Doe"
           />
         )}
-      />
+      </form.AppField>
       
-      <form.AppField
-        name="email"
-        children={(field) => (
+      <form.AppField name="email">
+        {(field) => (
           <field.Input 
             label="Email"
             caption="Enter your email address"
             placeholder="john@example.com"
           />
         )}
-      />
+      </form.AppField>
       
-      <form.AppField
-        name="favoriteColor"
-        children={(field) => (
+      <form.AppField name="favoriteColor">
+        {(field) => (
           <field.RadioGroup
             label="Favorite Color"
             options={[
@@ -104,7 +101,7 @@ const MyComponent = () => {
             ]}
           />
         )}
-      />
+      </form.AppField>
       
       <form.AppForm>
         <form.SubscribeButton label="Submit" />
@@ -125,7 +122,8 @@ This library wraps corresponding `baseui` components and integrates them with Ta
 | `Input` | Integrates BaseUI Input with TanStack Form | `<field.Input label="Name" />` | `string` |
 | `Textarea` | Multi-line text input integration | `<field.Textarea label="Comments" />` | `string` |
 | `RadioGroup` | Radio button group integration | `<field.RadioGroup label="Options" options={[...]} />` | `string` |
-| `Select` | Dropdown selection component (single & multi) | `<field.Select label="Color" options={[...]} />` | `string` or `string[]` |
+| `SelectSingle` | Single-item dropdown selection component | `<field.SelectSingle label="Color" options={[...]} />` | `string` |
+| `SelectMulti` | Multi-item dropdown selection component | `<field.SelectMulti label="Colors" options={[...]} />` | `string[]` |
 | `Checkbox` | Single checkbox for boolean values | `<field.Checkbox label="I agree to terms" />` | `boolean` |
 | `CheckboxGroup` | Multiple checkboxes returning selected values | `<field.CheckboxGroup label="Interests" options={[...]} />` | `string[]` |
 | `DatePicker` | Date selection component | `<field.DatePicker label="Date" />` | `Date` or `string` |
@@ -173,9 +171,7 @@ const form = useAppForm<UserForm>({
 });
 
 // Field-level validation can also be applied
-<form.AppField
-  name="username"
->
+<form.AppField name="username">
   {(field) => {
     // Validate on change
     const error = field.state.value.length < 3 
@@ -193,7 +189,7 @@ const form = useAppForm<UserForm>({
 // Single select component
 <form.AppField name="favoriteColor">
   {(field) => (
-    <field.Select
+    <field.SelectSingle
       label="Favorite Color"
       options={[
         { id: 'blue', label: 'Blue' },
@@ -208,9 +204,8 @@ const form = useAppForm<UserForm>({
 // Multi-select component
 <form.AppField name="skills">
   {(field) => (
-    <field.Select
+    <field.SelectMulti
       label="Skills"
-      multi={true}
       options={[
         { id: 'javascript', label: 'JavaScript' },
         { id: 'typescript', label: 'TypeScript' },

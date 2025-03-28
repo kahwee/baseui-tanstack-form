@@ -64,14 +64,12 @@ const GroupForm = withForm({
       <Card>
         <StyledBody>
           <HeadingSmall>{title}</HeadingSmall>
-          <form.AppField
-            name="firstName"
-            children={(field) => <field.Input label="First Name" />}
-          />
-          <form.AppField
-            name="comments"
-            children={(field) => <field.Textarea label="Comments" />}
-          />
+          <form.AppField name="firstName">
+            {(field) => <field.Input label="First Name" />}
+          </form.AppField>
+          <form.AppField name="comments">
+            {(field) => <field.Textarea label="Comments" />}
+          </form.AppField>
         </StyledBody>
         <StyledAction>
           <form.AppForm>
@@ -124,7 +122,7 @@ function ParentForm() {
       
       <form.AppField name="category">
         {(field) => (
-          <field.Select
+          <field.SelectSingle
             label="Category"
             options={[
               { id: 'electronics', label: 'Electronics' },
@@ -138,9 +136,8 @@ function ParentForm() {
       
       <form.AppField name="tags">
         {(field) => (
-          <field.Select
+          <field.SelectMulti
             label="Tags"
-            multi={true}
             options={[
               { id: 'new', label: 'New' },
               { id: 'sale', label: 'Sale' },
@@ -182,9 +179,7 @@ function ParentForm() {
 ## Validation
 ```tsx
 // Field validation
-<form.AppField
-  name="username"
->
+<form.AppField name="username">
   {(field) => {
     // Manual validation logic
     const error = field.state.value.length < 3 
