@@ -1,26 +1,7 @@
 import React from 'react';
-import { render, screen, } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { Client as Styletron } from 'styletron-engine-atomic';
-import { Provider as StyletronProvider } from 'styletron-react';
-import { LightTheme, BaseProvider } from 'baseui';
+import { render, screen } from '../../test-utils/rtl'; 
 import userEvent from '@testing-library/user-event';
-// Import the form hook directly from the app
 import { useAppForm } from '../../hooks/form';
-
-// Set up Styletron for BaseUI components
-const engine = new Styletron();
-
-// Test wrapper component that provides all necessary context providers
-function TestWrapper({ children }: { children: React.ReactNode }) {
-  return (
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
-        {children}
-      </BaseProvider>
-    </StyletronProvider>
-  );
-}
 
 type TestSchema = {
     name: string,
@@ -49,12 +30,8 @@ describe('Form Components', () => {
         );
       }
 
-      // Render the test component wrapped in providers
-      render(
-        <TestWrapper>
-          <TestInputForm />
-        </TestWrapper>
-      );
+      // Render the test component
+      render(<TestInputForm />);
 
       // Find the input by type and value instead of test ID
       const input = screen.getByDisplayValue('John Doe');
@@ -84,11 +61,7 @@ describe('Form Components', () => {
       }
 
       // Render the component
-      render(
-        <TestWrapper>
-          <TestEmailForm />
-        </TestWrapper>
-      );
+      render(<TestEmailForm />);
 
       // Find the email input (initially empty)
       const emailLabel = screen.getByText('Email');
