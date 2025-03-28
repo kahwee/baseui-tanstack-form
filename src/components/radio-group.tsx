@@ -17,7 +17,7 @@ type RadioGroupFieldProps = {
   label: string;
   options: RadioOption[];
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-} & Omit<RadioGroupProps, 'value' | 'onChange' | 'error'>;
+} & Omit<RadioGroupProps, 'value' | 'onChange'|'onBlur'  | 'error'>;
 
 export function RadioGroupField({
   label,

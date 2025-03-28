@@ -16,7 +16,7 @@ type CheckboxGroupFieldProps = {
   options: CheckboxOption[];
   inline?: boolean;
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-  checkboxProps?: Partial<Omit<CheckboxProps, 'checked' | 'onChange' | 'error' | 'children' | 'value'>>;
+  checkboxProps?: Partial<Omit<CheckboxProps, 'checked' | 'onChange' |'onBlur' | 'error' | 'children' | 'value'>>;
 };
 
 export function CheckboxGroupField({

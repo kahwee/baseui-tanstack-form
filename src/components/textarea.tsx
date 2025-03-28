@@ -8,7 +8,7 @@ import { useFieldError } from './use-field-error';
 type TextareaFieldProps = {
   label: string;
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-} & Omit<TextareaProps, 'value' | 'onChange' | 'error'>;
+} & Omit<TextareaProps, 'value' | 'onChange'|'onBlur'  | 'error'>;
 
 export function TextareaField({ label, formControlProps, ...restProps }: TextareaFieldProps) {
   const field = useFieldContext<string>();
