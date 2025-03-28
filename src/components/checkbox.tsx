@@ -7,7 +7,7 @@ import { useFieldError } from './use-field-error';
 type CheckboxFieldProps = {
   label: React.ReactNode;
   formControlProps?: Partial<Omit<FormControlProps, 'error'>>;
-} & Omit<CheckboxProps, 'checked' | 'onChange' | 'error' | 'children'>;
+} & Omit<CheckboxProps, 'checked' | 'onChange'|'onBlur' | 'error' | 'children'>;
 
 export function CheckboxField({ 
   label, 

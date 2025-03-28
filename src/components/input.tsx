@@ -7,7 +7,7 @@ import { useFieldError } from './use-field-error';
 type InputFieldProps = {
   label: string;
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-} & Omit<InputProps, 'value' | 'onChange' | 'error'>;
+} & Omit<InputProps, 'value' | 'onChange' |'onBlur' | 'error'>;
 
 export function InputField({ label, formControlProps, ...restProps }: InputFieldProps) {
   const field = useFieldContext<string>();
