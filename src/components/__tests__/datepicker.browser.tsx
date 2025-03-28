@@ -63,11 +63,6 @@ describe('Form Components', () => {
       // Simulate date selection
       fireEvent.change(datepickerInput, { target: { value: '2023/02/20' } });
 
-      // Direct access to the component's onChange handler using mock events
-      // This is the part that needs to be fixed for better coverage
-      // We're directly mocking the DatePicker onChange call which accepts a {date} object
-      const mockDate = new Date('2023-03-15');
-
       // Find the DatePicker component's container
       const datepickerContainer = screen.getByText('Event Date').closest('div');
       expect(datepickerContainer).not.toBeNull();
@@ -198,7 +193,7 @@ describe('Form Components', () => {
 
       // Create a component with a way to access the DatePicker's onChange
       const TestComponent = () => {
-        const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+        const [, setSelectedDate] = React.useState<Date | null>(null);
         const [dateText, setDateText] = React.useState('No date selected');
 
         // Create a mock field object that simulates the TanStack Form field
