@@ -3,7 +3,7 @@ import { render, screen } from '../../test-utils/rtl';
 import userEvent from '@testing-library/user-event';
 import { useAppForm } from '../../hooks/form';
 
-describe('Select component', () => {
+describe('Select Components', () => {
   // Common test options
   const colorOptions = [
     { id: 'blue', label: 'Blue' },
@@ -11,13 +11,13 @@ describe('Select component', () => {
     { id: 'green', label: 'Green' },
     { id: 'yellow', label: 'Yellow', disabled: true },
   ];
-
-  // Helper function to create a test component with different props
+  
+  // Helper function to create a SelectSingle component test
   const createSingleSelectComponent = (initialValue = 'blue', customProps = {}, errorMessage = '') => {
     // Mock a validation function to test error state
     const validate = () => errorMessage ? errorMessage : undefined;
     
-    return function TestSelectForm() {
+    return function TestSelectSingleForm() {
       const form = useAppForm({
         defaultValues: {
           color: initialValue
@@ -31,7 +31,7 @@ describe('Select component', () => {
             validators={{ onChange: validate }}
           >
             {(field) => (
-              <field.Select
+              <field.SelectSingle
                 label="Color"
                 options={colorOptions}
                 placeholder="Select a color"
@@ -44,11 +44,11 @@ describe('Select component', () => {
     };
   };
 
-  // Helper for multi-select
+  // Helper for SelectMulti component test
   const createMultiSelectComponent = (initialValues: string[] = [], customProps = {}, errorMessage = '') => {
     const validate = () => errorMessage ? errorMessage : undefined;
     
-    return function TestMultiSelectForm() {
+    return function TestSelectMultiForm() {
       const form = useAppForm({
         defaultValues: {
           colors: initialValues
@@ -62,10 +62,9 @@ describe('Select component', () => {
             validators={{ onChange: validate }}
           >
             {(field) => (
-              <field.Select
+              <field.SelectMulti
                 label="Colors"
                 options={colorOptions}
-                multi={true}
                 placeholder="Select colors"
                 {...customProps}
               />
@@ -76,7 +75,7 @@ describe('Select component', () => {
     };
   };
 
-  describe('Single-select mode', () => {
+  describe('SelectSingle component', () => {
     it('renders with correct label and placeholder', async () => {
       const TestComponent = createSingleSelectComponent('');
       render(<TestComponent />);
@@ -145,7 +144,7 @@ describe('Select component', () => {
     });
   });
 
-  describe('Multi-select mode', () => {
+  describe('SelectMulti component', () => {
     it('initializes with empty selection', async () => {
       const TestComponent = createMultiSelectComponent();
       render(<TestComponent />);

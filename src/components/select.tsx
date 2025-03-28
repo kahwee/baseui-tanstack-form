@@ -8,63 +8,72 @@ export type SelectOption = {
   id: string;
   label: string;
   description?: string;
+  disabled?: boolean;
 };
 
-type SelectFieldProps = {
+// Base props shared by both single and multi select
+type BaseSelectFieldProps = {
   label: string;
   options: SelectOption[];
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-} & Omit<SelectProps, 'value' | 'onChange' | 'options' | 'error'>;
+} & Omit<SelectProps, 'value' | 'onChange' | 'options' | 'error' | 'multi'>;
+
+// Single select props
+export type SelectSingleFieldProps = BaseSelectFieldProps;
+
+// Multi select props
+export type SelectMultiFieldProps = BaseSelectFieldProps;
 
 // Helper function to convert between different data formats
 const formatOptions = (options: SelectOption[]): Option[] => {
   return options.map((option) => ({
     id: option.id,
     label: option.label,
-    ...(option.description ? { description: option.description } : {})
+    ...(option.description ? { description: option.description } : {}),
+    ...(option.disabled ? { disabled: option.disabled } : {})
   }));
 };
 
-const formatValue = (value: string | string[]): Value => {
+// Format single string value to BaseUI Value type
+const formatSingleValue = (value: string): Value => {
   if (!value) return [];
-  if (Array.isArray(value)) {
-    return value.map(v => ({ id: v }));
-  }
   return [{ id: value }];
 };
 
-// Get single string value from Value type
+// Format array of strings to BaseUI Value type
+const formatMultiValue = (value: string[]): Value => {
+  if (!value || !value.length) return [];
+  return value.map(v => ({ id: v }));
+};
+
+// Get single string value from BaseUI Value type
 const extractSingleValue = (value: Value): string => {
   if (!value || !value.length) return '';
   return String(value[0]?.id || '');
 };
 
-// Get array of strings from Value type
+// Get array of strings from BaseUI Value type
 const extractMultipleValues = (value: Value): string[] => {
   if (!value) return [];
   return value.map(item => String(item.id || ''));
 };
 
-export function SelectField({ 
+// Single select component
+export function SelectSingleField({ 
   label, 
   options, 
   formControlProps, 
-  multi = false,
   ...restProps 
-}: SelectFieldProps) {
-  const field = useFieldContext<string | string[]>();
+}: SelectSingleFieldProps) {
+  const field = useFieldContext<string>();
   const { hasError, errorMessage } = useFieldError(field);
   
   // Convert to BaseUI format
   const formattedOptions = formatOptions(options);
-  const formattedValue = formatValue(field.state.value);
+  const formattedValue = formatSingleValue(field.state.value);
 
   const handleChange = (params: { value: Value }) => {
-    if (multi) {
-      field.handleChange(extractMultipleValues(params.value));
-    } else {
-      field.handleChange(extractSingleValue(params.value));
-    }
+    field.handleChange(extractSingleValue(params.value));
   };
 
   return (
@@ -75,7 +84,39 @@ export function SelectField({
         onChange={handleChange}
         onBlur={field.handleBlur}
         error={hasError}
-        multi={multi}
+        {...restProps}
+      />
+    </FormControl>
+  );
+}
+
+// Multi select component
+export function SelectMultiField({ 
+  label, 
+  options, 
+  formControlProps, 
+  ...restProps 
+}: SelectMultiFieldProps) {
+  const field = useFieldContext<string[]>();
+  const { hasError, errorMessage } = useFieldError(field);
+  
+  // Convert to BaseUI format
+  const formattedOptions = formatOptions(options);
+  const formattedValue = formatMultiValue(field.state.value || []);
+
+  const handleChange = (params: { value: Value }) => {
+    field.handleChange(extractMultipleValues(params.value));
+  };
+
+  return (
+    <FormControl label={label} error={errorMessage} {...formControlProps}>
+      <BaseSelect
+        options={formattedOptions}
+        value={formattedValue}
+        onChange={handleChange}
+        onBlur={field.handleBlur}
+        error={hasError}
+        multi={true}
         {...restProps}
       />
     </FormControl>
