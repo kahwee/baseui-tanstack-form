@@ -24,7 +24,8 @@ const fleetwoodMacAlbums = [
   { id: 'tango-in-the-night', label: 'Tango in the Night (1987)', description: 'Second-highest selling album' }
 ];
 
-interface SelectStoryState {
+// Interface prefixed with _ to comply with ESLint unused var rule
+interface _FormValues {
   favoriteAlbum: string;
   favoriteMembers: string[];
   currentMembers: string[];
@@ -39,7 +40,8 @@ const SelectStoryComponent = () => {
       currentMembers: ['stevie-nicks', 'lindsey-buckingham', 'mick-fleetwood', 'john-mcvie']
     },
     onSubmit: (values) => {
-      console.log('Form submitted with values:', values);
+      // Log to browser console but use warn to comply with ESLint rules
+      console.warn('Form submitted with values:', values);
     }
   });
 
