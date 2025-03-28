@@ -56,20 +56,33 @@ export function useFieldError(field: {
   form: { getAllErrors: () => FormErrors };
   name: string;
 }): FieldError {
+  // If field or required methods are missing, return no error
+  if (!field || typeof field.getMeta !== 'function' || !field.form || typeof field.form.getAllErrors !== 'function') {
+    return { hasError: false, errorMessage: null };
+  }
+  
   const meta = field.getMeta();
-  const formErrors = field.form.getAllErrors();
+  let formErrors;
+  
+  try {
+    formErrors = field.form.getAllErrors();
+  } catch {
+    // If getting errors fails, return no error without using error variable
+    return { hasError: false, errorMessage: null };
+  }
   
   // Check for field-level errors first
   let hasError = Boolean(meta?.errors?.length);
   let errorMessage = hasError && meta?.errors?.[0] ? meta.errors[0] : null;
   
   // If no field-level errors, check form-level errors for this field name
-  if (!errorMessage && formErrors?.form?.errors && formErrors.form.errors.length > 0) {
+  if (!errorMessage && formErrors?.form?.errors && Array.isArray(formErrors.form.errors) && formErrors.form.errors.length > 0) {
     // First try direct match with the full field name
     for (const errorGroup of formErrors.form.errors) {
-      if (errorGroup && field.name in errorGroup) {
-        const fieldErrors = errorGroup[field.name]?._errors;
-        if (fieldErrors && fieldErrors.length > 0) {
+      if (errorGroup && typeof errorGroup === 'object' && errorGroup !== null && field.name && typeof field.name === 'string' && field.name in errorGroup) {
+        const fieldError = errorGroup[field.name];
+        const fieldErrors = fieldError && typeof fieldError === 'object' && fieldError !== null ? fieldError._errors : undefined;
+        if (Array.isArray(fieldErrors) && fieldErrors.length > 0) {
           hasError = true;
           errorMessage = fieldErrors[0];
           break;
@@ -87,10 +100,10 @@ export function useFieldError(field: {
         const dotNotation = field.name.replace(/\[(\d+)\]/g, '.$1');
         
         for (const errorGroup of formErrors.form.errors) {
-          if (!errorGroup) continue;
+          if (!errorGroup || typeof errorGroup !== 'object' || errorGroup === null) continue;
           
           // 1. Check for direct match with dot notation
-          if (dotNotation in errorGroup) {
+          if (typeof dotNotation === 'string' && dotNotation in errorGroup) {
             const errorObj = errorGroup[dotNotation];
             if (errorObj && 
                 typeof errorObj === 'object' && 
@@ -106,9 +119,11 @@ export function useFieldError(field: {
           
           // 2. Recursively check through the nested structure
           const checkNestedErrors = (obj: Record<string, unknown>, path: string[]): string | null => {
-            if (!obj || path.length === 0) return null;
+            if (!obj || !path || !Array.isArray(path) || path.length === 0) return null;
             
             const key = path[0];
+            if (typeof key !== 'string') return null;
+            
             const remaining = path.slice(1);
             const currentValue = obj[key];
             
@@ -118,7 +133,7 @@ export function useFieldError(field: {
                 typeof currentValue === 'object' && 
                 currentValue !== null) {
               const errorObj = currentValue as ErrorObject;
-              if (errorObj._errors && errorObj._errors.length > 0) {
+              if (Array.isArray(errorObj._errors) && errorObj._errors.length > 0) {
                 return errorObj._errors[0];
               }
             }
@@ -157,17 +172,24 @@ export function useFieldError(field: {
           
           // 3. Also check for fully nested structure: { people: { '0': { firstName: { _errors: [...] } } } }
           const traverseNestedFields = (obj: Record<string, unknown>, pathParts: string[], index: number): string | null => {
-            if (index >= pathParts.length) return null;
+            if (!obj || !pathParts || !Array.isArray(pathParts) || index >= pathParts.length) return null;
             
             const part = pathParts[index];
+            if (typeof part !== 'string') return null;
             
-            if (!(part in obj)) return null;
+            // Safe 'in' operator check
+            if (typeof obj !== 'object' || obj === null || !(part in obj)) return null;
             
             const value = obj[part] as Record<string, unknown>;
             
             // If this is the last part, check for _errors
             if (index === pathParts.length - 1) {
-              if (value._errors && Array.isArray(value._errors) && value._errors.length > 0) {
+              if (value && 
+                  typeof value === 'object' && 
+                  value !== null && 
+                  '_errors' in value && 
+                  Array.isArray(value._errors) && 
+                  value._errors.length > 0) {
                 return value._errors[0] as string;
               }
               return null;
