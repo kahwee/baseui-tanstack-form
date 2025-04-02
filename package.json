@@ -67,7 +67,7 @@
     "styletron-engine-atomic": "^1.6.2",
     "ts-jest": "^29.3.0",
     "typescript": "^5.3.3",
-    "vite": "^6.2.2",
+    "vite": "^6.2.4",
     "vite-plugin-dts": "^3.7.2",
     "zod": "^3.22.4"
   },
