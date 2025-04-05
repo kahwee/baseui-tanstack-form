@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '../../test-utils/rtl'; 
+import { render, screen } from '../../test-utils/rtl';
 import userEvent from '@testing-library/user-event';
 import { useAppForm } from '../../hooks/form';
 
@@ -11,25 +11,26 @@ describe('Select Components', () => {
     { id: 'green', label: 'Green' },
     { id: 'yellow', label: 'Yellow', disabled: true },
   ];
-  
+
   // Helper function to create a SelectSingle component test
-  const createSingleSelectComponent = (initialValue = 'blue', customProps = {}, errorMessage = '') => {
+  const createSingleSelectComponent = (
+    initialValue = 'blue',
+    customProps = {},
+    errorMessage = '',
+  ) => {
     // Mock a validation function to test error state
-    const validate = () => errorMessage ? errorMessage : undefined;
-    
+    const validate = () => (errorMessage ? errorMessage : undefined);
+
     return function TestSelectSingleForm() {
       const form = useAppForm({
         defaultValues: {
-          color: initialValue
-        }
+          color: initialValue,
+        },
       });
 
       return (
         <form>
-          <form.AppField 
-            name="color"
-            validators={{ onChange: validate }}
-          >
+          <form.AppField name="color" validators={{ onChange: validate }}>
             {(field) => (
               <field.SelectSingle
                 label="Color"
@@ -45,22 +46,23 @@ describe('Select Components', () => {
   };
 
   // Helper for SelectMulti component test
-  const createMultiSelectComponent = (initialValues: string[] = [], customProps = {}, errorMessage = '') => {
-    const validate = () => errorMessage ? errorMessage : undefined;
-    
+  const createMultiSelectComponent = (
+    initialValues: string[] = [],
+    customProps = {},
+    errorMessage = '',
+  ) => {
+    const validate = () => (errorMessage ? errorMessage : undefined);
+
     return function TestSelectMultiForm() {
       const form = useAppForm({
         defaultValues: {
-          colors: initialValues
-        }
+          colors: initialValues,
+        },
       });
 
       return (
         <form>
-          <form.AppField 
-            name="colors"
-            validators={{ onChange: validate }}
-          >
+          <form.AppField name="colors" validators={{ onChange: validate }}>
             {(field) => (
               <field.SelectMulti
                 label="Colors"
@@ -108,7 +110,9 @@ describe('Select Components', () => {
       // Verify Red is now selected by checking the aria-label on the combobox
       // This is more reliable than looking for text nodes when multiple elements contain the same text
       const updatedSelectInput = screen.getByRole('combobox');
-      expect(updatedSelectInput.getAttribute('aria-label')).toContain('Selected Red');
+      expect(updatedSelectInput.getAttribute('aria-label')).toContain(
+        'Selected Red',
+      );
     });
 
     it('includes a disabled option in the dropdown', async () => {
@@ -122,7 +126,7 @@ describe('Select Components', () => {
       // Check that the Yellow option is visible in the dropdown
       const yellowOption = await screen.findByText('Yellow');
       expect(yellowOption).toBeInTheDocument();
-      
+
       // Note: Testing disabled state is implementation-specific to BaseUI
       // and might require different approach depending on the library version
     });
@@ -135,10 +139,10 @@ describe('Select Components', () => {
       // Open and select an option to trigger validation
       const selectInput = screen.getByRole('combobox');
       await userEvent.click(selectInput);
-      
+
       const redOption = await screen.findByText('Red');
       await userEvent.click(redOption);
-      
+
       // Verify error message appears
       expect(screen.getByText(errorMessage)).toBeInTheDocument();
     });
@@ -190,7 +194,7 @@ describe('Select Components', () => {
       // Both options should be visible initially as selected chips/tags
       expect(screen.getByText('Blue')).toBeInTheDocument();
       expect(screen.getByText('Red')).toBeInTheDocument();
-      
+
       // Testing that the clear functionality works would be better
       // with a dedicated integration test that can detect the specific
       // DOM structure of the BaseUI Select component
@@ -204,10 +208,10 @@ describe('Select Components', () => {
       // Select an option to trigger validation
       const selectInput = screen.getByRole('combobox');
       await userEvent.click(selectInput);
-      
+
       const redOption = await screen.findByText('Red');
       await userEvent.click(redOption);
-      
+
       // Verify error message appears
       expect(screen.getByText(errorMessage)).toBeInTheDocument();
     });

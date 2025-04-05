@@ -1,15 +1,14 @@
 import React from 'react';
-import { render, screen } from '../../test-utils/rtl'; 
+import { render, screen } from '../../test-utils/rtl';
 import userEvent from '@testing-library/user-event';
 import { useAppForm } from '../../hooks/form';
 
 type TestSchema = {
-    name: string,
-    email: string
-}
+  name: string;
+  email: string;
+};
 
 describe('Form Components', () => {
-
   describe('Input component', () => {
     it('renders with default value', async () => {
       // Create test component that sets up the form
@@ -17,8 +16,8 @@ describe('Form Components', () => {
         const form = useAppForm({
           defaultValues: {
             name: 'John Doe',
-            email: ''
-          } as TestSchema
+            email: '',
+          } as TestSchema,
         });
 
         return (
@@ -45,15 +44,13 @@ describe('Form Components', () => {
         const form = useAppForm({
           defaultValues: {
             name: 'John Doe',
-            email: ''
-          } as TestSchema
+            email: '',
+          } as TestSchema,
         });
 
         return (
           <form>
-            <form.AppField
-              name="email"
-            >
+            <form.AppField name="email">
               {(field) => <field.Input label="Email" />}
             </form.AppField>
           </form>
@@ -65,7 +62,9 @@ describe('Form Components', () => {
 
       // Find the email input (initially empty)
       const emailLabel = screen.getByText('Email');
-      const emailInput = emailLabel.closest('span')?.parentElement?.querySelector('input');
+      const emailInput = emailLabel
+        .closest('span')
+        ?.parentElement?.querySelector('input');
       expect(emailInput).not.toBeNull();
 
       // Input text into the email field

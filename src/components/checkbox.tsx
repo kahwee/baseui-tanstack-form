@@ -5,14 +5,17 @@ import { Checkbox as BaseCheckbox, CheckboxProps } from 'baseui/checkbox';
 import { useFieldError } from './use-field-error';
 
 type CheckboxFieldProps = {
-  label: React.ReactNode;
-  formControlProps?: Partial<Omit<FormControlProps, 'error'>>;
-} & Omit<CheckboxProps, 'checked' | 'onChange'|'onBlur' | 'error' | 'children'>;
+  label: FormControlProps['label'];
+  formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>;
+} & Omit<
+  CheckboxProps,
+  'checked' | 'onChange' | 'onBlur' | 'error' | 'children'
+>;
 
-export function CheckboxField({ 
-  label, 
-  formControlProps, 
-  ...restProps 
+export function CheckboxField({
+  label,
+  formControlProps,
+  ...restProps
 }: CheckboxFieldProps) {
   const field = useFieldContext<boolean>();
   const { hasError, errorMessage } = useFieldError(field);
@@ -21,7 +24,7 @@ export function CheckboxField({
     <FormControl error={errorMessage} {...formControlProps}>
       <BaseCheckbox
         checked={!!field.state.value}
-        onChange={e => field.handleChange(e.target.checked)}
+        onChange={(e) => field.handleChange(e.target.checked)}
         onBlur={field.handleBlur}
         error={hasError}
         {...restProps}

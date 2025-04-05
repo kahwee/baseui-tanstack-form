@@ -27,66 +27,66 @@ const FleetwoodMacGroupStory = () => {
       albums: ['Rumours', 'Tusk', 'Fleetwood Mac'],
       awards: ['grammy', 'hall-of-fame'],
       people: [
-        { 
-          firstName: 'Stevie', 
-          lastName: 'Nicks', 
+        {
+          firstName: 'Stevie',
+          lastName: 'Nicks',
           sex: 'female',
           bio: 'American singer-songwriter known for her mystical stage persona.',
           role: 'Lead Vocalist',
           instruments: ['vocals', 'tambourine'],
-          isOriginalMember: false
+          isOriginalMember: false,
         },
-        { 
-          firstName: 'Christine', 
-          lastName: 'McVie', 
+        {
+          firstName: 'Christine',
+          lastName: 'McVie',
           sex: 'female',
           bio: 'English musician and vocalist who played keyboard.',
           role: 'Keyboardist',
           instruments: ['keyboard', 'vocals'],
-          isOriginalMember: false
+          isOriginalMember: false,
         },
-        { 
-          firstName: 'Lindsey', 
-          lastName: 'Buckingham', 
+        {
+          firstName: 'Lindsey',
+          lastName: 'Buckingham',
           sex: 'male',
           bio: 'American musician, singer, songwriter, and producer.',
           role: 'Lead Guitarist',
           instruments: ['guitar', 'vocals'],
-          isOriginalMember: false
+          isOriginalMember: false,
         },
-        { 
-          firstName: 'Mick', 
-          lastName: 'Fleetwood', 
+        {
+          firstName: 'Mick',
+          lastName: 'Fleetwood',
           sex: 'male',
           bio: 'British musician and co-founder of Fleetwood Mac.',
           role: 'Drummer',
           instruments: ['drums'],
-          isOriginalMember: true
+          isOriginalMember: true,
         },
-        { 
-          firstName: 'John', 
-          lastName: 'McVie', 
+        {
+          firstName: 'John',
+          lastName: 'McVie',
           sex: 'male',
           bio: 'British bass guitarist and co-founder of Fleetwood Mac.',
           role: 'Bassist',
           instruments: ['bass'],
-          isOriginalMember: true
-        }
-      ]
+          isOriginalMember: true,
+        },
+      ],
     } as Group,
     validators: {
       onBlur: ({ value }) => {
-        const result = groupSchema.safeParse(value)
+        const result = groupSchema.safeParse(value);
         if (result.success) {
           return undefined;
         } else {
           return result.error.format();
         }
-      }
+      },
     },
     onSubmit: (values) => {
       console.info('Form submitted with values:', values);
-    }
+    },
   });
 
   return (
@@ -96,7 +96,8 @@ const FleetwoodMacGroupStory = () => {
           e.preventDefault();
           e.stopPropagation();
           form.handleSubmit();
-        }}>
+        }}
+      >
         <GroupForm form={form} title="Fleetwood Mac" />
       </form>
     </Block>
@@ -119,5 +120,5 @@ export const Default: Story = {
 };
 
 export const FleetwoodMacExample = {
-  render: () => <FleetwoodMacGroupStory />
+  render: () => <FleetwoodMacGroupStory />,
 };

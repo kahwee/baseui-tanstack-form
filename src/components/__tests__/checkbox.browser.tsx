@@ -1,27 +1,28 @@
 import React from 'react';
-import { render, screen } from '../../test-utils/rtl'; 
+import { render, screen } from '../../test-utils/rtl';
 import userEvent from '@testing-library/user-event';
 import { useAppForm } from '../../hooks/form';
 
 describe('Checkbox component', () => {
   // Helper function to create a test component with different props
-  const createTestComponent = (initialValue = false, customProps = {}, errorMessage = '') => {
+  const createTestComponent = (
+    initialValue = false,
+    customProps = {},
+    errorMessage = '',
+  ) => {
     // Mock a validation function to test error state
-    const validate = () => errorMessage ? errorMessage : undefined;
-    
+    const validate = () => (errorMessage ? errorMessage : undefined);
+
     return function TestCheckboxForm() {
       const form = useAppForm({
         defaultValues: {
-          agreed: initialValue
-        }
+          agreed: initialValue,
+        },
       });
 
       return (
         <form>
-          <form.AppField 
-            name="agreed"
-            validators={{ onChange: validate }}
-          >
+          <form.AppField name="agreed" validators={{ onChange: validate }}>
             {(field) => (
               <field.Checkbox
                 label="I agree to the terms and conditions"
@@ -38,16 +39,22 @@ describe('Checkbox component', () => {
     const TestComponent = createTestComponent();
     render(<TestComponent />);
 
-    expect(screen.getByText('I agree to the terms and conditions')).toBeInTheDocument();
+    expect(
+      screen.getByText('I agree to the terms and conditions'),
+    ).toBeInTheDocument();
   });
 
   it('initializes unchecked by default', () => {
     const TestComponent = createTestComponent();
     render(<TestComponent />);
 
-    const checkboxLabel = screen.getByText('I agree to the terms and conditions');
-    const checkboxInput = checkboxLabel.closest('label')?.querySelector('input[type="checkbox"]') as HTMLInputElement;
-    
+    const checkboxLabel = screen.getByText(
+      'I agree to the terms and conditions',
+    );
+    const checkboxInput = checkboxLabel
+      .closest('label')
+      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+
     expect(checkboxInput.checked).toBe(false);
   });
 
@@ -55,9 +62,13 @@ describe('Checkbox component', () => {
     const TestComponent = createTestComponent(true);
     render(<TestComponent />);
 
-    const checkboxLabel = screen.getByText('I agree to the terms and conditions');
-    const checkboxInput = checkboxLabel.closest('label')?.querySelector('input[type="checkbox"]') as HTMLInputElement;
-    
+    const checkboxLabel = screen.getByText(
+      'I agree to the terms and conditions',
+    );
+    const checkboxInput = checkboxLabel
+      .closest('label')
+      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+
     expect(checkboxInput.checked).toBe(true);
   });
 
@@ -65,9 +76,13 @@ describe('Checkbox component', () => {
     const TestComponent = createTestComponent();
     render(<TestComponent />);
 
-    const checkboxLabel = screen.getByText('I agree to the terms and conditions');
-    const checkboxInput = checkboxLabel.closest('label')?.querySelector('input[type="checkbox"]') as HTMLInputElement;
-    
+    const checkboxLabel = screen.getByText(
+      'I agree to the terms and conditions',
+    );
+    const checkboxInput = checkboxLabel
+      .closest('label')
+      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+
     // Initially unchecked
     expect(checkboxInput.checked).toBe(false);
 
@@ -84,9 +99,13 @@ describe('Checkbox component', () => {
     const TestComponent = createTestComponent(false, { disabled: true });
     render(<TestComponent />);
 
-    const checkboxLabel = screen.getByText('I agree to the terms and conditions');
-    const checkboxInput = checkboxLabel.closest('label')?.querySelector('input[type="checkbox"]') as HTMLInputElement;
-    
+    const checkboxLabel = screen.getByText(
+      'I agree to the terms and conditions',
+    );
+    const checkboxInput = checkboxLabel
+      .closest('label')
+      ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+
     // Verify it's disabled in the DOM
     expect(checkboxInput.disabled).toBe(true);
   });
@@ -97,9 +116,11 @@ describe('Checkbox component', () => {
     render(<TestComponent />);
 
     // Click to check and trigger validation
-    const checkboxLabel = screen.getByText('I agree to the terms and conditions');
+    const checkboxLabel = screen.getByText(
+      'I agree to the terms and conditions',
+    );
     await userEvent.click(checkboxLabel);
-    
+
     // Verify error message is displayed
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });

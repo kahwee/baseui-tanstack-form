@@ -1,34 +1,35 @@
 import React from 'react';
-import { render, screen } from '../../test-utils/rtl'; 
+import { render, screen } from '../../test-utils/rtl';
 import userEvent from '@testing-library/user-event';
 import { useAppForm } from '../../hooks/form';
 
 describe('RadioGroup component', () => {
   // Helper function to create a test component with different props
-  const createTestComponent = (initialValue = '', customProps = {}, errorMessage = '') => {
+  const createTestComponent = (
+    initialValue = '',
+    customProps = {},
+    errorMessage = '',
+  ) => {
     // Mock a validation function to test error state
-    const validate = () => errorMessage ? errorMessage : undefined;
-    
+    const validate = () => (errorMessage ? errorMessage : undefined);
+
     return function TestRadioForm() {
       const form = useAppForm({
         defaultValues: {
-          preference: initialValue
-        }
+          preference: initialValue,
+        },
       });
 
       return (
         <form>
-          <form.AppField 
-            name="preference"
-            validators={{ onChange: validate }}
-          >
+          <form.AppField name="preference" validators={{ onChange: validate }}>
             {(field) => (
               <field.RadioGroup
                 label="Preference"
                 options={[
                   { label: 'Option A', value: 'a' },
                   { label: 'Option B', value: 'b' },
-                  { label: 'Option C', value: 'c', disabled: true }
+                  { label: 'Option C', value: 'c', disabled: true },
                 ]}
                 {...customProps}
               />
@@ -45,7 +46,7 @@ describe('RadioGroup component', () => {
 
     // Verify label is displayed
     expect(screen.getByText('Preference')).toBeInTheDocument();
-    
+
     // Verify all options are rendered
     expect(screen.getByText('Option A')).toBeInTheDocument();
     expect(screen.getByText('Option B')).toBeInTheDocument();
@@ -64,11 +65,11 @@ describe('RadioGroup component', () => {
     const radioInputB = optionB.closest('label')?.querySelector('input');
     expect(radioInputB).not.toBeNull();
     expect(radioInputB?.checked).toBe(true);
-    
+
     // Click option A and verify it becomes selected instead
     const optionA = screen.getByText('Option A');
     await userEvent.click(optionA);
-    
+
     // Verify option A is checked and option B is unchecked
     const radioInputA = optionA.closest('label')?.querySelector('input');
     expect(radioInputA?.checked).toBe(true);
@@ -92,7 +93,7 @@ describe('RadioGroup component', () => {
     // Find the disabled option
     const optionC = screen.getByText('Option C');
     const radioInputC = optionC.closest('label')?.querySelector('input');
-    
+
     // Verify it's disabled
     expect(radioInputC?.disabled).toBe(true);
   });
@@ -105,7 +106,7 @@ describe('RadioGroup component', () => {
     // Select an option to trigger validation
     const optionA = screen.getByText('Option A');
     await userEvent.click(optionA);
-    
+
     // Verify error message is displayed
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });

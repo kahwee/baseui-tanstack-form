@@ -1,7 +1,12 @@
 import React from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl, type FormControlProps } from 'baseui/form-control';
-import { Select as BaseSelect, SelectProps, Value, Option } from 'baseui/select';
+import {
+  Select as BaseSelect,
+  SelectProps,
+  Value,
+  Option,
+} from 'baseui/select';
 import { useFieldError } from './use-field-error';
 
 export type SelectOption = {
@@ -13,7 +18,7 @@ export type SelectOption = {
 
 // Base props shared by both single and multi select
 type BaseSelectFieldProps = {
-  label: string;
+  label: FormControlProps['label'];
   options: SelectOption[];
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
 } & Omit<SelectProps, 'value' | 'onChange' | 'options' | 'error' | 'multi'>;
@@ -30,7 +35,7 @@ const formatOptions = (options: SelectOption[]): Option[] => {
     id: option.id,
     label: option.label,
     ...(option.description ? { description: option.description } : {}),
-    ...(option.disabled ? { disabled: option.disabled } : {})
+    ...(option.disabled ? { disabled: option.disabled } : {}),
   }));
 };
 
@@ -43,7 +48,7 @@ const formatSingleValue = (value: string): Value => {
 // Format array of strings to BaseUI Value type
 const formatMultiValue = (value: string[]): Value => {
   if (!value || !value.length) return [];
-  return value.map(v => ({ id: v }));
+  return value.map((v) => ({ id: v }));
 };
 
 // Get single string value from BaseUI Value type
@@ -55,19 +60,19 @@ const extractSingleValue = (value: Value): string => {
 // Get array of strings from BaseUI Value type
 const extractMultipleValues = (value: Value): string[] => {
   if (!value) return [];
-  return value.map(item => String(item.id || ''));
+  return value.map((item) => String(item.id || ''));
 };
 
 // Single select component
-export function SelectSingleField({ 
-  label, 
-  options, 
-  formControlProps, 
-  ...restProps 
+export function SelectSingleField({
+  label,
+  options,
+  formControlProps,
+  ...restProps
 }: SelectSingleFieldProps) {
   const field = useFieldContext<string>();
   const { hasError, errorMessage } = useFieldError(field);
-  
+
   // Convert to BaseUI format
   const formattedOptions = formatOptions(options);
   const formattedValue = formatSingleValue(field.state.value);
@@ -92,15 +97,15 @@ export function SelectSingleField({
 }
 
 // Multi select component
-export function SelectMultiField({ 
-  label, 
-  options, 
-  formControlProps, 
-  ...restProps 
+export function SelectMultiField({
+  label,
+  options,
+  formControlProps,
+  ...restProps
 }: SelectMultiFieldProps) {
   const field = useFieldContext<string[]>();
   const { hasError, errorMessage } = useFieldError(field);
-  
+
   // Convert to BaseUI format
   const formattedOptions = formatOptions(options);
   const formattedValue = formatMultiValue(field.state.value || []);
