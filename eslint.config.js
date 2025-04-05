@@ -1,4 +1,6 @@
 import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
+import globals from 'globals';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import reactPlugin from 'eslint-plugin-react';
@@ -6,8 +8,7 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import prettierPlugin from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
-export default [
-  eslint.configs.recommended,
+export default defineConfig([
   {
     linterOptions: {
       reportUnusedDisableDirectives: true,
@@ -39,24 +40,7 @@ export default [
     ],
     languageOptions: {
       globals: {
-        // Browser globals
-        window: 'readonly',
-        document: 'readonly',
-        navigator: 'readonly',
-        localStorage: 'readonly',
-        sessionStorage: 'readonly',
-        fetch: 'readonly',
-        alert: 'readonly',
-        history: 'readonly',
-        location: 'readonly',
-        // DOM types
-        HTMLElement: 'readonly',
-        HTMLInputElement: 'readonly',
-        HTMLButtonElement: 'readonly',
-        HTMLSelectElement: 'readonly',
-        HTMLTextAreaElement: 'readonly',
-        NodeList: 'readonly',
-        Event: 'readonly',
+        ...globals.browser,
       },
     },
   },
@@ -85,21 +69,7 @@ export default [
     ],
     languageOptions: {
       globals: {
-        // Jest globals
-        jest: 'readonly',
-        describe: 'readonly',
-        it: 'readonly',
-        test: 'readonly',
-        expect: 'readonly',
-        beforeAll: 'readonly',
-        afterAll: 'readonly',
-        beforeEach: 'readonly',
-        afterEach: 'readonly',
-        // Additional test helpers
-        vi: 'readonly',
-        vitest: 'readonly',
-        afterEachSuite: 'readonly',
-        beforeEachSuite: 'readonly',
+        ...globals.jest,
         // Allow both browser and node globals in tests
         window: 'readonly',
         document: 'readonly',
@@ -205,4 +175,4 @@ export default [
       ...prettierConfig.rules,
     },
   },
-];
+]);
