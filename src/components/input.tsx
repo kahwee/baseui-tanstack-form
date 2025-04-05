@@ -5,11 +5,15 @@ import { Input, InputProps } from 'baseui/input';
 import { useFieldError } from './use-field-error';
 
 type InputFieldProps = {
-  label: string;
-  formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-} & Omit<InputProps, 'value' | 'onChange' |'onBlur' | 'error'>;
+  label: FormControlProps['label'];
+  formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>;
+} & Omit<InputProps, 'value' | 'onChange' | 'onBlur' | 'error'>;
 
-export function InputField({ label, formControlProps, ...restProps }: InputFieldProps) {
+export function InputField({
+  label,
+  formControlProps,
+  ...restProps
+}: InputFieldProps) {
   const field = useFieldContext<string>();
   const { hasError, errorMessage } = useFieldError(field);
 

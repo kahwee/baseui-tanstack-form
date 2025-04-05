@@ -10,24 +10,28 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [
     react(),
-    dts({ 
+    dts({
       include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: ['src/**/*.stories.tsx', 'src/**/__tests__/**/*', 'src/**/stories.tsx'],
+      exclude: [
+        'src/**/*.stories.tsx',
+        'src/**/__tests__/**/*',
+        'src/**/stories.tsx',
+      ],
       rollupTypes: true,
-      outDir: 'dist/types'
-    })
+      outDir: 'dist/types',
+    }),
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
-    }
+      '@': resolve(__dirname, 'src'),
+    },
   },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.tsx'),
       name: 'baseui-tanstack-form',
       fileName: (format) => `baseui-tanstack-form.${format}.js`,
-      formats: ['es', 'umd', 'cjs']
+      formats: ['es', 'umd', 'cjs'],
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'baseui', '@tanstack/react-form', 'zod'],
@@ -37,15 +41,15 @@ export default defineConfig({
           'react-dom': 'ReactDOM',
           baseui: 'baseui',
           '@tanstack/react-form': 'TanstackForm',
-          zod: 'z'
-        }
-      }
+          zod: 'z',
+        },
+      },
     },
     sourcemap: true,
     minify: 'esbuild',
     target: 'esnext',
     outDir: 'dist',
-    emptyOutDir: true
+    emptyOutDir: true,
   },
   // Removed Vitest configuration
 });

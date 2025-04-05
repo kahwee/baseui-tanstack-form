@@ -17,9 +17,7 @@ export const PersonForm = withForm({
         <StyledBody>
           <HeadingSmall>{title}</HeadingSmall>
           <Block marginBottom="16px">
-            <form.AppField
-              name="name"
-            >
+            <form.AppField name="name">
               {(field) => <field.Input label="Name" />}
             </form.AppField>
           </Block>

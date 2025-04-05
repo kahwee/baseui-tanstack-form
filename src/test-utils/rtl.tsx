@@ -10,9 +10,7 @@ const engine = new Styletron();
 function TestWrapper({ children }: { children: React.ReactNode }) {
   return (
     <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
-        {children}
-      </BaseProvider>
+      <BaseProvider theme={LightTheme}>{children}</BaseProvider>
     </StyletronProvider>
   );
 }
@@ -20,7 +18,7 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 // Custom render function with explicit return type
 function customRender(
   ui: React.ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>
+  options?: Omit<RenderOptions, 'wrapper'>,
 ): RenderResult {
   return render(ui, { wrapper: TestWrapper, ...options });
 }

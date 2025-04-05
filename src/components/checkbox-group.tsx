@@ -12,11 +12,16 @@ type CheckboxOption = {
 };
 
 type CheckboxGroupFieldProps = {
-  label: string;
+  label: FormControlProps['label'];
   options: CheckboxOption[];
   inline?: boolean;
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-  checkboxProps?: Partial<Omit<CheckboxProps, 'checked' | 'onChange' |'onBlur' | 'error' | 'children' | 'value'>>;
+  checkboxProps?: Partial<
+    Omit<
+      CheckboxProps,
+      'checked' | 'onChange' | 'onBlur' | 'error' | 'children' | 'value'
+    >
+  >;
 };
 
 export function CheckboxGroupField({
@@ -28,32 +33,35 @@ export function CheckboxGroupField({
 }: CheckboxGroupFieldProps) {
   const field = useFieldContext<string[]>();
   const { hasError, errorMessage } = useFieldError(field);
-  
+
   // Ensure field.state.value is always an array
-  const selectedValues = Array.isArray(field.state.value) ? field.state.value : [];
-  
+  const selectedValues = Array.isArray(field.state.value)
+    ? field.state.value
+    : [];
+
   const handleChange = (value: string, checked: boolean) => {
     if (checked) {
       // Add value to array if not present
       field.handleChange([...selectedValues, value]);
     } else {
       // Remove value from array
-      field.handleChange(selectedValues.filter(val => val !== value));
+      field.handleChange(selectedValues.filter((val) => val !== value));
     }
   };
 
   return (
-    <FormControl
-      label={label}
-      error={errorMessage}
-      {...formControlProps}
-    >
-      <div style={{ display: inline ? 'flex' : 'block', gap: inline ? '16px' : undefined }}>
+    <FormControl label={label} error={errorMessage} {...formControlProps}>
+      <div
+        style={{
+          display: inline ? 'flex' : 'block',
+          gap: inline ? '16px' : undefined,
+        }}
+      >
         {options.map((option) => (
           <Checkbox
             key={option.value}
             checked={selectedValues.includes(option.value)}
-            onChange={e => handleChange(option.value, e.target.checked)}
+            onChange={(e) => handleChange(option.value, e.target.checked)}
             onBlur={field.handleBlur}
             overrides={option.overrides}
             disabled={option.disabled}

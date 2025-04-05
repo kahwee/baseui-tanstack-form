@@ -1,17 +1,16 @@
 import React from 'react';
-import { render, screen } from '../../test-utils/rtl'; 
+import { render, screen } from '../../test-utils/rtl';
 import userEvent from '@testing-library/user-event';
 import { useAppForm } from '../../hooks/form';
 
 describe('Form Components', () => {
-
   describe('Textarea component', () => {
     it('allows entering text in the textarea', async () => {
       function TestTextareaForm() {
         const form = useAppForm({
           defaultValues: {
-            comments: ''
-          }
+            comments: '',
+          },
         });
 
         return (
@@ -27,7 +26,9 @@ describe('Form Components', () => {
 
       // Find the textarea
       const textareaLabel = screen.getByText('Comments');
-      const textarea = textareaLabel.closest('span')?.parentElement?.querySelector('textarea');
+      const textarea = textareaLabel
+        .closest('span')
+        ?.parentElement?.querySelector('textarea');
       expect(textarea).not.toBeNull();
 
       // Type text into the textarea

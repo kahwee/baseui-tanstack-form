@@ -10,16 +10,11 @@ const GroupFormWrapper = (args: { title: string }) => {
     ...formOpts,
     onSubmit: (values) => {
       console.info('Form submitted with values:', values);
-    }
+    },
   });
 
   return (
-    <Block
-      width="100%"
-      display="flex"
-      justifyContent="center"
-      padding="24px"
-    >
+    <Block width="100%" display="flex" justifyContent="center" padding="24px">
       <Block maxWidth="500px" width="100%">
         <GroupForm form={form} {...args} />
       </Block>
@@ -34,8 +29,8 @@ const meta = {
     layout: 'fullscreen',
   },
   argTypes: {
-    title: { control: 'text' }
-  }
+    title: { control: 'text' },
+  },
 } satisfies Meta<typeof GroupFormWrapper>;
 
 export default meta;

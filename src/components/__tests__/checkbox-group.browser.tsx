@@ -1,17 +1,16 @@
 import React from 'react';
-import { render, screen } from '../../test-utils/rtl'; 
+import { render, screen } from '../../test-utils/rtl';
 import userEvent from '@testing-library/user-event';
 import { useAppForm } from '../../hooks/form';
 
 describe('Form Components', () => {
-
   describe('CheckboxGroup component', () => {
     it('allows selecting multiple options', async () => {
       function TestCheckboxGroupForm() {
         const form = useAppForm({
           defaultValues: {
-            hobbies: []
-          }
+            hobbies: [],
+          },
         });
 
         return (
@@ -25,7 +24,7 @@ describe('Form Components', () => {
                     { value: 'reading', label: 'Reading' },
                     { value: 'gaming', label: 'Gaming' },
                     { value: 'cooking', label: 'Cooking' },
-                    { value: 'sports', label: 'Sports' }
+                    { value: 'sports', label: 'Sports' },
                   ]}
                 />
               )}
@@ -43,8 +42,12 @@ describe('Form Components', () => {
       expect(gamingLabel).toBeInTheDocument();
 
       // Get the checkbox inputs
-      const readingCheckbox = readingLabel.closest('label')?.querySelector('input[type="checkbox"]') as HTMLInputElement;
-      const gamingCheckbox = gamingLabel.closest('label')?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+      const readingCheckbox = readingLabel
+        .closest('label')
+        ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
+      const gamingCheckbox = gamingLabel
+        .closest('label')
+        ?.querySelector('input[type="checkbox"]') as HTMLInputElement;
 
       // Initially all checkboxes should be unchecked
       expect(readingCheckbox.checked).toBe(false);
@@ -66,5 +69,4 @@ describe('Form Components', () => {
       expect(gamingCheckbox.checked).toBe(true);
     });
   });
-
 });

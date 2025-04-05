@@ -6,20 +6,20 @@ import { FormControlProps } from 'baseui/form-control';
 import { useFieldError } from './use-field-error';
 
 type TextareaFieldProps = {
-  label: string;
+  label: FormControlProps['label'];
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-} & Omit<TextareaProps, 'value' | 'onChange'|'onBlur'  | 'error'>;
+} & Omit<TextareaProps, 'value' | 'onChange' | 'onBlur' | 'error'>;
 
-export function TextareaField({ label, formControlProps, ...restProps }: TextareaFieldProps) {
+export function TextareaField({
+  label,
+  formControlProps,
+  ...restProps
+}: TextareaFieldProps) {
   const field = useFieldContext<string>();
   const { hasError, errorMessage } = useFieldError(field);
 
   return (
-    <FormControl
-      label={label}
-      error={errorMessage}
-      {...formControlProps}
-    >
+    <FormControl label={label} error={errorMessage} {...formControlProps}>
       <Textarea
         id={field.name}
         value={field.state.value}

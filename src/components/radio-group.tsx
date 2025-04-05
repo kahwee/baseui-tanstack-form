@@ -14,10 +14,10 @@ type RadioOption = {
 };
 
 type RadioGroupFieldProps = {
-  label: string;
+  label: FormControlProps['label'];
   options: RadioOption[];
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-} & Omit<RadioGroupProps, 'value' | 'onChange'|'onBlur'  | 'error'>;
+} & Omit<RadioGroupProps, 'value' | 'onChange' | 'onBlur' | 'error'>;
 
 export function RadioGroupField({
   label,
@@ -29,11 +29,7 @@ export function RadioGroupField({
   const { hasError, errorMessage } = useFieldError(field);
 
   return (
-    <FormControl
-      label={label}
-      error={errorMessage}
-      {...formControlProps}
-    >
+    <FormControl label={label} error={errorMessage} {...formControlProps}>
       <RadioGroup
         name={field.name}
         value={field.state.value}
