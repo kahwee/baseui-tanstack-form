@@ -5,7 +5,7 @@ import { Checkbox as BaseCheckbox, CheckboxProps } from 'baseui/checkbox';
 import { useFieldError } from './use-field-error';
 
 type CheckboxFieldProps = {
-  label: FormControlProps['label'];
+  label: string;
   formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>;
 } & Omit<
   CheckboxProps,
