@@ -240,3 +240,46 @@ const form = useAppForm({
 - Shared components in `src/components/*`
 - Run lint and typecheck before commit (Husky pre-commit hook)
 - Export components through the main `index.tsx` file
+
+### Summary
+
+This pull request introduces updates to the ESLint configuration file (`eslint.config.js`) to ensure consistent code quality and adherence to best practices across the project. The changes include:
+
+- Integration of TypeScript, React, and Prettier rules.
+- Customization of rules for better developer experience and project-specific needs.
+- Environment-specific configurations for Node.js, browser, and testing files.
+- Ignoring unnecessary directories and files from linting.
+
+### Changes
+
+1. **TypeScript Rules**:
+   - Added rules to warn against the use of `any` type.
+   - Configured unused variable rules to ignore variables prefixed with `_`.
+   - Allowed `@ts-expect-error` and `@ts-ignore` with descriptions.
+
+2. **React Rules**:
+   - Enforced `react/react-in-jsx-scope` to ensure React is in scope.
+   - Disabled `react/prop-types` as TypeScript is used for type checking.
+   - Warned against using `children` as a prop.
+
+3. **Prettier Integration**:
+   - Configured Prettier as an ESLint plugin to enforce formatting rules.
+   - Added rules for consistent indentation, quotes, and console usage.
+
+4. **Environment-Specific Configurations**:
+   - Browser-specific rules allow browser globals.
+   - Node.js-specific rules allow unrestricted use of `console`.
+   - Testing environment includes Jest globals.
+
+5. **Ignored Directories**:
+   - Excluded `node_modules`, `dist`, `coverage`, `.storybook`, and `storybook-static` from linting.
+
+### Testing
+
+- Verified the ESLint configuration by running linting across the project.
+- Ensured no unintended linting errors or warnings were introduced.
+
+### Notes
+
+- Developers should ensure their editors are configured to use the updated ESLint rules.
+- Prettier integration requires the Prettier plugin to be installed in the editor for seamless formatting.
