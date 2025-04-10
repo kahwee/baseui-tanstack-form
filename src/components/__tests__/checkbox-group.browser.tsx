@@ -9,7 +9,7 @@ describe('Form Components', () => {
       function TestCheckboxGroupForm() {
         const form = useAppForm({
           defaultValues: {
-            hobbies: [],
+            hobbies: [] as string[],
           },
         });
 
