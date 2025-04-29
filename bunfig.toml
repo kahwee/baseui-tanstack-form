@@ -1,0 +1,32 @@
+[install]
+# Use exact versions for production dependencies
+production.exact = true
+# Automatically fix peer dependencies
+peer = true
+# Always save dependencies to package.json
+save = true
+# Registry to use
+registry = "https://registry.npmjs.org"
+
+[test]
+# Use Jest as the test runner
+runner = "jest"
+
+[install.cache]
+# Enable caching for faster installations
+dir = ".bun-cache"
+disable = false
+
+[debug]
+# Enable verbose logging when using --debug flag
+verbose = true
+
+[run]
+# Enable the env data
+env = true
+
+# Lockfile settings are configured automatically
+
+[typescript]
+# Use the TypeScript cache
+cache = true

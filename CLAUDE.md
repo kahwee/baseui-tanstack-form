@@ -14,16 +14,16 @@
 - **Styling**: Styletron
 
 ## Commands
-- Development: `npm run dev` (Vite)
-- Build: `npm run build` (Vite + TypeScript)
-- Clean: `npm run clean` (removes dist and coverage directories)
-- Lint: `npm run lint` (ESLint v9)
-- Type check: `npm run typecheck` (TypeScript)
-- Test: `npm run test` (Vitest)
-- Test watch mode: `npm run test:watch`
-- Test coverage: `npm run test:coverage`
-- Storybook: `npm run storybook`
-- Build Storybook: `npm run build:storybook`
+- Development: `bun run dev` (Vite)
+- Build: `bun run build` (Vite + TypeScript)
+- Clean: `bun run clean` (removes dist and coverage directories)
+- Lint: `bun run lint` (ESLint v9)
+- Type check: `bun run typecheck` (TypeScript)
+- Test: `bun run test` (Jest)
+- Test watch mode: `bun run test:watch`
+- Test coverage: `bun run test:coverage`
+- Storybook: `bun run storybook`
+- Build Storybook: `bun run build:storybook`
 
 ## Naming Conventions
 - Files: `lowercase-with-dashes.tsx` for components, `.ts` for utilities
