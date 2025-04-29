@@ -13,21 +13,21 @@ Adapter between `@tanstack/react-form` and `baseui`.
 - `react` and `react-dom` >= 18.0.0 (peer dependency)
 - `@tanstack/react-form` >= 1.1.0 (peer dependency)
 - `zod` >= 3.22.4 (peer dependency)
-- `node` >= 18.0.0 (for development)
+- `bun` >= 1.0.0 (for development)
 
 ## Usage
 
 Assuming you already have [react](https://reactjs.org/), [baseui](https://github.com/uber-web/baseui) and [@tanstack/react-form](https://tanstack.com/form/latest):
 
 ```sh
-npm install baseui-tanstack-form
+bun add baseui-tanstack-form
 ```
 
 If you don't:
 
 ```sh
-npm install react react-dom baseui
-npm install @tanstack/react-form zod
+bun add react react-dom baseui
+bun add @tanstack/react-form zod
 ```
 
 Sample component:
@@ -266,23 +266,23 @@ git clone https://github.com/kahwee/baseui-tanstack-form.git
 cd baseui-tanstack-form
 ```
 
-Setup dev packages with `npm`.
+Setup dev packages with `bun`.
 
 ```sh
-npm install
-npm run storybook
+bun install
+bun run storybook
 ```
 
 Go to [http://localhost:6006](http://localhost:6006) to view storybook.
 
 ### Common Commands
 
-- `npm run dev` - Start development server
-- `npm run build` - Build the library
-- `npm run test` - Run tests
-- `npm run test:coverage` - Run tests with coverage report
-- `npm run lint` - Run linter
-- `npm run typecheck` - Run TypeScript type checking
+- `bun run dev` - Start development server
+- `bun run build` - Build the library
+- `bun run test` - Run tests
+- `bun run test:coverage` - Run tests with coverage report
+- `bun run lint` - Run linter
+- `bun run typecheck` - Run TypeScript type checking
 
 For more information about the modernization changes, see [MIGRATION.md](./MIGRATION.md).
 
