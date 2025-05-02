@@ -1,22 +1,26 @@
+# Dependencies
 node_modules/
-*.log*
-coverage*/
-src/static/styles.css
+
+# Build outputs
 dist*
 lib
 es
-*.tmp.*
-.idea
-
-.DS_Store
-docs/_build/*
-env*
-*.pyc
-*.pickle
-
-.cache
-docs
-
+src/static/styles.css
 storybook-static
 
-*.tgz
+# Testing
+coverage*/
+
+# Bun
+.bun-cache/
+
+# Misc
+.DS_Store
+.idea
+.cache
+*.tmp.*
+*.pyc
+*.pickle
+docs
+docs/_build/*
+env*

@@ -164,6 +164,7 @@ export default defineConfig([
       'coverage/**',
       '.storybook/**',
       'storybook-static/**',
+      '.bun-cache/**',
     ],
   },
   {
