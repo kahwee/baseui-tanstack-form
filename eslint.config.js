@@ -98,12 +98,7 @@ export default defineConfig([
       prettier: prettierPlugin,
     },
     rules: {
-      ...tseslint.configs.recommended.rules,
-      ...reactPlugin.configs.recommended.rules,
-      ...reactHooksPlugin.configs.recommended.rules,
-      'react/react-in-jsx-scope': 'error',
-      'react/prop-types': 'off',
-      'react/no-children-prop': 'warn',
+      // TypeScript rules
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'warn',
@@ -121,6 +116,13 @@ export default defineConfig([
           minimumDescriptionLength: 5,
         },
       ],
+      
+      // React rules
+      'react/react-in-jsx-scope': 'error',
+      'react/prop-types': 'off',
+      'react/no-children-prop': 'warn',
+      
+      // General rules
       'no-restricted-globals': [
         'error',
         {
@@ -132,7 +134,6 @@ export default defineConfig([
       quotes: ['error', 'single', { avoidEscape: true }],
       'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
       'prettier/prettier': 'error',
-      ...prettierConfig.rules,
     },
     settings: {
       react: {
@@ -167,13 +168,6 @@ export default defineConfig([
       '.bun-cache/**',
     ],
   },
-  {
-    plugins: {
-      prettier: prettierPlugin,
-    },
-    rules: {
-      'prettier/prettier': 'error',
-      ...prettierConfig.rules,
-    },
-  },
+  // Apply prettier as last item
+  prettierConfig,
 ]);
