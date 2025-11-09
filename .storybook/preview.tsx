@@ -1,6 +1,5 @@
 import React from 'react';
-import type { Preview, Decorator } from '@storybook/react';
-import { themes } from '@storybook/theming';
+import type { Preview, Decorator } from '@storybook/react-vite';
 import { LightTheme, BaseProvider } from 'baseui';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { Client as Styletron } from 'styletron-engine-atomic';
@@ -29,17 +28,20 @@ const preview: Preview = {
       },
     },
     backgrounds: {
-      default: 'light',
-      values: [
-        { name: 'light', value: LightTheme.colors.backgroundPrimary },
-        { name: 'dark', value: '#333333' },
-      ],
-    },
-    docs: {
-      theme: themes.light,
+      options: {
+        light: { name: 'light', value: LightTheme.colors.backgroundPrimary },
+        dark: { name: 'dark', value: '#333333' }
+      }
     },
   },
+
   decorators: [withBaseUI],
+
+  initialGlobals: {
+    backgrounds: {
+      value: 'light'
+    }
+  }
 };
 
 export default preview;
