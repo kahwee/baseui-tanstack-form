@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useAppForm } from '../../hooks/form';
 import { formOpts } from '../group/shared-form';
 import { Block } from 'baseui/block';

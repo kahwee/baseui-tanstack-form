@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useAppForm } from '../hooks/form';
 import { Block } from 'baseui/block';
 import { Card, StyledBody } from 'baseui/card';
