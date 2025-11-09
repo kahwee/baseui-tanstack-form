@@ -15,7 +15,7 @@ export const Parent: React.FC = () => {
         if (result.success) {
           return undefined;
         } else {
-          return "whater'"; //result.error.format();
+          return result.error.format();
         }
       },
     },

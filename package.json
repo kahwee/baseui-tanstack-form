@@ -38,7 +38,6 @@
     "@storybook/addon-links": "^10.0.6",
     "@storybook/builder-vite": "^10.0.6",
     "@storybook/react-vite": "^10.0.6",
-    "@storybook/theming": "^8.6.14",
     "@tanstack/react-form": "^1.23.8",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^14.3.1",
@@ -72,7 +71,7 @@
     "typescript": "^5.9.3",
     "vite": "^6.4.1",
     "vite-plugin-dts": "^3.9.1",
-    "zod": "^3.25.76"
+    "zod": "^4.1.12"
   },
   "peerDependencies": {
     "@tanstack/react-form": "*",
