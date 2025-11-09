@@ -7,23 +7,23 @@
 - **Prettier**: v3.2+
 - **Vite**: v5.1+
 - **Testing**: Vitest v3.0+ with React Testing Library v14.2+
-- **Storybook**: v8.6+
+- **Storybook**: v10.0+ (ESM-only)
 - **Forms**: TanStack Form v1.1.0+
 - **Validation**: Zod v3.22+
 - **UI Components**: BaseUI v15+
 - **Styling**: Styletron
 
 ## Commands
-- Development: `bun run dev` (Vite)
-- Build: `bun run build` (Vite + TypeScript)
-- Clean: `bun run clean` (removes dist and coverage directories)
-- Lint: `bun run lint` (ESLint v9)
-- Type check: `bun run typecheck` (TypeScript)
-- Test: `bun run test` (Jest)
-- Test watch mode: `bun run test:watch`
-- Test coverage: `bun run test:coverage`
-- Storybook: `bun run storybook`
-- Build Storybook: `bun run build:storybook`
+- Development: `npm run dev` (Vite)
+- Build: `npm run build` (Vite + TypeScript)
+- Clean: `npm run clean` (removes dist and coverage directories)
+- Lint: `npm run lint` (ESLint v9)
+- Type check: `npm run typecheck` (TypeScript)
+- Test: `npm run test` (Jest)
+- Test watch mode: `npm run test:watch`
+- Test coverage: `npm run test:coverage`
+- Storybook: `npm run storybook`
+- Build Storybook: `npm run build:storybook`
 
 ## Naming Conventions
 - Files: `lowercase-with-dashes.tsx` for components, `.ts` for utilities
@@ -240,6 +240,61 @@ const form = useAppForm({
 - Shared components in `src/components/*`
 - Run lint and typecheck before commit (Husky pre-commit hook)
 - Export components through the main `index.tsx` file
+
+## Storybook Deployment to GitHub Pages
+
+This project is configured to automatically deploy Storybook to GitHub Pages using GitHub Actions.
+
+### Automatic Deployment
+
+The workflow is defined in `.github/workflows/deploy-storybook.yml` and will:
+- Trigger automatically on every push to the `main` branch
+- Can also be manually triggered from the Actions tab
+- Build Storybook using Storybook v10
+- Deploy to GitHub Pages
+
+### Setup Instructions
+
+1. **Enable GitHub Pages in your repository:**
+   - Go to **Settings** → **Pages**
+   - Under "Build and deployment", select **Source**: "GitHub Actions"
+   - Save the changes
+
+2. **Push changes to main branch:**
+   ```bash
+   git push origin main
+   ```
+
+3. **Monitor deployment:**
+   - Go to the **Actions** tab in your GitHub repository
+   - Watch the "Deploy Storybook to GitHub Pages" workflow run
+   - Once complete, your Storybook will be live
+
+4. **Access your deployed Storybook:**
+   - URL: `https://kahwee.github.io/baseui-tanstack-form/`
+   - The URL will also be shown in the Actions workflow output
+
+### Manual Deployment
+
+To manually trigger a deployment:
+1. Go to **Actions** tab
+2. Select "Deploy Storybook to GitHub Pages" workflow
+3. Click "Run workflow"
+4. Select the branch and click "Run workflow"
+
+### Local Build Testing
+
+To test the Storybook build locally before deploying:
+```bash
+npm run build:storybook
+# Output will be in ./storybook-static directory
+```
+
+### Troubleshooting
+
+- **404 errors**: Ensure GitHub Pages is configured to use "GitHub Actions" as the source
+- **Build failures**: Check the Actions tab for error logs
+- **Old version showing**: Clear browser cache (Ctrl+Shift+R)
 
 ### Summary
 
