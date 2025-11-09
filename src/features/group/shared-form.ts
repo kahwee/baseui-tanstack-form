@@ -5,5 +5,8 @@ export const formOpts = formOptions({
   defaultValues: {
     name: 'John Group',
     people: [],
+    isActive: true,
+    albums: [],
+    awards: [],
   } as Group,
 });

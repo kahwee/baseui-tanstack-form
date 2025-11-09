@@ -9,7 +9,7 @@
 - **Testing**: Vitest v3.0+ with React Testing Library v14.2+
 - **Storybook**: v10.0+ (ESM-only)
 - **Forms**: TanStack Form v1.1.0+
-- **Validation**: Zod v3.22+
+- **Validation**: Zod v4.1.12+ (upgraded from v3)
 - **UI Components**: BaseUI v15+
 - **Styling**: Styletron
 
@@ -39,16 +39,52 @@
 - Field values are accessed via field context
 
 ### Components
-- `Input` - BaseUI input field with form integration
-- `Textarea` - BaseUI textarea with form integration
+- `Input` - BaseUI input field with form integration (supports `placeholder` prop)
+- `Textarea` - BaseUI textarea with form integration (supports `placeholder` prop)
 - `RadioGroup` - BaseUI radio group with form integration
-- `Select` - BaseUI select (dropdown) with single and multi-select support
+- `Select` - BaseUI select (dropdown) with single and multi-select support (supports `placeholder` prop)
 - `Checkbox` - BaseUI checkbox for boolean values
 - `CheckboxGroup` - Multiple checkboxes that return an array of selected values
 - `DatePicker` - Date selection with optional range picking
 - `SubscribeButton` - Submit button with loading state
 - Field access with `form.AppField` pattern and `field.ComponentName` usage
 - Form submission with `form.handleSubmit()`
+
+### Placeholder Support
+All text input components (`Input`, `Textarea`, `SelectSingle`, `SelectMulti`) support the `placeholder` prop for providing helpful hints to users:
+
+```tsx
+<form.AppField name="email">
+  {(field) => (
+    <field.Input
+      label="Email Address"
+      placeholder="your.email@example.com"
+    />
+  )}
+</form.AppField>
+
+<form.AppField name="bio">
+  {(field) => (
+    <field.Textarea
+      label="Biography"
+      placeholder="Tell us about yourself..."
+    />
+  )}
+</form.AppField>
+
+<form.AppField name="category">
+  {(field) => (
+    <field.SelectSingle
+      label="Category"
+      placeholder="Select a category"
+      options={[
+        { id: 'tech', label: 'Technology' },
+        { id: 'design', label: 'Design' }
+      ]}
+    />
+  )}
+</form.AppField>
+```
 
 ### Example
 ```tsx
@@ -177,60 +213,320 @@ function ParentForm() {
 ```
 
 ## Validation
+
+### Manual Field Validation
 ```tsx
-// Field validation
 <form.AppField name="username">
   {(field) => {
     // Manual validation logic
-    const error = field.state.value.length < 3 
-      ? 'Username must be at least 3 characters' 
+    const error = field.state.value.length < 3
+      ? 'Username must be at least 3 characters'
       : undefined;
-    
-    return <field.Input 
-      label="Username" 
-      error={!!error} 
-      caption={error} 
+
+    return <field.Input
+      label="Username"
+      placeholder="Enter username"
+      error={!!error}
+      caption={error}
     />;
   }}
 </form.AppField>
+```
 
-// Schema validation with Zod
+### Zod v4 Schema Validation
+
+Zod v4 provides powerful, type-safe validation with excellent TypeScript integration.
+
+#### Basic Schema
+```tsx
 import { z } from 'zod';
 
 const schema = z.object({
-  username: z.string().min(3, 'Username must be at least 3 characters'),
-  email: z.string().email('Invalid email address'),
-  comments: z.string().optional(),
-  preference: z.enum(['option1', 'option2', 'option3']),
-  category: z.string().min(1, 'Please select a category'),
-  tags: z.array(z.string()).min(1, 'Select at least one tag'),
-  agreeToTerms: z.literal(true, {
-    errorMap: () => ({ message: 'You must agree to the terms and conditions' })
+  // String validation with trim (removes whitespace)
+  username: z
+    .string()
+    .trim()
+    .min(3, 'Username must be at least 3 characters')
+    .max(20, 'Username must not exceed 20 characters'),
+
+  // Email validation
+  email: z
+    .string()
+    .email('Invalid email address')
+    .toLowerCase(),
+
+  // URL validation
+  website: z
+    .string()
+    .url('Please enter a valid URL')
+    .optional(),
+
+  // Number validation
+  age: z
+    .number()
+    .int('Age must be a whole number')
+    .min(18, 'Must be at least 18 years old')
+    .max(120, 'Please enter a valid age'),
+
+  // Enum validation
+  role: z.enum(['admin', 'user', 'moderator'], {
+    message: 'Please select a valid role',
   }),
-  interests: z.array(z.string()).min(2, 'Select at least two interests')
+
+  // Array validation
+  tags: z
+    .array(z.string())
+    .min(1, 'Select at least one tag')
+    .max(10, 'Maximum 10 tags allowed'),
+
+  // Boolean validation (checkbox must be checked)
+  agreeToTerms: z.literal(true, {
+    message: 'You must agree to the terms and conditions',
+  }),
+
+  // Optional field with default
+  bio: z
+    .string()
+    .max(500, 'Bio must not exceed 500 characters')
+    .optional()
+    .default(''),
 });
 
-const form = useAppForm({
-  defaultValues: { 
-    username: '', 
+type FormValues = z.infer<typeof schema>;
+```
+
+#### Form Integration with Validators
+```tsx
+const form = useAppForm<FormValues>({
+  defaultValues: {
+    username: '',
     email: '',
-    comments: '',
-    preference: 'option1',
-    category: '',
+    website: '',
+    age: 18,
+    role: 'user',
     tags: [],
-    agreeToTerms: false
+    agreeToTerms: false,
+    bio: '',
+  },
+  validators: {
+    // Real-time validation on change
+    onChange: ({ value }) => {
+      const result = schema.safeParse(value);
+      if (!result.success) {
+        return result.error.format();
+      }
+      return undefined;
+    },
+    // Validation on blur
+    onBlur: ({ value }) => {
+      const result = schema.safeParse(value);
+      if (!result.success) {
+        return result.error.format();
+      }
+      return undefined;
+    },
   },
   onSubmit: async (values) => {
-    // Validate with Zod
     const result = schema.safeParse(values);
     if (!result.success) {
-      // Return validation errors
-      return { error: result.error };
+      console.error('Validation errors:', result.error.format());
+      return;
     }
-    // Process valid form data
-    console.log('Form submitted with valid data:', values);
-  }
+    console.log('Form submitted with valid data:', result.data);
+  },
 });
+```
+
+#### Advanced Zod v4 Features
+
+**1. Transform - Data transformation on validation**
+```tsx
+const transformSchema = z.object({
+  firstName: z.string().trim(),
+  lastName: z.string().trim(),
+}).transform((data) => ({
+  ...data,
+  fullName: `${data.firstName} ${data.lastName}`,
+  initials: `${data.firstName[0]}${data.lastName[0]}`.toUpperCase(),
+}));
+
+// Usage
+const result = transformSchema.safeParse({ firstName: 'John', lastName: 'Doe' });
+// result.data = { firstName: 'John', lastName: 'Doe', fullName: 'John Doe', initials: 'JD' }
+```
+
+**2. Refine - Custom cross-field validation**
+```tsx
+const passwordSchema = z.object({
+  password: z.string().min(8),
+  confirmPassword: z.string(),
+}).refine(
+  (data) => data.password === data.confirmPassword,
+  {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'], // Error appears on confirmPassword field
+  }
+);
+```
+
+**3. Regex validation**
+```tsx
+const usernameSchema = z.object({
+  username: z
+    .string()
+    .regex(/^[a-zA-Z0-9_]+$/, 'Only letters, numbers, and underscores allowed'),
+});
+```
+
+**4. Nested object validation**
+```tsx
+const userSchema = z.object({
+  name: z.string(),
+  contact: z.object({
+    email: z.string().email(),
+    phone: z.string().optional(),
+  }),
+  socialMedia: z.object({
+    twitter: z.string().url().optional(),
+    github: z.string().url().optional(),
+  }).optional(),
+});
+```
+
+**5. Discriminated unions**
+```tsx
+const paymentSchema = z.discriminatedUnion('method', [
+  z.object({
+    method: z.literal('card'),
+    cardNumber: z.string(),
+    cvv: z.string(),
+  }),
+  z.object({
+    method: z.literal('paypal'),
+    email: z.string().email(),
+  }),
+  z.object({
+    method: z.literal('bank'),
+    accountNumber: z.string(),
+    routingNumber: z.string(),
+  }),
+]);
+```
+
+### Complete Form Example with Zod v4
+```tsx
+import { useAppForm } from './hooks/form';
+import { z } from 'zod';
+
+const registrationSchema = z.object({
+  username: z.string().trim().min(3).max(20),
+  email: z.string().email().toLowerCase(),
+  password: z.string().min(8),
+  age: z.number().int().min(18),
+  role: z.enum(['user', 'moderator']),
+  tags: z.array(z.string()).min(1),
+  agreeToTerms: z.literal(true),
+});
+
+function RegistrationForm() {
+  const form = useAppForm({
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      age: 18,
+      role: 'user',
+      tags: [],
+      agreeToTerms: false,
+    },
+    validators: {
+      onChange: ({ value }) => {
+        const result = registrationSchema.safeParse(value);
+        return result.success ? undefined : result.error.format();
+      },
+    },
+    onSubmit: async (values) => {
+      const result = registrationSchema.safeParse(values);
+      if (result.success) {
+        console.log('Valid data:', result.data);
+      }
+    },
+  });
+
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      form.handleSubmit();
+    }}>
+      <form.AppField name="username">
+        {(field) => (
+          <field.Input
+            label="Username"
+            placeholder="Enter your username"
+          />
+        )}
+      </form.AppField>
+
+      <form.AppField name="email">
+        {(field) => (
+          <field.Input
+            label="Email"
+            placeholder="your.email@example.com"
+            type="email"
+          />
+        )}
+      </form.AppField>
+
+      <form.AppField name="password">
+        {(field) => (
+          <field.Input
+            label="Password"
+            placeholder="Enter a strong password"
+            type="password"
+          />
+        )}
+      </form.AppField>
+
+      <form.AppField name="role">
+        {(field) => (
+          <field.RadioGroup
+            label="Role"
+            options={[
+              { value: 'user', label: 'User' },
+              { value: 'moderator', label: 'Moderator' },
+            ]}
+          />
+        )}
+      </form.AppField>
+
+      <form.AppField name="tags">
+        {(field) => (
+          <field.SelectMulti
+            label="Tags"
+            placeholder="Select at least one tag"
+            options={[
+              { id: 'tech', label: 'Technology' },
+              { id: 'design', label: 'Design' },
+              { id: 'business', label: 'Business' },
+            ]}
+          />
+        )}
+      </form.AppField>
+
+      <form.AppField name="agreeToTerms">
+        {(field) => (
+          <field.Checkbox
+            label="I agree to the terms and conditions"
+          />
+        )}
+      </form.AppField>
+
+      <form.AppForm>
+        <form.SubscribeButton label="Register" />
+      </form.AppForm>
+    </form>
+  );
+}
 ```
 
 ## Development
