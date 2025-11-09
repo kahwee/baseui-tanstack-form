@@ -8,6 +8,9 @@ es
 src/static/styles.css
 storybook-static
 
+# Storybook
+debug-storybook.log
+
 # Testing
 coverage*/
 
