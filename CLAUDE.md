@@ -6,7 +6,7 @@
 - **ESLint**: v9.22+
 - **Prettier**: v3.2+
 - **Vite**: v5.1+
-- **Testing**: Vitest v3.0+ with React Testing Library v14.2+
+- **Testing**: Vitest v4.0+ with React Testing Library v14.3+ (jsdom environment)
 - **Storybook**: v10.0+ (ESM-only)
 - **Forms**: TanStack Form v1.1.0+
 - **Validation**: Zod v4.1.12+ (upgraded from v3)
@@ -19,9 +19,10 @@
 - Clean: `npm run clean` (removes dist and coverage directories)
 - Lint: `npm run lint` (ESLint v9)
 - Type check: `npm run typecheck` (TypeScript)
-- Test: `npm run test` (Jest)
-- Test watch mode: `npm run test:watch`
-- Test coverage: `npm run test:coverage`
+- Test: `npm run test` (Vitest - runs all tests once)
+- Test watch mode: `npm run test:watch` (Vitest in watch mode with auto-rerun)
+- Test UI: `npm run test:ui` (Vitest interactive UI in browser)
+- Test coverage: `npm run test:coverage` (Vitest with coverage report)
 - Storybook: `npm run storybook`
 - Build Storybook: `npm run build:storybook`
 
@@ -536,6 +537,101 @@ function RegistrationForm() {
 - Shared components in `src/components/*`
 - Run lint and typecheck before commit (Husky pre-commit hook)
 - Export components through the main `index.tsx` file
+
+## Testing
+
+This project uses **Vitest v4** with **React Testing Library** for comprehensive component testing.
+
+### Quick Start
+
+```bash
+# Run all tests once
+npm test
+
+# Run tests in watch mode (auto-reruns on file changes)
+npm run test:watch
+
+# Open Vitest UI for interactive testing
+npm run test:ui
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+### Writing Tests
+
+Tests should be placed in:
+- `src/**/*.test.{ts,tsx}` - Test files alongside components
+- `src/**/__tests__/**/*.{ts,tsx}` - Test files in `__tests__` directories
+
+**Example test:**
+
+```tsx
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '../test-utils/rtl';
+import userEvent from '@testing-library/user-event';
+import { useAppForm } from '../hooks/form';
+
+describe('MyComponent', () => {
+  it('handles user input', async () => {
+    function TestForm() {
+      const form = useAppForm({
+        defaultValues: { name: '' },
+      });
+
+      return (
+        <form>
+          <form.AppField name="name">
+            {(field) => <field.Input label="Name" placeholder="Enter your name" />}
+          </form.AppField>
+        </form>
+      );
+    }
+
+    render(<TestForm />);
+
+    const input = screen.getByLabelText('Name');
+    await userEvent.type(input, 'John Doe');
+
+    expect(input).toHaveValue('John Doe');
+  });
+});
+```
+
+### Testing Best Practices
+
+1. **Use Role-Based Queries** - `getByRole`, `getByLabelText` for accessibility
+2. **Test User Behavior** - Focus on what users see and do, not implementation details
+3. **Async Testing** - Use `findBy` queries or `waitFor` for async behavior
+4. **Custom Render** - Use `render` from `test-utils/rtl` for automatic providers
+5. **User Interactions** - Use `@testing-library/user-event` for realistic interactions
+
+### Test Utilities
+
+All tests have access to a custom `render` function that automatically wraps components with:
+- `StyletronProvider` - For BaseUI styling support
+- `BaseProvider` - For BaseUI theme support
+
+```tsx
+import { render, screen } from '../test-utils/rtl';
+// Components are automatically wrapped with providers
+```
+
+### Coverage
+
+Coverage reports are generated in the `coverage/` directory:
+- HTML report: `coverage/index.html` (open in browser)
+- Terminal output shows summary
+
+**Coverage goals:**
+- Statements: 70%+
+- Branches: 70%+
+- Functions: 70%+
+- Lines: 70%+
+
+### More Information
+
+See [TESTING.md](./TESTING.md) for comprehensive testing guidelines, patterns, and examples.
 
 ## Storybook Deployment to GitHub Pages
 

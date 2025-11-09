@@ -25,9 +25,10 @@
     "typecheck": "npx tsc --noEmit --skipLibCheck",
     "storybook": "npx storybook dev -p 6006",
     "build:storybook": "npx storybook build",
-    "test": "npx jest",
-    "test:watch": "npx jest --watch",
-    "test:coverage": "npx jest --coverage",
+    "test": "npx vitest run",
+    "test:watch": "npx vitest",
+    "test:coverage": "npx vitest run --coverage",
+    "test:ui": "npx vitest --ui",
     "husky": "husky install",
     "prepare": "npm run husky",
     "prepublishOnly": "npm run clean && npm run build"
@@ -48,6 +49,8 @@
     "@typescript-eslint/eslint-plugin": "^8.46.3",
     "@typescript-eslint/parser": "^8.46.3",
     "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/coverage-istanbul": "^4.0.8",
+    "@vitest/ui": "^4.0.8",
     "baseui": "^15.0.0",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
@@ -71,6 +74,7 @@
     "typescript": "^5.9.3",
     "vite": "^6.4.1",
     "vite-plugin-dts": "^3.9.1",
+    "vitest": "^4.0.8",
     "zod": "^4.1.12"
   },
   "peerDependencies": {
