@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Parent } from './page';
 import { Block } from 'baseui/block';
 import { useAppForm } from '../../hooks/form';
