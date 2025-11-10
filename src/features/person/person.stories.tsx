@@ -23,7 +23,7 @@ const GroupFormWrapper = (args: { title: string }) => {
 };
 
 const meta = {
-  title: 'Features / Group / GroupForm',
+  title: 'Form Components / GroupForm',
   component: GroupFormWrapper,
   parameters: {
     layout: 'fullscreen',
