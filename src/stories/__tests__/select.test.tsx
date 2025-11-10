@@ -117,7 +117,7 @@ describe('Select Component Tests', () => {
       function TestForm() {
         const form = useAppForm({
           defaultValues: {
-            favoriteMembers: [],
+            favoriteMembers: [] as string[],
           },
         });
 
@@ -146,7 +146,7 @@ describe('Select Component Tests', () => {
       function TestForm() {
         const form = useAppForm({
           defaultValues: {
-            favoriteMembers: ['stevie-nicks', 'mick-fleetwood'],
+            favoriteMembers: ['stevie-nicks', 'mick-fleetwood'] as string[],
           },
         });
 

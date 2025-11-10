@@ -162,7 +162,9 @@ const SelectStoryComponent = () => {
             </Block>
 
             <Block marginTop="16px">
-              <form.SubscribeButton label="Submit" />
+              <form.AppForm>
+                <form.SubscribeButton label="Submit" />
+              </form.AppForm>
             </Block>
           </StyledBody>
         </Card>
