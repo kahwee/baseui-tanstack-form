@@ -105,7 +105,7 @@ const FleetwoodMacGroupStory = () => {
 };
 
 const meta = {
-  title: 'Features / Group',
+  title: 'Complete Forms / Group Management',
   component: GroupPageWrapper,
   parameters: {
     layout: 'fullscreen',
