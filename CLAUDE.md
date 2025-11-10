@@ -1,138 +1,113 @@
-# BaseUI TanStack Form
+# BaseUI TanStack Form - Developer Guide
 
-## Tech Stack
-- **React**: v18.2+
-- **TypeScript**: v5.3+ (strict mode)
-- **ESLint**: v9.22+
-- **Prettier**: v3.2+
-- **Vite**: v5.1+
+This guide is designed for AI assistants and developers working on this project. It provides comprehensive information about the tech stack, patterns, conventions, and best practices.
+
+## 📦 Tech Stack
+
+### Core Dependencies
+- **React**: v18.3+ - UI library
+- **TypeScript**: v5.9+ (strict mode enabled)
+- **BaseUI**: v15.0+ - Uber's design system
+- **Styletron**: v6.1+ - CSS-in-JS styling engine
+- **TanStack Form**: v1.23+ - Headless form state management
+- **Zod**: v4.1.12+ - TypeScript-first schema validation
+
+### Build & Development Tools
+- **Build Tool**: Vite v6.4+ (ESM-first bundler)
 - **Testing**: Vitest v4.0+ with React Testing Library v14.3+ (jsdom environment)
-- **Storybook**: v10.0+ (ESM-only)
-- **Forms**: TanStack Form v1.1.0+
-- **Validation**: Zod v4.1.12+ (upgraded from v3)
-- **UI Components**: BaseUI v15+
-- **Styling**: Styletron
+- **Documentation**: Storybook v10.0+ (ESM-only)
+- **Linting**: ESLint v9.39+ with TypeScript support
+- **Formatting**: Prettier v3.6+
+- **Git Hooks**: Husky v9.1+
 
-## Commands
-- Development: `npm run dev` (Vite)
-- Build: `npm run build` (Vite + TypeScript)
-- Clean: `npm run clean` (removes dist and coverage directories)
-- Lint: `npm run lint` (ESLint v9)
-- Type check: `npm run typecheck` (TypeScript)
-- Test: `npm run test` (Vitest - runs all tests once)
-- Test watch mode: `npm run test:watch` (Vitest in watch mode with auto-rerun)
-- Test UI: `npm run test:ui` (Vitest interactive UI in browser)
-- Test coverage: `npm run test:coverage` (Vitest with coverage report)
-- Storybook: `npm run storybook`
-- Build Storybook: `npm run build:storybook`
+## 🛠️ Available Commands
 
-## Naming Conventions
-- Files: `lowercase-with-dashes.tsx` for components, `.ts` for utilities
-- Components: PascalCase (e.g., `InputField`)
-- Interfaces: PascalCase (e.g., `InputFieldProps`)
-- Hooks: camelCase with "use" prefix (e.g., `useAppForm`) 
-- Event handlers: camelCase with "handle" prefix (e.g., `handleChange`)
+| Command | Description | Tool |
+|---------|-------------|------|
+| `npm run dev` | Start development server | Vite |
+| `npm run build` | Build library for production | Vite + TypeScript |
+| `npm run clean` | Remove dist and coverage directories | bash |
+| `npm run lint` | Run ESLint checks | ESLint v9 |
+| `npm run lint:fix` | Auto-fix ESLint errors | ESLint v9 |
+| `npm run typecheck` | Run TypeScript type checking | TypeScript |
+| `npm test` | Run all tests once | Vitest |
+| `npm run test:watch` | Run tests in watch mode (auto-rerun) | Vitest |
+| `npm run test:ui` | Open Vitest interactive UI in browser | Vitest |
+| `npm run test:coverage` | Generate test coverage report | Vitest |
+| `npm run storybook` | Start Storybook dev server (port 6006) | Storybook v10 |
+| `npm run build:storybook` | Build Storybook for production | Storybook v10 |
 
-## Form Patterns
-- Use `useAppForm` hook to create form instances
-- Use `withForm` HOC for composable form sections
-- Use `formOptions` for shared form configuration
-- Field values are accessed via field context
+## 📁 Project Structure
 
-### Components
-- `Input` - BaseUI input field with form integration (supports `placeholder` prop)
-- `Textarea` - BaseUI textarea with form integration (supports `placeholder` prop)
-- `RadioGroup` - BaseUI radio group with form integration
-- `Select` - BaseUI select (dropdown) with single and multi-select support (supports `placeholder` prop)
-- `Checkbox` - BaseUI checkbox for boolean values
-- `CheckboxGroup` - Multiple checkboxes that return an array of selected values
-- `DatePicker` - Date selection with optional range picking
-- `SubscribeButton` - Submit button with loading state
-- Field access with `form.AppField` pattern and `field.ComponentName` usage
-- Form submission with `form.handleSubmit()`
-
-### Placeholder Support
-All text input components (`Input`, `Textarea`, `SelectSingle`, `SelectMulti`) support the `placeholder` prop for providing helpful hints to users:
-
-```tsx
-<form.AppField name="email">
-  {(field) => (
-    <field.Input
-      label="Email Address"
-      placeholder="your.email@example.com"
-    />
-  )}
-</form.AppField>
-
-<form.AppField name="bio">
-  {(field) => (
-    <field.Textarea
-      label="Biography"
-      placeholder="Tell us about yourself..."
-    />
-  )}
-</form.AppField>
-
-<form.AppField name="category">
-  {(field) => (
-    <field.SelectSingle
-      label="Category"
-      placeholder="Select a category"
-      options={[
-        { id: 'tech', label: 'Technology' },
-        { id: 'design', label: 'Design' }
-      ]}
-    />
-  )}
-</form.AppField>
+```
+baseui-tanstack-form/
+├── src/
+│   ├── components/          # Shared/reusable components
+│   ├── features/            # Feature-specific components
+│   │   ├── input/          # Input field component
+│   │   ├── textarea/       # Textarea component
+│   │   ├── select/         # Select components (single/multi)
+│   │   ├── checkbox/       # Checkbox components
+│   │   ├── radio/          # Radio group component
+│   │   └── ...             # Other form components
+│   ├── hooks/              # Custom hooks
+│   │   └── form.ts         # useAppForm, withForm HOC
+│   ├── stories/            # Storybook stories
+│   │   └── *.stories.tsx   # Component stories
+│   ├── test-utils/         # Testing utilities
+│   │   └── rtl.tsx         # React Testing Library setup
+│   └── index.tsx           # Main export file
+├── .storybook/             # Storybook configuration
+│   ├── main.ts             # Storybook setup
+│   └── preview.tsx         # Global decorators/parameters
+├── dist/                   # Build output (git ignored)
+├── coverage/               # Test coverage reports (git ignored)
+├── vitest.config.ts        # Vitest configuration
+├── vite.config.ts          # Vite configuration
+├── tsconfig.json           # TypeScript configuration
+├── eslint.config.js        # ESLint v9 flat config
+└── package.json            # Dependencies and scripts
 ```
 
-### Example
+## 🎨 Naming Conventions
+
+### Files
+- **Components**: `lowercase-with-dashes.tsx` (e.g., `input-field.tsx`)
+- **Utilities**: `lowercase-with-dashes.ts` (e.g., `form-helpers.ts`)
+- **Tests**: `*.test.ts` or `*.test.tsx` (e.g., `input-field.test.tsx`)
+- **Stories**: `*.stories.tsx` (e.g., `input-field.stories.tsx`)
+
+### Code
+- **Components**: `PascalCase` (e.g., `InputField`, `RadioGroup`)
+- **Interfaces/Types**: `PascalCase` (e.g., `InputFieldProps`, `FormValues`)
+- **Hooks**: `camelCase` with "use" prefix (e.g., `useAppForm`, `useFormValidation`)
+- **Event Handlers**: `camelCase` with "handle" prefix (e.g., `handleChange`, `handleSubmit`)
+- **Constants**: `UPPER_SNAKE_CASE` (e.g., `MAX_LENGTH`, `DEFAULT_OPTIONS`)
+
+## 🔧 Form Patterns
+
+### Core Concepts
+
+This library bridges TanStack Form with BaseUI components using a context-based pattern:
+
+1. **Form Hook**: `useAppForm` - Creates a form instance with integrated components
+2. **Field Context**: `form.AppField` - Provides field-level state and methods
+3. **Component Access**: `field.ComponentName` - Access pre-configured BaseUI components
+4. **Submission**: `form.handleSubmit()` - Handles form submission with validation
+
+### Basic Form Pattern
+
 ```tsx
-// Import the pre-configured form hook
-import { useAppForm, withForm } from './hooks/form';
+import { useAppForm } from './hooks/form';
 
-// Form section with withForm HOC
-const GroupForm = withForm({
-  defaultValues: { firstName: 'John', lastName: 'Doe' },
-  props: { title: 'Child Form' },
-  render: function({ form, title }) {
-    return (
-      <Card>
-        <StyledBody>
-          <HeadingSmall>{title}</HeadingSmall>
-          <form.AppField name="firstName">
-            {(field) => <field.Input label="First Name" />}
-          </form.AppField>
-          <form.AppField name="comments">
-            {(field) => <field.Textarea label="Comments" />}
-          </form.AppField>
-        </StyledBody>
-        <StyledAction>
-          <form.AppForm>
-            <form.SubscribeButton label="Submit" />
-          </form.AppForm>
-        </StyledAction>
-      </Card>
-    );
-  },
-});
-
-// Main form
-function ParentForm() {
+function MyForm() {
   const form = useAppForm({
-    defaultValues: { 
-      firstName: 'John', 
-      lastName: 'Doe',
-      comments: '',
-      preference: '',
-      category: '',
-      tags: [],
-      agreeToTerms: false,
-      interests: []
+    defaultValues: {
+      name: '',
+      email: ''
     },
     onSubmit: (values) => {
-      console.log('Form submitted with values:', values);
+      console.log('Form submitted:', values);
     }
   });
 
@@ -142,80 +117,308 @@ function ParentForm() {
       e.stopPropagation();
       form.handleSubmit();
     }}>
-      <GroupForm form={form} title="Person Information" />
-      
-      <form.AppField name="preference">
+      <form.AppField name="name">
         {(field) => (
-          <field.RadioGroup
-            label="Preference"
-            options={[
-              { value: 'option1', label: 'Option 1' },
-              { value: 'option2', label: 'Option 2' },
-              { value: 'option3', label: 'Option 3' }
-            ]}
+          <field.Input
+            label="Name"
+            placeholder="Enter your name"
           />
         )}
       </form.AppField>
-      
-      <form.AppField name="category">
+
+      <form.AppField name="email">
         {(field) => (
-          <field.SelectSingle
-            label="Category"
-            options={[
-              { id: 'electronics', label: 'Electronics' },
-              { id: 'books', label: 'Books' },
-              { id: 'clothing', label: 'Clothing' }
-            ]}
-            placeholder="Select a category"
+          <field.Input
+            label="Email"
+            type="email"
+            placeholder="your.email@example.com"
           />
         )}
       </form.AppField>
-      
-      <form.AppField name="tags">
-        {(field) => (
-          <field.SelectMulti
-            label="Tags"
-            options={[
-              { id: 'new', label: 'New' },
-              { id: 'sale', label: 'Sale' },
-              { id: 'featured', label: 'Featured' },
-              { id: 'limited', label: 'Limited Edition' }
-            ]}
-            placeholder="Select tags"
-          />
-        )}
-      </form.AppField>
-      
-      <form.AppField name="agreeToTerms">
-        {(field) => (
-          <field.Checkbox
-            label="I agree to the terms and conditions"
-          />
-        )}
-      </form.AppField>
-      
-      <form.AppField name="interests">
-        {(field) => (
-          <field.CheckboxGroup
-            label="Select your interests"
-            inline={true}
-            options={[
-              { value: 'technology', label: 'Technology' },
-              { value: 'science', label: 'Science' },
-              { value: 'art', label: 'Art' },
-              { value: 'music', label: 'Music' }
-            ]}
-          />
-        )}
-      </form.AppField>
+
+      <form.AppForm>
+        <form.SubscribeButton label="Submit" />
+      </form.AppForm>
     </form>
   );
 }
 ```
 
-## Validation
+### Form Composition with HOC
+
+Use `withForm` to create reusable form sections:
+
+```tsx
+import { useAppForm, withForm } from './hooks/form';
+
+// Reusable address section
+const AddressForm = withForm({
+  defaultValues: {
+    street: '',
+    city: '',
+    zipCode: ''
+  },
+  props: { title: 'Address' },
+  render: function({ form, title }) {
+    return (
+      <Card>
+        <StyledBody>
+          <HeadingSmall>{title}</HeadingSmall>
+          <form.AppField name="street">
+            {(field) => <field.Input label="Street" placeholder="123 Main St" />}
+          </form.AppField>
+          <form.AppField name="city">
+            {(field) => <field.Input label="City" placeholder="San Francisco" />}
+          </form.AppField>
+          <form.AppField name="zipCode">
+            {(field) => <field.Input label="ZIP Code" placeholder="94102" />}
+          </form.AppField>
+        </StyledBody>
+      </Card>
+    );
+  }
+});
+
+// Parent form using the reusable section
+function CheckoutForm() {
+  const form = useAppForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      street: '',
+      city: '',
+      zipCode: ''
+    },
+    onSubmit: (values) => console.log(values)
+  });
+
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      form.handleSubmit();
+    }}>
+      <form.AppField name="name">
+        {(field) => <field.Input label="Name" />}
+      </form.AppField>
+
+      <form.AppField name="email">
+        {(field) => <field.Input label="Email" type="email" />}
+      </form.AppField>
+
+      {/* Reusable address form */}
+      <AddressForm form={form} title="Shipping Address" />
+
+      <form.AppForm>
+        <form.SubscribeButton label="Place Order" />
+      </form.AppForm>
+    </form>
+  );
+}
+```
+
+## 🧩 Available Components
+
+### Text Input Components
+
+All text input components support the `placeholder` prop for user guidance:
+
+#### Input
+Basic text input field with validation support.
+
+```tsx
+<form.AppField name="username">
+  {(field) => (
+    <field.Input
+      label="Username"
+      placeholder="Enter username"
+      type="text"  // text, email, password, etc.
+    />
+  )}
+</form.AppField>
+```
+
+**Props**: `label`, `placeholder`, `type`, `error`, `caption`
+
+#### Textarea
+Multi-line text input for longer content.
+
+```tsx
+<form.AppField name="bio">
+  {(field) => (
+    <field.Textarea
+      label="Biography"
+      placeholder="Tell us about yourself..."
+      rows={4}
+    />
+  )}
+</form.AppField>
+```
+
+**Props**: `label`, `placeholder`, `rows`, `error`, `caption`
+
+### Selection Components
+
+#### RadioGroup
+Radio button group for single selection.
+
+```tsx
+<form.AppField name="size">
+  {(field) => (
+    <field.RadioGroup
+      label="Size"
+      options={[
+        { value: 'small', label: 'Small' },
+        { value: 'medium', label: 'Medium' },
+        { value: 'large', label: 'Large' }
+      ]}
+    />
+  )}
+</form.AppField>
+```
+
+**Value Type**: `string`
+
+#### SelectSingle
+Dropdown select for single option selection.
+
+```tsx
+<form.AppField name="country">
+  {(field) => (
+    <field.SelectSingle
+      label="Country"
+      placeholder="Select a country"
+      options={[
+        { id: 'us', label: 'United States' },
+        { id: 'uk', label: 'United Kingdom' },
+        { id: 'ca', label: 'Canada' }
+      ]}
+    />
+  )}
+</form.AppField>
+```
+
+**Value Type**: `string`
+**Props**: `label`, `placeholder`, `options`
+
+#### SelectMulti
+Dropdown select for multiple option selection.
+
+```tsx
+<form.AppField name="skills">
+  {(field) => (
+    <field.SelectMulti
+      label="Skills"
+      placeholder="Select your skills"
+      options={[
+        { id: 'react', label: 'React' },
+        { id: 'typescript', label: 'TypeScript' },
+        { id: 'nodejs', label: 'Node.js' },
+        { id: 'graphql', label: 'GraphQL' }
+      ]}
+    />
+  )}
+</form.AppField>
+```
+
+**Value Type**: `string[]`
+**Props**: `label`, `placeholder`, `options`
+
+### Boolean Components
+
+#### Checkbox
+Single checkbox for boolean values.
+
+```tsx
+<form.AppField name="agreeToTerms">
+  {(field) => (
+    <field.Checkbox
+      label="I agree to the terms and conditions"
+    />
+  )}
+</form.AppField>
+```
+
+**Value Type**: `boolean`
+
+#### CheckboxGroup
+Multiple checkboxes returning an array of selected values.
+
+```tsx
+<form.AppField name="interests">
+  {(field) => (
+    <field.CheckboxGroup
+      label="Select your interests"
+      inline={true}  // Display horizontally
+      options={[
+        { value: 'technology', label: 'Technology' },
+        { value: 'science', label: 'Science' },
+        { value: 'art', label: 'Art' },
+        { value: 'music', label: 'Music' }
+      ]}
+    />
+  )}
+</form.AppField>
+```
+
+**Value Type**: `string[]`
+**Props**: `label`, `options`, `inline`
+
+#### Toggle
+Toggle switch for boolean values.
+
+```tsx
+<form.AppField name="notifications">
+  {(field) => (
+    <field.Toggle>
+      Enable email notifications
+    </field.Toggle>
+  )}
+</form.AppField>
+```
+
+**Value Type**: `boolean`
+
+### Date Components
+
+#### DatePicker
+Date selection with optional range picking.
+
+```tsx
+<form.AppField name="birthDate">
+  {(field) => (
+    <field.DatePicker
+      label="Birth Date"
+      // Optional: enable range selection
+      // range
+      // Optional: set min/max dates
+      // minDate={new Date(1900, 0, 1)}
+      // maxDate={new Date()}
+    />
+  )}
+</form.AppField>
+```
+
+**Value Type**: `Date` or `string`
+
+### Form Controls
+
+#### SubscribeButton
+Submit button with loading state management.
+
+```tsx
+<form.AppForm>
+  <form.SubscribeButton label="Submit" />
+</form.AppForm>
+```
+
+The button automatically shows loading state during form submission.
+
+## ✅ Validation
 
 ### Manual Field Validation
+
+For simple validation logic, validate directly in the field render function:
+
 ```tsx
 <form.AppField name="username">
   {(field) => {
@@ -224,26 +427,29 @@ function ParentForm() {
       ? 'Username must be at least 3 characters'
       : undefined;
 
-    return <field.Input
-      label="Username"
-      placeholder="Enter username"
-      error={!!error}
-      caption={error}
-    />;
+    return (
+      <field.Input
+        label="Username"
+        placeholder="Enter username"
+        error={!!error}
+        caption={error}
+      />
+    );
   }}
 </form.AppField>
 ```
 
 ### Zod v4 Schema Validation
 
-Zod v4 provides powerful, type-safe validation with excellent TypeScript integration.
+Zod provides powerful, type-safe validation with excellent TypeScript integration.
 
-#### Basic Schema
+#### Basic Schema Examples
+
 ```tsx
 import { z } from 'zod';
 
-const schema = z.object({
-  // String validation with trim (removes whitespace)
+const userSchema = z.object({
+  // String validation with trim
   username: z
     .string()
     .trim()
@@ -271,7 +477,7 @@ const schema = z.object({
 
   // Enum validation
   role: z.enum(['admin', 'user', 'moderator'], {
-    message: 'Please select a valid role',
+    message: 'Please select a valid role'
   }),
 
   // Array validation
@@ -282,7 +488,7 @@ const schema = z.object({
 
   // Boolean validation (checkbox must be checked)
   agreeToTerms: z.literal(true, {
-    message: 'You must agree to the terms and conditions',
+    message: 'You must agree to the terms and conditions'
   }),
 
   // Optional field with default
@@ -290,15 +496,17 @@ const schema = z.object({
     .string()
     .max(500, 'Bio must not exceed 500 characters')
     .optional()
-    .default(''),
+    .default('')
 });
 
-type FormValues = z.infer<typeof schema>;
+// Infer TypeScript type from schema
+type UserFormValues = z.infer<typeof userSchema>;
 ```
 
-#### Form Integration with Validators
+#### Form Integration
+
 ```tsx
-const form = useAppForm<FormValues>({
+const form = useAppForm<UserFormValues>({
   defaultValues: {
     username: '',
     email: '',
@@ -307,114 +515,140 @@ const form = useAppForm<FormValues>({
     role: 'user',
     tags: [],
     agreeToTerms: false,
-    bio: '',
+    bio: ''
   },
   validators: {
-    // Real-time validation on change
+    // Real-time validation on field change
     onChange: ({ value }) => {
-      const result = schema.safeParse(value);
+      const result = userSchema.safeParse(value);
       if (!result.success) {
         return result.error.format();
       }
       return undefined;
     },
-    // Validation on blur
+    // Validation on field blur
     onBlur: ({ value }) => {
-      const result = schema.safeParse(value);
+      const result = userSchema.safeParse(value);
       if (!result.success) {
         return result.error.format();
       }
       return undefined;
-    },
+    }
   },
   onSubmit: async (values) => {
-    const result = schema.safeParse(values);
+    const result = userSchema.safeParse(values);
     if (!result.success) {
       console.error('Validation errors:', result.error.format());
       return;
     }
     console.log('Form submitted with valid data:', result.data);
-  },
+  }
 });
 ```
 
-#### Advanced Zod v4 Features
+#### Advanced Zod Features
 
 **1. Transform - Data transformation on validation**
+
 ```tsx
-const transformSchema = z.object({
+const nameSchema = z.object({
   firstName: z.string().trim(),
-  lastName: z.string().trim(),
+  lastName: z.string().trim()
 }).transform((data) => ({
   ...data,
   fullName: `${data.firstName} ${data.lastName}`,
-  initials: `${data.firstName[0]}${data.lastName[0]}`.toUpperCase(),
+  initials: `${data.firstName[0]}${data.lastName[0]}`.toUpperCase()
 }));
 
-// Usage
-const result = transformSchema.safeParse({ firstName: 'John', lastName: 'Doe' });
-// result.data = { firstName: 'John', lastName: 'Doe', fullName: 'John Doe', initials: 'JD' }
+// Result includes transformed fields
+const result = nameSchema.safeParse({ firstName: 'John', lastName: 'Doe' });
+// result.data = {
+//   firstName: 'John',
+//   lastName: 'Doe',
+//   fullName: 'John Doe',
+//   initials: 'JD'
+// }
 ```
 
 **2. Refine - Custom cross-field validation**
+
 ```tsx
 const passwordSchema = z.object({
-  password: z.string().min(8),
-  confirmPassword: z.string(),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string()
 }).refine(
   (data) => data.password === data.confirmPassword,
   {
     message: 'Passwords do not match',
-    path: ['confirmPassword'], // Error appears on confirmPassword field
+    path: ['confirmPassword']  // Error appears on confirmPassword field
   }
 );
 ```
 
 **3. Regex validation**
+
 ```tsx
 const usernameSchema = z.object({
   username: z
     .string()
-    .regex(/^[a-zA-Z0-9_]+$/, 'Only letters, numbers, and underscores allowed'),
+    .regex(
+      /^[a-zA-Z0-9_]+$/,
+      'Only letters, numbers, and underscores allowed'
+    ),
+
+  phoneNumber: z
+    .string()
+    .regex(/^\d{3}-\d{3}-\d{4}$/, 'Phone must be in format: 123-456-7890')
 });
 ```
 
 **4. Nested object validation**
+
 ```tsx
-const userSchema = z.object({
+const profileSchema = z.object({
   name: z.string(),
   contact: z.object({
     email: z.string().email(),
-    phone: z.string().optional(),
+    phone: z.string().optional()
   }),
+  address: z.object({
+    street: z.string(),
+    city: z.string(),
+    state: z.string().length(2, 'State must be 2 characters'),
+    zipCode: z.string().regex(/^\d{5}$/, 'Invalid ZIP code')
+  }).optional(),
   socialMedia: z.object({
     twitter: z.string().url().optional(),
     github: z.string().url().optional(),
-  }).optional(),
+    linkedin: z.string().url().optional()
+  }).optional()
 });
 ```
 
 **5. Discriminated unions**
+
 ```tsx
 const paymentSchema = z.discriminatedUnion('method', [
   z.object({
     method: z.literal('card'),
-    cardNumber: z.string(),
-    cvv: z.string(),
+    cardNumber: z.string().regex(/^\d{16}$/, 'Card must be 16 digits'),
+    cvv: z.string().regex(/^\d{3,4}$/, 'CVV must be 3-4 digits'),
+    expiryDate: z.string().regex(/^\d{2}\/\d{2}$/, 'Format: MM/YY')
   }),
   z.object({
     method: z.literal('paypal'),
-    email: z.string().email(),
+    email: z.string().email('Invalid PayPal email')
   }),
   z.object({
     method: z.literal('bank'),
     accountNumber: z.string(),
-    routingNumber: z.string(),
-  }),
+    routingNumber: z.string().regex(/^\d{9}$/, 'Routing must be 9 digits')
+  })
 ]);
 ```
 
-### Complete Form Example with Zod v4
+### Complete Validation Example
+
 ```tsx
 import { useAppForm } from './hooks/form';
 import { z } from 'zod';
@@ -423,35 +657,46 @@ const registrationSchema = z.object({
   username: z.string().trim().min(3).max(20),
   email: z.string().email().toLowerCase(),
   password: z.string().min(8),
+  confirmPassword: z.string(),
   age: z.number().int().min(18),
   role: z.enum(['user', 'moderator']),
   tags: z.array(z.string()).min(1),
-  agreeToTerms: z.literal(true),
-});
+  agreeToTerms: z.literal(true)
+}).refine(
+  (data) => data.password === data.confirmPassword,
+  {
+    message: 'Passwords do not match',
+    path: ['confirmPassword']
+  }
+);
+
+type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
 function RegistrationForm() {
-  const form = useAppForm({
+  const form = useAppForm<RegistrationFormValues>({
     defaultValues: {
       username: '',
       email: '',
       password: '',
+      confirmPassword: '',
       age: 18,
       role: 'user',
       tags: [],
-      agreeToTerms: false,
+      agreeToTerms: false
     },
     validators: {
       onChange: ({ value }) => {
         const result = registrationSchema.safeParse(value);
         return result.success ? undefined : result.error.format();
-      },
+      }
     },
     onSubmit: async (values) => {
       const result = registrationSchema.safeParse(values);
       if (result.success) {
         console.log('Valid data:', result.data);
+        // Submit to API
       }
-    },
+    }
   });
 
   return (
@@ -472,8 +717,8 @@ function RegistrationForm() {
         {(field) => (
           <field.Input
             label="Email"
-            placeholder="your.email@example.com"
             type="email"
+            placeholder="your.email@example.com"
           />
         )}
       </form.AppField>
@@ -482,8 +727,18 @@ function RegistrationForm() {
         {(field) => (
           <field.Input
             label="Password"
-            placeholder="Enter a strong password"
             type="password"
+            placeholder="Enter a strong password"
+          />
+        )}
+      </form.AppField>
+
+      <form.AppField name="confirmPassword">
+        {(field) => (
+          <field.Input
+            label="Confirm Password"
+            type="password"
+            placeholder="Re-enter password"
           />
         )}
       </form.AppField>
@@ -494,7 +749,7 @@ function RegistrationForm() {
             label="Role"
             options={[
               { value: 'user', label: 'User' },
-              { value: 'moderator', label: 'Moderator' },
+              { value: 'moderator', label: 'Moderator' }
             ]}
           />
         )}
@@ -508,7 +763,7 @@ function RegistrationForm() {
             options={[
               { id: 'tech', label: 'Technology' },
               { id: 'design', label: 'Design' },
-              { id: 'business', label: 'Business' },
+              { id: 'business', label: 'Business' }
             ]}
           />
         )}
@@ -530,17 +785,9 @@ function RegistrationForm() {
 }
 ```
 
-## Development
-- Stories in `src/stories/*.stories.tsx`
-- Components organized by feature in `src/features/*`
-- Shared hooks in `src/hooks/*`
-- Shared components in `src/components/*`
-- Run lint and typecheck before commit (Husky pre-commit hook)
-- Export components through the main `index.tsx` file
+## 🧪 Testing
 
-## Testing
-
-This project uses **Vitest v4** with **React Testing Library** for comprehensive component testing.
+This project uses **Vitest v4** with **React Testing Library v14.3+** for comprehensive component testing.
 
 ### Quick Start
 
@@ -558,11 +805,13 @@ npm run test:ui
 npm run test:coverage
 ```
 
-### Writing Tests
+### Test File Locations
 
 Tests should be placed in:
 - `src/**/*.test.{ts,tsx}` - Test files alongside components
 - `src/**/__tests__/**/*.{ts,tsx}` - Test files in `__tests__` directories
+
+### Writing Tests
 
 **Example test:**
 
@@ -572,17 +821,22 @@ import { render, screen } from '../test-utils/rtl';
 import userEvent from '@testing-library/user-event';
 import { useAppForm } from '../hooks/form';
 
-describe('MyComponent', () => {
-  it('handles user input', async () => {
+describe('InputField', () => {
+  it('handles user input correctly', async () => {
     function TestForm() {
       const form = useAppForm({
-        defaultValues: { name: '' },
+        defaultValues: { name: '' }
       });
 
       return (
         <form>
           <form.AppField name="name">
-            {(field) => <field.Input label="Name" placeholder="Enter your name" />}
+            {(field) => (
+              <field.Input
+                label="Name"
+                placeholder="Enter your name"
+              />
+            )}
           </form.AppField>
         </form>
       );
@@ -595,16 +849,52 @@ describe('MyComponent', () => {
 
     expect(input).toHaveValue('John Doe');
   });
+
+  it('displays validation errors', async () => {
+    function TestForm() {
+      const form = useAppForm({
+        defaultValues: { username: '' }
+      });
+
+      return (
+        <form>
+          <form.AppField name="username">
+            {(field) => {
+              const error = field.state.value.length < 3
+                ? 'Username must be at least 3 characters'
+                : undefined;
+
+              return (
+                <field.Input
+                  label="Username"
+                  placeholder="Enter username"
+                  error={!!error}
+                  caption={error}
+                />
+              );
+            }}
+          </form.AppField>
+        </form>
+      );
+    }
+
+    render(<TestForm />);
+
+    const input = screen.getByLabelText('Username');
+    await userEvent.type(input, 'ab');
+
+    expect(screen.getByText('Username must be at least 3 characters')).toBeInTheDocument();
+  });
 });
 ```
 
 ### Testing Best Practices
 
-1. **Use Role-Based Queries** - `getByRole`, `getByLabelText` for accessibility
+1. **Use Role-Based Queries** - Prefer `getByRole`, `getByLabelText` for better accessibility testing
 2. **Test User Behavior** - Focus on what users see and do, not implementation details
-3. **Async Testing** - Use `findBy` queries or `waitFor` for async behavior
-4. **Custom Render** - Use `render` from `test-utils/rtl` for automatic providers
-5. **User Interactions** - Use `@testing-library/user-event` for realistic interactions
+3. **Async Testing** - Use `findBy` queries or `waitFor` for asynchronous behavior
+4. **Custom Render** - Use `render` from `test-utils/rtl` for automatic provider setup
+5. **User Interactions** - Use `@testing-library/user-event` for realistic user interactions
 
 ### Test Utilities
 
@@ -614,119 +904,131 @@ All tests have access to a custom `render` function that automatically wraps com
 
 ```tsx
 import { render, screen } from '../test-utils/rtl';
-// Components are automatically wrapped with providers
+// Components are automatically wrapped with necessary providers
 ```
 
-### Coverage
+### Coverage Goals
+
+- **Statements**: 70%+
+- **Branches**: 70%+
+- **Functions**: 70%+
+- **Lines**: 70%+
 
 Coverage reports are generated in the `coverage/` directory:
 - HTML report: `coverage/index.html` (open in browser)
 - Terminal output shows summary
 
-**Coverage goals:**
-- Statements: 70%+
-- Branches: 70%+
-- Functions: 70%+
-- Lines: 70%+
-
 ### More Information
 
-See [TESTING.md](./TESTING.md) for comprehensive testing guidelines, patterns, and examples.
+See **[TESTING.md](./TESTING.md)** for comprehensive testing guidelines, patterns, and examples.
 
-## Storybook Deployment to GitHub Pages
+## 📚 Storybook
 
-This project is configured to automatically deploy Storybook to GitHub Pages using GitHub Actions.
+### Development
 
-### Automatic Deployment
+Start the Storybook development server:
 
-The workflow is defined in `.github/workflows/deploy-storybook.yml` and will:
-- Trigger automatically on every push to the `main` branch
-- Can also be manually triggered from the Actions tab
-- Build Storybook using Storybook v10
-- Deploy to GitHub Pages
-
-### Setup Instructions
-
-1. **Enable GitHub Pages in your repository:**
-   - Go to **Settings** → **Pages**
-   - Under "Build and deployment", select **Source**: "GitHub Actions"
-   - Save the changes
-
-2. **Push changes to main branch:**
-   ```bash
-   git push origin main
-   ```
-
-3. **Monitor deployment:**
-   - Go to the **Actions** tab in your GitHub repository
-   - Watch the "Deploy Storybook to GitHub Pages" workflow run
-   - Once complete, your Storybook will be live
-
-4. **Access your deployed Storybook:**
-   - URL: `https://kahwee.github.io/baseui-tanstack-form/`
-   - The URL will also be shown in the Actions workflow output
-
-### Manual Deployment
-
-To manually trigger a deployment:
-1. Go to **Actions** tab
-2. Select "Deploy Storybook to GitHub Pages" workflow
-3. Click "Run workflow"
-4. Select the branch and click "Run workflow"
-
-### Local Build Testing
-
-To test the Storybook build locally before deploying:
 ```bash
-npm run build:storybook
-# Output will be in ./storybook-static directory
+npm run storybook
 ```
 
-### Troubleshooting
+Visit [http://localhost:6006](http://localhost:6006) to view the component library.
 
-- **404 errors**: Ensure GitHub Pages is configured to use "GitHub Actions" as the source
-- **Build failures**: Check the Actions tab for error logs
-- **Old version showing**: Clear browser cache (Ctrl+Shift+R)
+### Writing Stories
 
-### Summary
+Stories are located in `src/stories/*.stories.tsx`:
 
-This pull request introduces updates to the ESLint configuration file (`eslint.config.js`) to ensure consistent code quality and adherence to best practices across the project. The changes include:
+```tsx
+import type { Meta, StoryObj } from '@storybook/react';
+import { useAppForm } from '../hooks/form';
 
-- Integration of TypeScript, React, and Prettier rules.
-- Customization of rules for better developer experience and project-specific needs.
-- Environment-specific configurations for Node.js, browser, and testing files.
-- Ignoring unnecessary directories and files from linting.
+const meta: Meta = {
+  title: 'Forms/Input',
+  component: Input,
+  parameters: {
+    layout: 'centered'
+  }
+};
 
-### Changes
+export default meta;
 
-1. **TypeScript Rules**:
-   - Added rules to warn against the use of `any` type.
-   - Configured unused variable rules to ignore variables prefixed with `_`.
-   - Allowed `@ts-expect-error` and `@ts-ignore` with descriptions.
+export const Basic: StoryObj = {
+  render: () => {
+    const form = useAppForm({
+      defaultValues: { name: '' }
+    });
 
-2. **React Rules**:
-   - Enforced `react/react-in-jsx-scope` to ensure React is in scope.
-   - Disabled `react/prop-types` as TypeScript is used for type checking.
-   - Warned against using `children` as a prop.
+    return (
+      <form.AppField name="name">
+        {(field) => (
+          <field.Input
+            label="Name"
+            placeholder="Enter your name"
+          />
+        )}
+      </form.AppField>
+    );
+  }
+};
+```
 
-3. **Prettier Integration**:
-   - Configured Prettier as an ESLint plugin to enforce formatting rules.
-   - Added rules for consistent indentation, quotes, and console usage.
+### Deployment to GitHub Pages
 
-4. **Environment-Specific Configurations**:
-   - Browser-specific rules allow browser globals.
-   - Node.js-specific rules allow unrestricted use of `console`.
-   - Testing environment includes Jest globals.
+Storybook is automatically deployed to GitHub Pages on every push to the `main` branch.
 
-5. **Ignored Directories**:
-   - Excluded `node_modules`, `dist`, `coverage`, `.storybook`, and `storybook-static` from linting.
+**Setup:**
+1. Go to **Settings** → **Pages** in your GitHub repository
+2. Under "Build and deployment", select **Source**: "GitHub Actions"
+3. Push to main branch to trigger deployment
 
-### Testing
+**Access deployed Storybook:**
+https://kahwee.github.io/baseui-tanstack-form/
 
-- Verified the ESLint configuration by running linting across the project.
-- Ensured no unintended linting errors or warnings were introduced.
+## 🔧 Development Workflow
 
-### Notes
+### Pre-commit Hooks
 
-- Developers should ensure their editors are configured to use the updated ESLint rules.
-- Prettier integration requires the Prettier plugin to be installed in the editor for seamless formatting.
+Husky runs the following checks before each commit:
+- ESLint checks (`npm run lint`)
+- TypeScript type checking (`npm run typecheck`)
+
+If checks fail, the commit will be blocked. Fix the issues or use `--no-verify` to bypass (not recommended).
+
+### Code Quality Checklist
+
+Before submitting a PR:
+- ✅ All tests pass: `npm test`
+- ✅ No linting errors: `npm run lint`
+- ✅ No type errors: `npm run typecheck`
+- ✅ Code is formatted: Prettier runs automatically
+- ✅ Tests have good coverage: `npm run test:coverage`
+- ✅ Storybook builds: `npm run build:storybook`
+- ✅ Library builds: `npm run build`
+
+### Export Guidelines
+
+All public components, hooks, and utilities must be exported through the main `index.tsx` file:
+
+```tsx
+// src/index.tsx
+export { useAppForm, withForm } from './hooks/form';
+export type { FormOptions, FieldProps } from './types';
+// ... other exports
+```
+
+## 📖 Additional Resources
+
+- **[README.md](./README.md)** - User-facing documentation
+- **[TESTING.md](./TESTING.md)** - Comprehensive testing guide
+- **[FORM_COMPOSITION.md](./FORM_COMPOSITION.md)** - Advanced form composition patterns
+- **[Storybook](https://kahwee.github.io/baseui-tanstack-form/)** - Live component examples
+
+## 🎯 Key Principles
+
+1. **Type Safety First** - Leverage TypeScript for better DX and fewer bugs
+2. **Accessibility** - All components should be WCAG compliant
+3. **Composition** - Build complex forms from simple, reusable pieces
+4. **Testing** - Write tests for all new features and bug fixes
+5. **Documentation** - Keep docs up-to-date with code changes
+6. **Performance** - Optimize for bundle size and runtime performance
+7. **Developer Experience** - Make the API intuitive and well-documented
