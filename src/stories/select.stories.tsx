@@ -174,7 +174,7 @@ const SelectStoryComponent = () => {
 };
 
 const meta = {
-  title: 'Components / Select',
+  title: 'Form Components / Select',
   component: SelectStoryComponent,
 } satisfies Meta<typeof SelectStoryComponent>;
 
