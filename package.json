@@ -38,7 +38,7 @@
     "@storybook/addon-links": "^10.1.10",
     "@storybook/builder-vite": "^10.1.10",
     "@storybook/react-vite": "^10.1.10",
-    "@tanstack/react-form": "^1.23.8",
+    "@tanstack/react-form": "^1.27.5",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^14.3.1",
     "@types/react": "^18.3.26",
