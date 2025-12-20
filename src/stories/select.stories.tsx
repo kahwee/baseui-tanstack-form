@@ -61,19 +61,19 @@ const fleetwoodMacAlbums = [
   },
 ];
 
-// Interface prefixed with _ to comply with ESLint unused var rule
-interface _FormValues {
-  favoriteAlbum: string;
-  favoriteMembers: string[];
-  currentMembers: string[];
+// Interface for Select story props
+interface SelectStoryProps {
+  defaultAlbum?: string;
+  defaultMembers?: string[];
+  showFormValues?: boolean;
 }
 
 // Demo component for select stories
-const SelectStoryComponent = () => {
+const SelectStoryComponent = (args: SelectStoryProps) => {
   const form = useAppForm({
     defaultValues: {
-      favoriteAlbum: 'rumours',
-      favoriteMembers: ['stevie-nicks', 'mick-fleetwood'],
+      favoriteAlbum: args.defaultAlbum || '',
+      favoriteMembers: args.defaultMembers || [],
       currentMembers: [
         'stevie-nicks',
         'lindsey-buckingham',
@@ -81,9 +81,9 @@ const SelectStoryComponent = () => {
         'john-mcvie',
       ],
     },
-    onSubmit: (values) => {
-      // Log to browser console but use warn to comply with ESLint rules
-      console.warn('Form submitted with values:', values);
+    onSubmit: ({ value }) => {
+      console.info('Form submitted with values:', value);
+      alert(JSON.stringify(value, null, 2));
     },
   });
 
@@ -140,26 +140,28 @@ const SelectStoryComponent = () => {
             </Block>
 
             {/* Display selected values */}
-            <Block marginTop="24px">
-              <LabelSmall>Form Values (Updated in Real-time):</LabelSmall>
-              <pre
-                style={{
-                  background: '#f0f0f0',
-                  padding: '8px',
-                  borderRadius: '4px',
-                }}
-              >
-                {JSON.stringify(
-                  {
-                    favoriteAlbum: form.getFieldValue('favoriteAlbum'),
-                    favoriteMembers: form.getFieldValue('favoriteMembers'),
-                    currentMembers: form.getFieldValue('currentMembers'),
-                  },
-                  null,
-                  2,
-                )}
-              </pre>
-            </Block>
+            {args.showFormValues && (
+              <Block marginTop="24px">
+                <LabelSmall>Form Values (Updated in Real-time):</LabelSmall>
+                <pre
+                  style={{
+                    background: '#f0f0f0',
+                    padding: '8px',
+                    borderRadius: '4px',
+                  }}
+                >
+                  {JSON.stringify(
+                    {
+                      favoriteAlbum: form.getFieldValue('favoriteAlbum'),
+                      favoriteMembers: form.getFieldValue('favoriteMembers'),
+                      currentMembers: form.getFieldValue('currentMembers'),
+                    },
+                    null,
+                    2,
+                  )}
+                </pre>
+              </Block>
+            )}
 
             <Block marginTop="16px">
               <form.AppForm>
@@ -174,11 +176,51 @@ const SelectStoryComponent = () => {
 };
 
 const meta = {
-  title: 'Components / Select',
+  title: 'Form Components / Select',
   component: SelectStoryComponent,
+  parameters: {
+    layout: 'centered',
+  },
+  argTypes: {
+    defaultAlbum: {
+      control: 'select',
+      options: ['', ...fleetwoodMacAlbums.map((a) => a.id)],
+      description: 'Default selected album',
+    },
+    defaultMembers: {
+      control: 'object',
+      description: 'Default selected members (array of IDs)',
+    },
+    showFormValues: {
+      control: 'boolean',
+      description: 'Show real-time form values',
+    },
+  },
 } satisfies Meta<typeof SelectStoryComponent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    defaultAlbum: '',
+    defaultMembers: [],
+    showFormValues: true,
+  },
+};
+
+export const WithDefaults: Story = {
+  args: {
+    defaultAlbum: 'rumours',
+    defaultMembers: ['stevie-nicks', 'mick-fleetwood'],
+    showFormValues: true,
+  },
+};
+
+export const EmptyState: Story = {
+  args: {
+    defaultAlbum: '',
+    defaultMembers: [],
+    showFormValues: false,
+  },
+};

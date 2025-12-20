@@ -447,7 +447,7 @@ const RefineExampleForm = () => {
 };
 
 const meta = {
-  title: 'Examples / Zod v4 Validation',
+  title: 'Validation / Zod v4',
   component: ZodV4ValidationForm,
   parameters: {
     layout: 'fullscreen',
