@@ -12,10 +12,11 @@
     "outDir": "dist",
     "declaration": true,
     "declarationDir": "dist/types",
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
     "paths": {
       "react": ["./node_modules/@types/react"]
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "**/*.browser.tsx", "src/setup-tests.ts"]
 }
