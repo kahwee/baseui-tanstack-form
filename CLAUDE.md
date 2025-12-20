@@ -24,18 +24,18 @@ This guide is designed for AI assistants and developers working on this project.
 
 | Command | Description | Tool |
 |---------|-------------|------|
-| `bun run dev` | Start development server | Vite |
-| `bun run build` | Build library for production | Vite + TypeScript |
-| `bun run clean` | Remove dist and coverage directories | bash |
-| `bun run lint` | Run ESLint checks | ESLint v9 |
-| `bun run lint:fix` | Auto-fix ESLint errors | ESLint v9 |
-| `bun run typecheck` | Run TypeScript type checking | TypeScript |
-| `bun run test` | Run all tests once | Vitest |
-| `bun run test:watch` | Run tests in watch mode (auto-rerun) | Vitest |
-| `bun run test:ui` | Open Vitest interactive UI in browser | Vitest |
-| `bun run test:coverage` | Generate test coverage report | Vitest |
-| `bun run storybook` | Start Storybook dev server (port 6006) | Storybook v10 |
-| `bun run build:storybook` | Build Storybook for production | Storybook v10 |
+| `npm run dev` | Start development server | Vite |
+| `npm run build` | Build library for production | Vite + TypeScript |
+| `npm run clean` | Remove dist and coverage directories | bash |
+| `npm run lint` | Run ESLint checks | ESLint v9 |
+| `npm run lint:fix` | Auto-fix ESLint errors | ESLint v9 |
+| `npm run typecheck` | Run TypeScript type checking | TypeScript |
+| `npm test` | Run all tests once | Vitest |
+| `npm run test:watch` | Run tests in watch mode (auto-rerun) | Vitest |
+| `npm run test:ui` | Open Vitest interactive UI in browser | Vitest |
+| `npm run test:coverage` | Generate test coverage report | Vitest |
+| `npm run storybook` | Start Storybook dev server (port 6006) | Storybook v10 |
+| `npm run build:storybook` | Build Storybook for production | Storybook v10 |
 
 ## 📁 Project Structure
 
@@ -793,16 +793,16 @@ This project uses **Vitest v4** with **React Testing Library v14.3+** for compre
 
 ```bash
 # Run all tests once
-bun run test
+npm test
 
 # Run tests in watch mode (auto-reruns on file changes)
-bun run test:watch
+npm run test:watch
 
 # Open Vitest UI for interactive testing
-bun run test:ui
+npm run test:ui
 
 # Run tests with coverage report
-bun run test:coverage
+npm run test:coverage
 ```
 
 ### Test File Locations
@@ -929,7 +929,7 @@ See **[TESTING.md](./TESTING.md)** for comprehensive testing guidelines, pattern
 Start the Storybook development server:
 
 ```bash
-bun run storybook
+npm run storybook
 ```
 
 Visit [http://localhost:6006](http://localhost:6006) to view the component library.
@@ -989,21 +989,21 @@ https://kahwee.github.io/baseui-tanstack-form/
 ### Pre-commit Hooks
 
 Husky runs the following checks before each commit:
-- ESLint checks (`bun run lint`)
-- TypeScript type checking (`bun run typecheck`)
+- ESLint checks (`npm run lint`)
+- TypeScript type checking (`npm run typecheck`)
 
 If checks fail, the commit will be blocked. Fix the issues or use `--no-verify` to bypass (not recommended).
 
 ### Code Quality Checklist
 
 Before submitting a PR:
-- ✅ All tests pass: `bun run test`
-- ✅ No linting errors: `bun run lint`
-- ✅ No type errors: `bun run typecheck`
+- ✅ All tests pass: `npm test`
+- ✅ No linting errors: `npm run lint`
+- ✅ No type errors: `npm run typecheck`
 - ✅ Code is formatted: Prettier runs automatically
-- ✅ Tests have good coverage: `bun run test:coverage`
-- ✅ Storybook builds: `bun run build:storybook`
-- ✅ Library builds: `bun run build`
+- ✅ Tests have good coverage: `npm run test:coverage`
+- ✅ Storybook builds: `npm run build:storybook`
+- ✅ Library builds: `npm run build`
 
 ### Export Guidelines
 
