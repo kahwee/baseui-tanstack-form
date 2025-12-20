@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import type { PluginOption } from 'vite';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -7,6 +8,19 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-vite',
     options: {},
+  },
+
+  async viteFinal(config) {
+    // Remove vite-plugin-dts from Storybook builds since we don't need type declarations
+    if (config.plugins) {
+      config.plugins = (config.plugins as PluginOption[]).filter((plugin) => {
+        if (plugin && typeof plugin === 'object' && 'name' in plugin) {
+          return plugin.name !== 'vite:dts';
+        }
+        return true;
+      });
+    }
+    return config;
   }
 };
 
