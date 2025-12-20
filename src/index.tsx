@@ -19,3 +19,16 @@ export type {
   BaseFieldProps,
   SelectOption,
 } from './types';
+
+// Zod validation utilities
+export {
+  getFirstZodError,
+  getAllZodErrors,
+  zodErrorsToFieldMap,
+  createZodValidator,
+  createZodFieldValidator,
+  validateAsync,
+  commonSchemas,
+  createPasswordMatchSchema,
+  createDateRangeSchema,
+} from './utils/zod-helpers';

@@ -785,6 +785,161 @@ function RegistrationForm() {
 }
 ```
 
+### Zod Helper Utilities
+
+The library provides comprehensive Zod v4 helper utilities for improved error handling and validation workflows.
+
+#### Error Extraction Functions
+
+**getFirstZodError** - Extract the first error message from validation results:
+
+```tsx
+import { getFirstZodError } from './index';
+
+const result = schema.safeParse(data);
+if (!result.success) {
+  const message = getFirstZodError(result.error, 'username');
+  // Returns: "Too small: expected string to have >=3 characters"
+}
+```
+
+**getAllZodErrors** - Get all error messages as an array:
+
+```tsx
+import { getAllZodErrors } from './index';
+
+const result = schema.safeParse(data);
+if (!result.success) {
+  const messages = getAllZodErrors(result.error, 'password');
+  // Returns: ["Too small: expected string to have >=8 characters", "Invalid pattern", ...]
+}
+```
+
+**zodErrorsToFieldMap** - Convert errors to a field-error mapping:
+
+```tsx
+import { zodErrorsToFieldMap } from './index';
+
+const result = schema.safeParse(data);
+if (!result.success) {
+  const errorMap = zodErrorsToFieldMap(result.error);
+  // Returns: { username: "Too small...", email: "Invalid email address" }
+}
+```
+
+#### Validator Creation Functions
+
+**createZodValidator** - Create form-level validators:
+
+```tsx
+import { createZodValidator } from './index';
+
+const form = useAppForm({
+  validators: {
+    onChange: createZodValidator(userSchema),
+    onBlur: createZodValidator(userSchema)
+  }
+});
+```
+
+**createZodFieldValidator** - Create field-level validators:
+
+```tsx
+import { createZodFieldValidator } from './index';
+
+<form.AppField
+  name="username"
+  validators={{
+    onChange: createZodFieldValidator(schema, 'username')
+  }}
+>
+```
+
+**validateAsync** - Async validation with proper error handling:
+
+```tsx
+import { validateAsync } from './index';
+
+const form = useAppForm({
+  validators: {
+    onChangeAsync: async ({ value }) => {
+      const result = await validateAsync(schema, value);
+      return result.success ? undefined : result.error.format();
+    }
+  }
+});
+```
+
+#### Common Reusable Schemas
+
+Pre-built schemas for common validation patterns:
+
+```tsx
+import { commonSchemas } from './index';
+
+const userSchema = z.object({
+  email: commonSchemas.email,              // Email with lowercase transform
+  username: commonSchemas.username,        // 3-20 chars, alphanumeric + underscore
+  password: commonSchemas.password,        // Strong password (8+ chars, upper, lower, number, special)
+  phoneUS: commonSchemas.phoneUS,          // US phone format
+  zipCodeUS: commonSchemas.zipCodeUS,      // US ZIP code (5 or 9 digits)
+  age: commonSchemas.age,                  // Age 18-120
+  url: commonSchemas.url,                  // HTTPS URL required
+  urlOptional: commonSchemas.urlOptional,  // Optional URL or empty string
+  dateString: commonSchemas.dateString,    // YYYY-MM-DD format
+  nonEmptyString: commonSchemas.nonEmptyString, // Required string (trims whitespace)
+  positiveInt: commonSchemas.positiveInt,  // Positive integer with coercion
+  mustBeTrue: commonSchemas.mustBeTrue,    // Boolean that must be true (for checkboxes)
+  creditCard: commonSchemas.creditCard,    // Credit card with Luhn validation
+});
+```
+
+#### Cross-Field Validation Helpers
+
+**createPasswordMatchSchema** - Validate password confirmation:
+
+```tsx
+import { createPasswordMatchSchema } from './index';
+
+const schema = z.object({
+  password: z.string().min(8),
+  confirmPassword: z.string()
+}).and(createPasswordMatchSchema());
+
+// Supports custom field names:
+const customSchema = z.object({
+  newPassword: z.string().min(8),
+  verifyPassword: z.string()
+}).and(createPasswordMatchSchema('newPassword', 'verifyPassword'));
+```
+
+**createDateRangeSchema** - Validate date ranges:
+
+```tsx
+import { createDateRangeSchema } from './index';
+
+const schema = z.object({
+  startDate: z.string(),
+  endDate: z.string()
+}).and(createDateRangeSchema('startDate', 'endDate'));
+```
+
+#### Important Zod v4 Changes
+
+**Error Structure:**
+- Zod v4 changed `.errors` to `.issues`
+- Helper functions handle this automatically
+
+**Error Messages:**
+- Zod v4 error messages have different format
+- Old: `"String must contain at least 3 character(s)"`
+- New: `"Too small: expected string to have >=3 characters"`
+
+**Transformation Order:**
+- Transformations (`.trim()`, `.toLowerCase()`) must come BEFORE validations
+- Correct: `z.string().trim().toLowerCase().email()`
+- Incorrect: `z.string().email().trim().toLowerCase()`
+
 ## 🧪 Testing
 
 This project uses **Vitest v4** with **React Testing Library v14.3+** for comprehensive component testing.
