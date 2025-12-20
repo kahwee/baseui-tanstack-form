@@ -1,21 +1,7 @@
-export type FieldError = {
-  hasError: boolean;
-  errorMessage: string | null;
-};
+import type { FieldError, FormErrors, ErrorObject } from '../types';
 
-export interface FormErrors {
-  form?: {
-    errors?: Array<Record<string, { _errors?: string[] }>>;
-    errorMap?: Record<string, Record<string, { _errors?: string[] }>>;
-  };
-  fields?: Record<string, unknown>;
-}
-
-// Define an interface for error objects
-interface ErrorObject {
-  _errors?: string[];
-  [key: string]: unknown;
-}
+// Re-export for backward compatibility
+export type { FieldError, FormErrors, ErrorObject };
 
 /**
  * Parses a nested field path like "people[0].firstName" into segments

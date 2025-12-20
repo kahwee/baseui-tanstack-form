@@ -9,24 +9,40 @@ import {
 } from 'baseui/select';
 import { useFieldError } from './use-field-error';
 
+/**
+ * Configuration for a single select option
+ */
 export type SelectOption = {
+  /** Unique identifier for this option */
   id: string;
+  /** Display text for this option */
   label: string;
+  /** Optional description text displayed below the label */
   description?: string;
+  /** Whether this option is disabled */
   disabled?: boolean;
 };
 
-// Base props shared by both single and multi select
+/**
+ * Base props shared by both single and multi select components
+ */
 type BaseSelectFieldProps = {
+  /** Label text displayed above the select */
   label: FormControlProps['label'];
+  /** Array of select options to display */
   options: SelectOption[];
+  /** Additional props for the FormControl wrapper */
   formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
 } & Omit<SelectProps, 'value' | 'onChange' | 'options' | 'error' | 'multi'>;
 
-// Single select props
+/**
+ * Props for the SelectSingleField component
+ */
 export type SelectSingleFieldProps = BaseSelectFieldProps;
 
-// Multi select props
+/**
+ * Props for the SelectMultiField component
+ */
 export type SelectMultiFieldProps = BaseSelectFieldProps;
 
 // Helper function to convert between different data formats
@@ -63,7 +79,36 @@ const extractMultipleValues = (value: Value): string[] => {
   return value.map((item) => String(item.id || ''));
 };
 
-// Single select component
+/**
+ * Single select dropdown component integrated with TanStack Form
+ *
+ * Provides a dropdown for selecting a single option from a list,
+ * with automatic form state management, validation error display,
+ * and accessibility features.
+ *
+ * @example
+ * ```tsx
+ * <form.AppField name="country">
+ *   {(field) => (
+ *     <field.SelectSingle
+ *       label="Country"
+ *       placeholder="Select a country"
+ *       options={[
+ *         { id: 'us', label: 'United States' },
+ *         { id: 'uk', label: 'United Kingdom' },
+ *         { id: 'ca', label: 'Canada' }
+ *       ]}
+ *     />
+ *   )}
+ * </form.AppField>
+ * ```
+ *
+ * @param label - Label text displayed above the select
+ * @param options - Array of select options
+ * @param formControlProps - Additional BaseUI FormControl props
+ * @param restProps - All other BaseUI Select props (placeholder, clearable, etc.)
+ * @returns Rendered single-select dropdown with validation support and ARIA attributes
+ */
 export function SelectSingleField({
   label,
   options,
@@ -81,6 +126,9 @@ export function SelectSingleField({
     field.handleChange(extractSingleValue(params.value));
   };
 
+  // Generate unique IDs for ARIA attributes
+  const errorId = hasError && errorMessage ? `${field.name}-error` : undefined;
+
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
       <BaseSelect
@@ -90,13 +138,44 @@ export function SelectSingleField({
         onChange={handleChange}
         onBlur={field.handleBlur}
         error={hasError}
+        aria-invalid={hasError}
+        aria-describedby={errorId}
         {...restProps}
       />
     </FormControl>
   );
 }
 
-// Multi select component
+/**
+ * Multi-select dropdown component integrated with TanStack Form
+ *
+ * Provides a dropdown for selecting multiple options from a list,
+ * with automatic form state management, validation error display,
+ * and accessibility features. Manages an array of selected values.
+ *
+ * @example
+ * ```tsx
+ * <form.AppField name="skills">
+ *   {(field) => (
+ *     <field.SelectMulti
+ *       label="Skills"
+ *       placeholder="Select your skills"
+ *       options={[
+ *         { id: 'react', label: 'React' },
+ *         { id: 'typescript', label: 'TypeScript' },
+ *         { id: 'nodejs', label: 'Node.js' }
+ *       ]}
+ *     />
+ *   )}
+ * </form.AppField>
+ * ```
+ *
+ * @param label - Label text displayed above the select
+ * @param options - Array of select options
+ * @param formControlProps - Additional BaseUI FormControl props
+ * @param restProps - All other BaseUI Select props (placeholder, clearable, etc.)
+ * @returns Rendered multi-select dropdown with validation support and ARIA attributes
+ */
 export function SelectMultiField({
   label,
   options,
@@ -114,6 +193,9 @@ export function SelectMultiField({
     field.handleChange(extractMultipleValues(params.value));
   };
 
+  // Generate unique IDs for ARIA attributes
+  const errorId = hasError && errorMessage ? `${field.name}-error` : undefined;
+
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
       <BaseSelect
@@ -123,6 +205,8 @@ export function SelectMultiField({
         onBlur={field.handleBlur}
         error={hasError}
         multi={true}
+        aria-invalid={hasError}
+        aria-describedby={errorId}
         {...restProps}
       />
     </FormControl>
