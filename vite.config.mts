@@ -17,7 +17,7 @@ export default defineConfig({
         'src/**/__tests__/**/*',
         'src/**/stories.tsx',
       ],
-      rollupTypes: true,
+      rollupTypes: false,  // Disabled due to API Extractor incompatibility with TS 5.9.3
       outDir: 'dist/types',
     }),
   ],
