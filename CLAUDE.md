@@ -5,37 +5,37 @@ This guide is designed for AI assistants and developers working on this project.
 ## 📦 Tech Stack
 
 ### Core Dependencies
-- **React**: v18.3+ - UI library
-- **TypeScript**: v5.9+ (strict mode enabled)
-- **BaseUI**: v15.0+ - Uber's design system
+- **React**: v19.2+ - UI library
+- **TypeScript**: v6.0+ (strict mode enabled; TypeScript 7 is not yet supported by the lint/declaration toolchain)
+- **BaseUI**: v18.2+ - Uber's design system
 - **Styletron**: v6.1+ - CSS-in-JS styling engine
-- **TanStack Form**: v1.23+ - Headless form state management
+- **TanStack Form**: v1.33+ - Headless form state management
 - **Zod**: v4.1.12+ - TypeScript-first schema validation
 
 ### Build & Development Tools
-- **Build Tool**: Vite v6.4+ (ESM-first bundler)
-- **Testing**: Vitest v4.0+ with React Testing Library v14.3+ (jsdom environment)
-- **Documentation**: Storybook v10.1+ (ESM-only)
-- **Linting**: ESLint v9.39+ with TypeScript support
-- **Formatting**: Prettier v3.6+
+- **Build Tool**: Vite v8.1+ (ESM-first bundler)
+- **Testing**: Vitest v4.1+ with React Testing Library v16.3+ (jsdom environment)
+- **Documentation**: Storybook v10.5+ (ESM-only)
+- **Linting**: ESLint v10.7+ with TypeScript support
+- **Formatting**: Prettier v3.9+
 - **Git Hooks**: Husky v9.1+
 
 ## 🛠️ Available Commands
 
 | Command | Description | Tool |
 |---------|-------------|------|
-| `npm run dev` | Start development server | Vite |
-| `npm run build` | Build library for production | Vite + TypeScript |
-| `npm run clean` | Remove dist and coverage directories | bash |
-| `npm run lint` | Run ESLint checks | ESLint v9 |
-| `npm run lint:fix` | Auto-fix ESLint errors | ESLint v9 |
-| `npm run typecheck` | Run TypeScript type checking | TypeScript |
-| `npm test` | Run all tests once | Vitest |
-| `npm run test:watch` | Run tests in watch mode (auto-rerun) | Vitest |
-| `npm run test:ui` | Open Vitest interactive UI in browser | Vitest |
-| `npm run test:coverage` | Generate test coverage report | Vitest |
-| `npm run storybook` | Start Storybook dev server (port 6006) | Storybook v10 |
-| `npm run build:storybook` | Build Storybook for production | Storybook v10 |
+| `bun run dev` | Start development server | Vite |
+| `bun run build` | Build library for production | Vite + TypeScript |
+| `bun run clean` | Remove dist and coverage directories | bash |
+| `bun run lint` | Run ESLint checks | ESLint v10 |
+| `bun run lint:fix` | Auto-fix ESLint errors | ESLint v10 |
+| `bun run typecheck` | Run TypeScript type checking | TypeScript |
+| `bun run test` | Run all tests once | Vitest |
+| `bun run test:watch` | Run tests in watch mode (auto-rerun) | Vitest |
+| `bun run test:ui` | Open Vitest interactive UI in browser | Vitest |
+| `bun run test:coverage` | Generate test coverage report | Vitest |
+| `bun run storybook` | Start Storybook dev server (port 6006) | Storybook v10 |
+| `bun run build:storybook` | Build Storybook for production | Storybook v10 |
 
 ## 📁 Project Structure
 
