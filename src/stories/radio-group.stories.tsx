@@ -1,9 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useAppForm } from '../hooks/form';
 import { Block } from 'baseui/block';
 import { Card, hasThumbnail, StyledBody } from 'baseui/card';
 import { ParagraphSmall, LabelSmall } from 'baseui/typography';
+import { RadioGroup, Radio, ALIGN, LABEL_PLACEMENT } from 'baseui/radio-v2';
 
 interface RadioOption {
   value: string;
@@ -65,6 +66,26 @@ const RadioGroupStory = (args: RadioGroupStoryProps) => {
         </Card>
       </form>
     </Block>
+  );
+};
+
+const RadioV2DescriptionExample = () => {
+  const [value, setValue] = React.useState('2');
+
+  return (
+    <RadioGroup
+      value={value}
+      onChange={(e) => setValue(e.currentTarget.value)}
+      name="number"
+      align={ALIGN.vertical}
+      labelPlacement={LABEL_PLACEMENT.right}
+    >
+      <Radio value="1">One</Radio>
+      <Radio value="2" description="This is a radio-v2 description">
+        Two
+      </Radio>
+      <Radio value="3">Three</Radio>
+    </RadioGroup>
   );
 };
 
@@ -142,6 +163,22 @@ export const Default: Story = {
     disabled: false,
     options: sizeOptions,
     defaultValue: '',
+  },
+};
+
+export const V2Description: Story = {
+  args: {
+    label: 'Radio v2 description example',
+    options: [],
+  },
+  render: () => <RadioV2DescriptionExample />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Base Web Radio v2 supports an optional description on individual radio buttons. This example uses RadioGroup, Radio, ALIGN.vertical, and LABEL_PLACEMENT.right.',
+      },
+    },
   },
 };
 
