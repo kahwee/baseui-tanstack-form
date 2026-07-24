@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useAppForm } from '../hooks/form';
 import { Block } from 'baseui/block';
-import { Card, StyledBody } from 'baseui/card';
+import { Card, hasThumbnail, StyledBody } from 'baseui/card';
 import { ParagraphSmall } from 'baseui/typography';
 
 interface CheckboxStoryProps {
@@ -31,7 +31,7 @@ const CheckboxStory = (args: CheckboxStoryProps) => {
           form.handleSubmit();
         }}
       >
-        <Card>
+        <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
             <form.AppField name="checkboxValue">
               {(field) => (

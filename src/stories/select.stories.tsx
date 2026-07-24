@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useAppForm } from '../hooks/form';
 import { Block } from 'baseui/block';
-import { Card, StyledBody } from 'baseui/card';
+import { Card, hasThumbnail, StyledBody } from 'baseui/card';
 import { HeadingSmall, LabelSmall } from 'baseui/typography';
 
 // Fleetwood Mac members data
@@ -96,7 +96,7 @@ const SelectStoryComponent = (args: SelectStoryProps) => {
           form.handleSubmit();
         }}
       >
-        <Card>
+        <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
             <HeadingSmall>Fleetwood Mac Fan Form</HeadingSmall>
 
