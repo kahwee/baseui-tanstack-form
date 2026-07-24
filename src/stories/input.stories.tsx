@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useAppForm } from '../hooks/form';
 import { Block } from 'baseui/block';
-import { Card, StyledBody } from 'baseui/card';
+import { Card, hasThumbnail, StyledBody } from 'baseui/card';
 
 interface InputStoryProps {
   label: string;
@@ -34,7 +34,7 @@ const InputStory = (args: InputStoryProps) => {
           form.handleSubmit();
         }}
       >
-        <Card>
+        <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
             <form.AppField name="inputValue">
               {(field) => (

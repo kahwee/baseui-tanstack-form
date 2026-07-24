@@ -1,6 +1,6 @@
 import React from 'react';
 import { withForm } from '../../hooks/form';
-import { Card, StyledBody, StyledAction } from 'baseui/card';
+import { Card, hasThumbnail, StyledBody, StyledAction } from 'baseui/card';
 import { HeadingSmall } from 'baseui/typography';
 import { Block } from 'baseui/block';
 import { formOpts } from '../group/shared-form';
@@ -13,7 +13,7 @@ export const PersonForm = withForm({
   },
   render: ({ form, title }) => {
     return (
-      <Card>
+      <Card overrides={{}} hasThumbnail={hasThumbnail}>
         <StyledBody>
           <HeadingSmall>{title}</HeadingSmall>
           <Block marginBottom="16px">

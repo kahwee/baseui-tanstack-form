@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useAppForm } from '../hooks/form';
 import { Block } from 'baseui/block';
-import { Card, StyledBody, StyledAction } from 'baseui/card';
+import { Card, hasThumbnail, StyledBody, StyledAction } from 'baseui/card';
 import { HeadingSmall, ParagraphSmall } from 'baseui/typography';
 import { z } from 'zod';
 
@@ -119,7 +119,7 @@ const ZodV4ValidationForm = () => {
           form.handleSubmit();
         }}
       >
-        <Card>
+        <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
             <HeadingSmall marginBottom="8px">
               Zod v4 Advanced Validation
@@ -287,7 +287,7 @@ const TransformExampleForm = () => {
           form.handleSubmit();
         }}
       >
-        <Card>
+        <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
             <HeadingSmall marginBottom="8px">
               Zod v4 Transform Example
@@ -385,7 +385,7 @@ const RefineExampleForm = () => {
           form.handleSubmit();
         }}
       >
-        <Card>
+        <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
             <HeadingSmall marginBottom="8px">
               Zod v4 Refine Example

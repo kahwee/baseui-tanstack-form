@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useAppForm } from '../hooks/form';
 import { Block } from 'baseui/block';
-import { Card, StyledBody } from 'baseui/card';
+import { Card, hasThumbnail, StyledBody } from 'baseui/card';
 import { ParagraphSmall, LabelSmall } from 'baseui/typography';
 
 interface DatePickerStoryProps {
@@ -34,7 +34,7 @@ const DatePickerStory = (args: DatePickerStoryProps) => {
           form.handleSubmit();
         }}
       >
-        <Card>
+        <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
             <form.AppField name="dateValue">
               {(field) => (
