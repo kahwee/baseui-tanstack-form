@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl, type FormControlProps } from 'baseui/form-control';
-import { Checkbox, CheckboxProps } from 'baseui/checkbox';
+import { Checkbox, CheckboxProps } from 'baseui/checkbox-v2';
 import { useFieldError } from './use-field-error';
 
 /**

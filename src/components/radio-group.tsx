@@ -1,7 +1,12 @@
 import React from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl } from 'baseui/form-control';
-import { RadioGroup, Radio, RadioProps, RadioGroupProps } from 'baseui/radio';
+import {
+  RadioGroup,
+  Radio,
+  RadioProps,
+  RadioGroupProps,
+} from 'baseui/radio-v2';
 import { FormControlProps } from 'baseui/form-control';
 import { useFieldError } from './use-field-error';
 

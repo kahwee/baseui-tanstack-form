@@ -505,10 +505,19 @@ Reusable form component
 
 ## 📚 Documentation
 
-- **[CLAUDE.md](./CLAUDE.md)** - Comprehensive development guide
+- **[AGENTS.md](./AGENTS.md)** - Comprehensive development guide (also available via the `CLAUDE.md` symlink)
 - **[TESTING.md](./TESTING.md)** - Testing patterns and best practices
 - **[FORM_COMPOSITION.md](./FORM_COMPOSITION.md)** - Advanced form composition patterns
 - **[Storybook](https://kahwee.github.io/baseui-tanstack-form/)** - Interactive component examples
+
+## 🎛️ Base Web input APIs
+
+The form fields use the current Base Web v2 input components:
+
+- [Checkbox v2](https://baseweb.design/components/checkbox-v2/) via `baseui/checkbox-v2`
+- [Radio v2](https://baseweb.design/components/radio-v2/) via `baseui/radio-v2`
+
+These v2 components preserve the same controlled form behavior while providing the current Base Web label, description, accessibility, and styling APIs. New checkbox or radio examples should use these v2 entry points rather than the legacy `baseui/checkbox` or `baseui/radio` modules.
 
 ## 🛠️ Development
 
