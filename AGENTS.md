@@ -1174,6 +1174,15 @@ export type { FormOptions, FieldProps } from './types';
 // ... other exports
 ```
 
+## Base Web v2 input guidance
+
+This repository uses the current Base Web v2 input entry points:
+
+- Checkbox: `baseui/checkbox-v2` — [official documentation](https://baseweb.design/components/checkbox-v2/)
+- Radio: `baseui/radio-v2` — [official documentation](https://baseweb.design/components/radio-v2/)
+
+Keep these controls controlled by TanStack Form and read checkbox/radio values from the native input change event. Do not introduce the legacy `baseui/checkbox` or `baseui/radio` imports in new code or stories.
+
 ## 📖 Additional Resources
 
 - **[README.md](./README.md)** - User-facing documentation
