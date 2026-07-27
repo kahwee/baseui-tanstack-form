@@ -523,8 +523,8 @@ These v2 components preserve the same controlled form behavior while providing t
 
 ### Prerequisites
 
-- Node.js 18+ or Bun 1.0+
-- npm, yarn, or pnpm
+- Bun 1.3.14+ (the repository pins Bun 1.3.14)
+- Bun 1.3.14+
 
 ### Setup
 
@@ -538,25 +538,25 @@ cd baseui-tanstack-form
 Install dependencies:
 
 ```bash
-npm install
+bun install
 ```
 
 ### Available Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start Vite development server |
-| `npm run build` | Build library for production |
-| `npm run clean` | Remove build artifacts |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Fix ESLint errors |
-| `npm run typecheck` | Run TypeScript type checking |
-| `npm test` | Run tests with Vitest |
-| `npm run test:watch` | Run tests in watch mode |
-| `npm run test:ui` | Open Vitest UI |
-| `npm run test:coverage` | Generate coverage report |
-| `npm run storybook` | Start Storybook dev server |
-| `npm run build:storybook` | Build Storybook for production |
+| `bun run dev` | Start Vite development server |
+| `bun run build` | Build library for production |
+| `bun run clean` | Remove build artifacts |
+| `bun run lint` | Run ESLint |
+| `bun run lint:fix` | Fix ESLint errors |
+| `bun run typecheck` | Run TypeScript type checking |
+| `bun run test` | Run tests with Vitest |
+| `bun run test:watch` | Run tests in watch mode |
+| `bun run test:ui` | Open Vitest UI |
+| `bun run test:coverage` | Generate coverage report |
+| `bun run storybook` | Start Storybook dev server |
+| `bun run build:storybook` | Build Storybook for production |
 
 ### Tech Stack
 
@@ -590,8 +590,8 @@ Contributions are welcome! Please follow these steps:
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
 3. Make your changes
-4. Run tests: `npm test`
-5. Run linting: `npm run lint`
+4. Run tests: `bun run test`
+5. Run linting: `bun run lint`
 6. Commit your changes: `git commit -m 'Add amazing feature'`
 7. Push to the branch: `git push origin feature/amazing-feature`
 8. Open a Pull Request
