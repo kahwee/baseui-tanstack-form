@@ -951,16 +951,16 @@ This project uses **Vitest v4** with **React Testing Library v14.3+** for compre
 
 ```bash
 # Run all tests once
-npm test
+bun run test
 
 # Run tests in watch mode (auto-reruns on file changes)
-npm run test:watch
+bun run test:watch
 
 # Open Vitest UI for interactive testing
-npm run test:ui
+bun run test:ui
 
 # Run tests with coverage report
-npm run test:coverage
+bun run test:coverage
 ```
 
 ### Test File Locations
@@ -1087,7 +1087,7 @@ See **[TESTING.md](./TESTING.md)** for comprehensive testing guidelines, pattern
 Start the Storybook development server:
 
 ```bash
-npm run storybook
+bun run storybook
 ```
 
 Visit [http://localhost:6006](http://localhost:6006) to view the component library.
@@ -1147,21 +1147,21 @@ https://kahwee.github.io/baseui-tanstack-form/
 ### Pre-commit Hooks
 
 Husky runs the following checks before each commit:
-- ESLint checks (`npm run lint`)
-- TypeScript type checking (`npm run typecheck`)
+- ESLint checks (`bun run lint`)
+- TypeScript type checking (`bun run typecheck`)
 
 If checks fail, the commit will be blocked. Fix the issues or use `--no-verify` to bypass (not recommended).
 
 ### Code Quality Checklist
 
 Before submitting a PR:
-- ✅ All tests pass: `npm test`
-- ✅ No linting errors: `npm run lint`
-- ✅ No type errors: `npm run typecheck`
+- ✅ All tests pass: `bun run test`
+- ✅ No linting errors: `bun run lint`
+- ✅ No type errors: `bun run typecheck`
 - ✅ Code is formatted: Prettier runs automatically
-- ✅ Tests have good coverage: `npm run test:coverage`
-- ✅ Storybook builds: `npm run build:storybook`
-- ✅ Library builds: `npm run build`
+- ✅ Tests have good coverage: `bun run test:coverage`
+- ✅ Storybook builds: `bun run build:storybook`
+- ✅ Library builds: `bun run build`
 
 ### Export Guidelines
 
