@@ -1,21 +1,22 @@
-import React from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl, type FormControlProps } from 'baseui/form-control';
 import {
   DatePicker as BaseDatePicker,
-  DatepickerProps,
+  type DatepickerProps,
 } from 'baseui/datepicker';
 import { useFieldError } from './use-field-error';
 
 /**
  * Props for the DatePickerField component
  */
-type DatePickerFieldProps = {
+export type DatePickerFieldProps = {
   /** Label text displayed above the date picker */
   label: FormControlProps['label'];
   /** Additional props for the FormControl wrapper */
   formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>;
-} & Omit<DatepickerProps, 'value' | 'onChange' | 'error'>;
+} & Omit<DatepickerProps, 'value' | 'onChange' | 'error' | 'range'> & {
+    range?: false;
+  };
 
 /**
  * Date picker component integrated with TanStack Form

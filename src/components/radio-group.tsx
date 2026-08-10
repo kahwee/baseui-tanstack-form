@@ -1,23 +1,23 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl } from 'baseui/form-control';
 import {
   RadioGroup,
   Radio,
-  RadioProps,
-  RadioGroupProps,
+  type RadioProps,
+  type RadioGroupProps,
 } from 'baseui/radio-v2';
-import { FormControlProps } from 'baseui/form-control';
+import type { FormControlProps } from 'baseui/form-control';
 import { useFieldError } from './use-field-error';
 
 /**
  * Configuration for a single radio button option
  */
-type RadioOption = {
+export type RadioOption = {
   /** Unique value for this radio option */
   value: string;
   /** Label text or component displayed next to the radio button */
-  label: React.ReactNode;
+  label: ReactNode;
   /** Optional description text displayed below the label */
   description?: string;
   /** BaseUI style overrides for this radio button */
@@ -29,7 +29,7 @@ type RadioOption = {
 /**
  * Props for the RadioGroupField component
  */
-type RadioGroupFieldProps = {
+export type RadioGroupFieldProps = {
   /** Label text displayed above the radio group */
   label: FormControlProps['label'];
   /** Array of radio button options to display */
