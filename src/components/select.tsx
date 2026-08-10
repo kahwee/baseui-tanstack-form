@@ -1,11 +1,10 @@
-import React from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl, type FormControlProps } from 'baseui/form-control';
 import {
   Select as BaseSelect,
-  SelectProps,
-  Value,
-  Option,
+  type SelectProps,
+  type Value,
+  type Option,
 } from 'baseui/select';
 import { useFieldError } from './use-field-error';
 
@@ -199,6 +198,7 @@ export function SelectMultiField({
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
       <BaseSelect
+        id={field.name}
         options={formattedOptions}
         value={formattedValue}
         onChange={handleChange}

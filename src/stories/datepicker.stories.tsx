@@ -8,7 +8,6 @@ import { ParagraphSmall, LabelSmall } from 'baseui/typography';
 interface DatePickerStoryProps {
   label: string;
   disabled?: boolean;
-  range?: boolean;
   defaultDate?: Date | null;
 }
 
@@ -38,11 +37,7 @@ const DatePickerStory = (args: DatePickerStoryProps) => {
           <StyledBody>
             <form.AppField name="dateValue">
               {(field) => (
-                <field.DatePicker
-                  label={args.label}
-                  disabled={args.disabled}
-                  range={args.range}
-                />
+                <field.DatePicker label={args.label} disabled={args.disabled} />
               )}
             </form.AppField>
 
@@ -82,10 +77,6 @@ const meta = {
       control: 'boolean',
       description: 'Whether the date picker is disabled',
     },
-    range: {
-      control: 'boolean',
-      description: 'Enable date range selection',
-    },
     defaultDate: {
       control: 'date',
       description: 'Initial date value',
@@ -100,7 +91,6 @@ export const Default: Story = {
   args: {
     label: 'Select a date',
     disabled: false,
-    range: false,
     defaultDate: null,
   },
 };
@@ -109,7 +99,6 @@ export const BirthDate: Story = {
   args: {
     label: 'Date of Birth',
     disabled: false,
-    range: false,
     defaultDate: null,
   },
 };
@@ -118,7 +107,6 @@ export const AppointmentDate: Story = {
   args: {
     label: 'Appointment Date',
     disabled: false,
-    range: false,
     defaultDate: new Date(),
   },
 };
@@ -127,7 +115,6 @@ export const WithDefaultDate: Story = {
   args: {
     label: 'Start Date',
     disabled: false,
-    range: false,
     defaultDate: new Date('2024-01-15'),
   },
 };
@@ -136,7 +123,6 @@ export const Disabled: Story = {
   args: {
     label: 'Disabled Date Picker',
     disabled: true,
-    range: false,
     defaultDate: new Date(),
   },
 };
@@ -145,7 +131,6 @@ export const EventDate: Story = {
   args: {
     label: 'Event Date',
     disabled: false,
-    range: false,
     defaultDate: null,
   },
 };
@@ -154,7 +139,6 @@ export const DeadlineDate: Story = {
   args: {
     label: 'Project Deadline',
     disabled: false,
-    range: false,
     defaultDate: null,
   },
 };

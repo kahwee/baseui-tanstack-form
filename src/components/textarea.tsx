@@ -1,14 +1,13 @@
-import React from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl } from 'baseui/form-control';
-import { Textarea, TextareaProps } from 'baseui/textarea';
-import { FormControlProps } from 'baseui/form-control';
+import { Textarea, type TextareaProps } from 'baseui/textarea';
+import type { FormControlProps } from 'baseui/form-control';
 import { useFieldError } from './use-field-error';
 
 /**
  * Props for the TextareaField component
  */
-type TextareaFieldProps = {
+export type TextareaFieldProps = {
   /** Label text displayed above the textarea */
   label: FormControlProps['label'];
   /** Additional props for the FormControl wrapper */

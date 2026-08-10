@@ -1,13 +1,15 @@
-import React from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl, type FormControlProps } from 'baseui/form-control';
-import { Checkbox as BaseCheckbox, CheckboxProps } from 'baseui/checkbox-v2';
+import {
+  Checkbox as BaseCheckbox,
+  type CheckboxProps,
+} from 'baseui/checkbox-v2';
 import { useFieldError } from './use-field-error';
 
 /**
  * Props for the CheckboxField component
  */
-type CheckboxFieldProps = {
+export type CheckboxFieldProps = {
   /** Label text displayed next to the checkbox */
   label: string;
   /** Additional props for the FormControl wrapper */

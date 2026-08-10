@@ -1,17 +1,17 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl, type FormControlProps } from 'baseui/form-control';
-import { Checkbox, CheckboxProps } from 'baseui/checkbox-v2';
+import { Checkbox, type CheckboxProps } from 'baseui/checkbox-v2';
 import { useFieldError } from './use-field-error';
 
 /**
  * Configuration for a single checkbox option
  */
-type CheckboxOption = {
+export type CheckboxOption = {
   /** Unique value for this checkbox option */
   value: string;
   /** Label text or component displayed next to the checkbox */
-  label: React.ReactNode;
+  label: ReactNode;
   /** BaseUI style overrides for this checkbox */
   overrides?: CheckboxProps['overrides'];
   /** Whether this checkbox option is disabled */
@@ -21,7 +21,7 @@ type CheckboxOption = {
 /**
  * Props for the CheckboxGroupField component
  */
-type CheckboxGroupFieldProps = {
+export type CheckboxGroupFieldProps = {
   /** Label text displayed above the checkbox group */
   label: FormControlProps['label'];
   /** Array of checkbox options to display */
@@ -88,7 +88,7 @@ export function CheckboxGroupField({
   const handleChange = (value: string, checked: boolean) => {
     if (checked) {
       // Add value to array if not present
-      field.handleChange([...selectedValues, value]);
+      field.handleChange(Array.from(new Set([...selectedValues, value])));
     } else {
       // Remove value from array
       field.handleChange(selectedValues.filter((val) => val !== value));

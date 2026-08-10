@@ -1,13 +1,12 @@
-import React from 'react';
 import { useFieldContext } from '../hooks/form-context';
 import { FormControl, type FormControlProps } from 'baseui/form-control';
-import { Input, InputProps } from 'baseui/input';
+import { Input, type InputProps } from 'baseui/input';
 import { useFieldError } from './use-field-error';
 
 /**
  * Props for the InputField component
  */
-type InputFieldProps = {
+export type InputFieldProps = {
   /** Label text displayed above the input field */
   label: FormControlProps['label'];
   /** Additional props for the FormControl wrapper */
