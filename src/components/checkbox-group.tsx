@@ -34,7 +34,14 @@ export type CheckboxGroupFieldProps = {
   checkboxProps?: Partial<
     Omit<
       CheckboxProps,
-      'checked' | 'onChange' | 'onBlur' | 'error' | 'children' | 'value'
+      | 'checked'
+      | 'onChange'
+      | 'onBlur'
+      | 'error'
+      | 'children'
+      | 'value'
+      | 'disabled'
+      | 'overrides'
     >
   >;
 };
@@ -97,7 +104,6 @@ export function CheckboxGroupField({
 
   // Convert label to string for aria-label
   const ariaLabel = typeof label === 'string' ? label : field.name;
-  const errorId = hasError && errorMessage ? `${field.name}-error` : undefined;
 
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
@@ -105,7 +111,6 @@ export function CheckboxGroupField({
         role="group"
         aria-label={ariaLabel}
         aria-invalid={hasError}
-        aria-describedby={errorId}
         style={{
           display: inline ? 'flex' : 'block',
           gap: inline ? '16px' : undefined,
@@ -117,10 +122,10 @@ export function CheckboxGroupField({
             checked={selectedValues.includes(option.value)}
             onChange={(e) => handleChange(option.value, e.target.checked)}
             onBlur={field.handleBlur}
+            {...checkboxProps}
             overrides={option.overrides}
             disabled={option.disabled}
             error={hasError}
-            {...checkboxProps}
           >
             {option.label}
           </Checkbox>

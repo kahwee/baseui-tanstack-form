@@ -44,7 +44,7 @@ export default defineConfig({
       '.storybook',
       'storybook-static',
       'coverage',
-      '**/*.browser.tsx', // Exclude old browser tests
+      '**/*.browser.tsx', // Browser-focused integration suites are kept separate from jsdom unit tests
     ],
   },
   resolve: {

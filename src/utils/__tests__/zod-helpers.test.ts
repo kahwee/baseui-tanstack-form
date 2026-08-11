@@ -5,6 +5,7 @@ import {
   getAllZodErrors,
   zodErrorsToFieldMap,
   createZodValidator,
+  createZodFieldValidator,
   validateAsync,
   commonSchemas,
   createPasswordMatchSchema,
@@ -207,6 +208,28 @@ describe('Zod Helpers', () => {
       });
 
       expect(result).toBeDefined();
+    });
+  });
+
+  describe('createZodFieldValidator', () => {
+    it('validates a field schema directly', () => {
+      const validator = createZodFieldValidator(
+        z.string().min(3, 'Username is too short'),
+      );
+
+      expect(validator({ value: 'ab' })).toBe('Username is too short');
+      expect(validator({ value: 'valid' })).toBeUndefined();
+    });
+
+    it('supports the legacy object-schema and field-name API', () => {
+      const schema = z.object({
+        username: z.string().min(3, 'Username is too short'),
+        email: z.string().email(),
+      });
+      const validator = createZodFieldValidator(schema, 'username');
+
+      expect(validator({ value: 'ab' })).toBe('Username is too short');
+      expect(validator({ value: 'valid' })).toBeUndefined();
     });
   });
 

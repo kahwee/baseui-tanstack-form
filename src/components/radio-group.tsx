@@ -76,9 +76,6 @@ export function RadioGroupField({
   const field = useFieldContext<string>();
   const { hasError, errorMessage } = useFieldError(field);
 
-  // Generate unique IDs for ARIA attributes
-  const errorId = hasError && errorMessage ? `${field.name}-error` : undefined;
-
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
       <RadioGroup
@@ -88,7 +85,6 @@ export function RadioGroupField({
         onBlur={field.handleBlur}
         error={hasError}
         aria-invalid={hasError}
-        aria-describedby={errorId}
         {...restProps}
       >
         {options.map((option) => (

@@ -1,53 +1,111 @@
-import type { FieldError, FormErrors, ErrorObject } from '../types';
+import type { FieldError, FormErrors } from '../types';
 
-// Re-export for backward compatibility
-export type { FieldError, FormErrors, ErrorObject };
+export type { FieldError, FormErrors, ErrorObject } from '../types';
 
-/**
- * Parses a nested field path like "people[0].firstName" into segments
- * Returns an object with segments and array matches
- */
-function parseFieldPath(path: string): {
-  segments: string[];
-  arrayMatches: Array<{ key: string; index: number }>;
-} {
-  const segments = [];
-  const arrayMatches = [];
+type FieldLike = {
+  getMeta: () => { errors?: unknown[] };
+  form: { getAllErrors: () => FormErrors };
+  name: string;
+};
 
-  // Match patterns like 'people[0]' or just 'name'
-  const regex = /([^[\].]+)(?:\[(\d+)\])?\.?/g;
-  let match;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
 
-  while ((match = regex.exec(path)) !== null) {
-    const [, key, indexStr] = match;
-    segments.push(key);
+/** Normalize the common error shapes returned by TanStack Form and schema validators. */
+export function getErrorMessage(error: unknown): string | null {
+  if (typeof error === 'string') return error;
+  if (!error) return null;
 
-    if (indexStr !== undefined) {
-      arrayMatches.push({
-        key,
-        index: parseInt(indexStr, 10),
-      });
-
-      // Also add the index as a segment
-      segments.push(indexStr);
+  if (Array.isArray(error)) {
+    for (const item of error) {
+      const message = getErrorMessage(item);
+      if (message) return message;
     }
+    return null;
   }
 
-  return { segments, arrayMatches };
+  if (!isRecord(error)) return null;
+
+  if (typeof error.message === 'string') return error.message;
+
+  if (Array.isArray(error._errors)) {
+    const message = getErrorMessage(error._errors);
+    if (message) return message;
+  }
+
+  if (Array.isArray(error.issues)) {
+    const message = getErrorMessage(error.issues);
+    if (message) return message;
+  }
+
+  for (const value of Object.values(error)) {
+    const message = getErrorMessage(value);
+    if (message) return message;
+  }
+
+  return null;
+}
+
+function toPathSegments(path: string): string[] {
+  return path
+    .replace(/\[(\d+)\]/g, '.$1')
+    .split('.')
+    .filter(Boolean);
+}
+
+function getAtPath(value: unknown, path: string[]): unknown {
+  let current = value;
+  for (const segment of path) {
+    if (!isRecord(current) || !(segment in current)) return undefined;
+    current = current[segment];
+  }
+  return current;
+}
+
+function getFormErrorMessage(error: unknown): string | null {
+  if (!isRecord(error)) return null;
+
+  if (Array.isArray(error._errors)) {
+    return getErrorMessage(error._errors);
+  }
+
+  if (Array.isArray(error.issues)) {
+    return getErrorMessage(error.issues);
+  }
+
+  for (const [key, value] of Object.entries(error)) {
+    if (key === 'message') continue;
+    const message = getFormErrorMessage(value);
+    if (message) return message;
+  }
+
+  return null;
+}
+
+function findFieldError(container: unknown, fieldName: string): string | null {
+  if (!isRecord(container)) return null;
+
+  // TanStack/Zod adapters may use either bracket or dot notation as direct keys.
+  const directCandidates = [fieldName, fieldName.replace(/\[(\d+)\]/g, '.$1')];
+  for (const key of directCandidates) {
+    const message = getFormErrorMessage(container[key]);
+    if (message) return message;
+  }
+
+  return getFormErrorMessage(getAtPath(container, toPathSegments(fieldName)));
 }
 
 /**
- * Utility function to get the first error for a field, checking both field and form-level errors
- * Now supports nested fields like "people[0].firstName"
+ * Return the first useful error for a field.
+ *
+ * Field-level errors win. Form-level errors are used as a fallback so object-level
+ * schema validators can still surface messages for nested fields.
  */
-export function useFieldError(field: {
-  getMeta: () => { errors?: string[] };
-  form: { getAllErrors: () => FormErrors };
-  name: string;
-}): FieldError {
-  // If field or required methods are missing, return no error
+export function useFieldError(field: FieldLike | null | undefined): FieldError {
   if (
     !field ||
+    typeof field.name !== 'string' ||
     typeof field.getMeta !== 'function' ||
     !field.form ||
     typeof field.form.getAllErrors !== 'function'
@@ -55,233 +113,35 @@ export function useFieldError(field: {
     return { hasError: false, errorMessage: null };
   }
 
-  const meta = field.getMeta();
-  let formErrors;
+  const fieldMessage = getErrorMessage(field.getMeta()?.errors);
+  if (fieldMessage) {
+    return { hasError: true, errorMessage: fieldMessage };
+  }
 
+  let formErrors: FormErrors;
   try {
     formErrors = field.form.getAllErrors();
   } catch {
-    // If getting errors fails, return no error without using error variable
     return { hasError: false, errorMessage: null };
   }
 
-  // Check for field-level errors first
-  let hasError = Boolean(meta?.errors?.length);
-  let errorMessage = hasError && meta?.errors?.[0] ? meta.errors[0] : null;
+  for (const errorGroup of formErrors.form?.errors ?? []) {
+    const message = findFieldError(errorGroup, field.name);
+    if (message) return { hasError: true, errorMessage: message };
+  }
 
-  // If no field-level errors, check form-level errors for this field name
-  if (
-    !errorMessage &&
-    formErrors?.form?.errors &&
-    Array.isArray(formErrors.form.errors) &&
-    formErrors.form.errors.length > 0
-  ) {
-    // First try direct match with the full field name
-    for (const errorGroup of formErrors.form.errors) {
-      if (
-        errorGroup &&
-        typeof errorGroup === 'object' &&
-        errorGroup !== null &&
-        field.name &&
-        typeof field.name === 'string' &&
-        field.name in errorGroup
-      ) {
-        const fieldError = errorGroup[field.name];
-        const fieldErrors =
-          fieldError && typeof fieldError === 'object' && fieldError !== null
-            ? fieldError._errors
-            : undefined;
-        if (Array.isArray(fieldErrors) && fieldErrors.length > 0) {
-          hasError = true;
-          errorMessage = fieldErrors[0];
-          break;
-        }
-      }
-    }
+  // Some adapters expose form errors in an errorMap instead of errors[].
+  const errorMap = formErrors.form?.errorMap;
+  if (errorMap) {
+    const directMessage = findFieldError(errorMap, field.name);
+    if (directMessage) return { hasError: true, errorMessage: directMessage };
 
-    // If still no error found, try parsing the field path for nested fields
-    if (!errorMessage) {
-      const { segments, arrayMatches } = parseFieldPath(field.name);
-
-      // If we have array matches, try to find errors in the nested structure
-      if (arrayMatches.length > 0) {
-        // Convert array notation to dot notation (people[0].firstName -> people.0.firstName)
-        const dotNotation = field.name.replace(/\[(\d+)\]/g, '.$1');
-
-        for (const errorGroup of formErrors.form.errors) {
-          if (
-            !errorGroup ||
-            typeof errorGroup !== 'object' ||
-            errorGroup === null
-          )
-            continue;
-
-          // 1. Check for direct match with dot notation
-          if (typeof dotNotation === 'string' && dotNotation in errorGroup) {
-            const errorObj = errorGroup[dotNotation];
-            if (
-              errorObj &&
-              typeof errorObj === 'object' &&
-              errorObj !== null &&
-              '_errors' in errorObj &&
-              Array.isArray((errorObj as ErrorObject)._errors) &&
-              (errorObj as ErrorObject)._errors!.length > 0
-            ) {
-              hasError = true;
-              errorMessage = (errorObj as ErrorObject)._errors![0];
-              break;
-            }
-          }
-
-          // 2. Recursively check through the nested structure
-          const checkNestedErrors = (
-            obj: Record<string, unknown>,
-            path: string[],
-          ): string | null => {
-            if (!obj || !path || !Array.isArray(path) || path.length === 0)
-              return null;
-
-            const key = path[0];
-            if (typeof key !== 'string') return null;
-
-            const remaining = path.slice(1);
-            const currentValue = obj[key];
-
-            // Check if we're at leaf node with errors
-            if (
-              path.length === 1 &&
-              currentValue &&
-              typeof currentValue === 'object' &&
-              currentValue !== null
-            ) {
-              const errorObj = currentValue as ErrorObject;
-              if (
-                Array.isArray(errorObj._errors) &&
-                errorObj._errors.length > 0
-              ) {
-                return errorObj._errors[0];
-              }
-            }
-
-            // Navigate deeper if possible
-            if (
-              currentValue &&
-              typeof currentValue === 'object' &&
-              currentValue !== null &&
-              remaining.length > 0
-            ) {
-              return checkNestedErrors(
-                currentValue as Record<string, unknown>,
-                remaining,
-              );
-            }
-
-            return null;
-          };
-
-          // Try different possible path formats
-          const pathsToTry = [
-            // Format like "people.0.firstName" as an array of segments
-            dotNotation.split('.'),
-            // The original path segments
-            segments,
-          ];
-
-          // For each possible path format
-          for (const path of pathsToTry) {
-            const error = checkNestedErrors(errorGroup, path);
-
-            if (error) {
-              hasError = true;
-              errorMessage = error;
-              break;
-            }
-          }
-
-          if (errorMessage) break;
-
-          // 3. Also check for fully nested structure: { people: { '0': { firstName: { _errors: [...] } } } }
-          const traverseNestedFields = (
-            obj: Record<string, unknown>,
-            pathParts: string[],
-            index: number,
-          ): string | null => {
-            if (
-              !obj ||
-              !pathParts ||
-              !Array.isArray(pathParts) ||
-              index >= pathParts.length
-            )
-              return null;
-
-            const part = pathParts[index];
-            if (typeof part !== 'string') return null;
-
-            // Safe 'in' operator check
-            if (typeof obj !== 'object' || obj === null || !(part in obj))
-              return null;
-
-            const value = obj[part] as Record<string, unknown>;
-
-            // If this is the last part, check for _errors
-            if (index === pathParts.length - 1) {
-              if (
-                value &&
-                typeof value === 'object' &&
-                value !== null &&
-                '_errors' in value &&
-                Array.isArray(value._errors) &&
-                value._errors.length > 0
-              ) {
-                return value._errors[0] as string;
-              }
-              return null;
-            }
-
-            // Otherwise, continue traversing
-            if (value && typeof value === 'object' && value !== null) {
-              return traverseNestedFields(
-                value as Record<string, unknown>,
-                pathParts,
-                index + 1,
-              );
-            }
-
-            return null;
-          };
-
-          // Try fully nested path format
-          if (arrayMatches.length > 0) {
-            let currentPath: string[] = [];
-            let lastWasArrayElement = false;
-
-            // Build a path for the fully nested structure
-            segments.forEach((segment) => {
-              if (lastWasArrayElement) {
-                // After an array index, we need to check if next segment is a property
-                currentPath.push(segment);
-                lastWasArrayElement = false;
-              } else if (/^\d+$/.test(segment)) {
-                // This is an array index
-                lastWasArrayElement = true;
-                currentPath.push(segment);
-              } else {
-                // This is a regular property
-                currentPath.push(segment);
-              }
-            });
-
-            const error = traverseNestedFields(errorGroup, currentPath, 0);
-            if (error) {
-              hasError = true;
-              errorMessage = error;
-              break;
-            }
-          }
-        }
-      }
+    // errorMap can also be keyed by validation cause (onChange/onBlur/etc.).
+    for (const group of Object.values(errorMap)) {
+      const message = findFieldError(group, field.name);
+      if (message) return { hasError: true, errorMessage: message };
     }
   }
 
-  return { hasError, errorMessage };
+  return { hasError: false, errorMessage: null };
 }

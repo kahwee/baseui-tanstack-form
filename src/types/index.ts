@@ -27,9 +27,9 @@ export type FormErrors = {
   /** Form-level errors */
   form?: {
     /** Array of error groups */
-    errors?: Array<Record<string, ErrorObject>>;
+    errors?: Array<Record<string, unknown>>;
     /** Map of error groups */
-    errorMap?: Record<string, Record<string, ErrorObject>>;
+    errorMap?: Record<string, unknown>;
   };
   /** Field-level errors */
   fields?: Record<string, unknown>;
@@ -40,7 +40,7 @@ export type FormErrors = {
  */
 export type ErrorObject = {
   /** Array of error messages */
-  _errors?: string[];
+  _errors?: unknown[];
   /** Nested error objects */
   [key: string]: unknown;
 };
