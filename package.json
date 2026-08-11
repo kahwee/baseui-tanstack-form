@@ -19,7 +19,12 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./zod": {
+      "types": "./dist/zod.d.ts",
+      "import": "./dist/zod.js",
+      "require": "./dist/zod.cjs"
+    }
   },
   "author": "KahWee Teng <tengkahwee@gmail.com>",
   "scripts": {
@@ -37,7 +42,8 @@
     "test:ui": "vitest --ui",
     "prepare": "husky",
     "prepublishOnly": "bun run clean && bun run check",
-    "check": "bun run lint && bun run typecheck && bun run test && bun run build"
+    "check": "bun run lint && bun run typecheck && bun run test && bun run build && bun run test:package",
+    "test:package": "node scripts/test-package.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

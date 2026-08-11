@@ -138,38 +138,37 @@ export function createZodValidator<T extends z.ZodType>(schema: T) {
 }
 
 /**
- * Create a TanStack Form field-level validator from a Zod schema
+ * Create a TanStack Form field-level validator from a Zod schema.
  *
- * Generates a validator that validates a single field against a schema,
- * useful for field-specific validation with better error messages.
- *
- * @param schema - Zod schema to use for validation
- * @param fieldName - Name of the field to validate
- * @returns Validator function for TanStack Form field
+ * Prefer passing the field schema directly. For backward compatibility, an
+ * object schema plus a field name is also supported.
  *
  * @example
  * ```ts
- * const schema = z.object({ username: z.string().min(3) });
+ * validators={{
+ *   onBlur: createZodFieldValidator(z.string().min(3)),
+ * }}
+ * ```
  *
- * <form.AppField
- *   name="username"
- *   validators={{
- *     onChange: createZodFieldValidator(schema, 'username')
- *   }}
- * >
+ * @example Backward-compatible object-schema form
+ * ```ts
+ * const schema = z.object({ username: z.string().min(3) });
+ * validators={{
+ *   onBlur: createZodFieldValidator(schema, 'username'),
+ * }}
  * ```
  */
 export function createZodFieldValidator<T extends z.ZodType>(
   schema: T,
-  fieldName: string,
+  fieldName?: string,
 ) {
   return ({ value }: { value: unknown }) => {
-    const result = schema.safeParse(value);
-    if (!result.success) {
-      const fieldError = getFirstZodError(result.error, fieldName);
-      return fieldError || undefined;
-    }
-    return undefined;
+    const input = fieldName ? { [fieldName]: value } : value;
+    const result = schema.safeParse(input);
+
+    if (result.success) return undefined;
+
+    return getFirstZodError(result.error, fieldName) ?? undefined;
   };
 }
 

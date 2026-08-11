@@ -49,9 +49,6 @@ export function CheckboxField({
   const field = useFieldContext<boolean>();
   const { hasError, errorMessage } = useFieldError(field);
 
-  // Generate unique IDs for ARIA attributes
-  const errorId = hasError && errorMessage ? `${field.name}-error` : undefined;
-
   return (
     <FormControl error={errorMessage} {...formControlProps}>
       <BaseCheckbox
@@ -60,7 +57,6 @@ export function CheckboxField({
         onBlur={field.handleBlur}
         error={hasError}
         aria-invalid={hasError}
-        aria-describedby={errorId}
         {...restProps}
       >
         {label}

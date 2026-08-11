@@ -565,10 +565,8 @@ describe('useFieldError', () => {
 
       const { result } = renderHook(() => useFieldError(field));
 
-      // The current implementation doesn't check errorMap, but would
-      // be a good extension to support this format from Zod
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
+      expect(result.current.hasError).toBe(true);
+      expect(result.current.errorMessage).toBe('Username is required');
     });
   });
 

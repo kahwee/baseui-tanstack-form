@@ -83,7 +83,7 @@ npm install baseui-tanstack-form
 
 ```tsx
 import React from 'react';
-import { useAppForm } from 'baseui-tanstack-form/form';
+import { useAppForm } from 'baseui-tanstack-form';
 import { z } from 'zod';
 
 // Define your validation schema
@@ -178,7 +178,6 @@ All components are fully integrated with TanStack Form and accessed through the 
 | **Checkbox** | Single boolean checkbox | `boolean` | `<field.Checkbox label="I agree to terms" />` |
 | **CheckboxGroup** | Multiple checkboxes | `string[]` | `<field.CheckboxGroup label="Interests" options={[...]} />` |
 | **DatePicker** | Date selection | `Date \| string` | `<field.DatePicker label="Birth Date" />` |
-| **Toggle** | Toggle switch | `boolean` | `<field.Toggle>Enable notifications</field.Toggle>` |
 | **SubscribeButton** | Submit button with loading state | N/A | `<form.SubscribeButton label="Submit" />` |
 
 ### Component Examples
@@ -248,13 +247,15 @@ All components are fully integrated with TanStack Form and accessed through the 
 
 ## ✅ Validation
 
+Zod-specific helpers are available from `baseui-tanstack-form/zod` and remain re-exported from the package root for backward compatibility.
+
 ### Zod Schema Validation
 
 This library provides seamless integration with Zod v4 for powerful, type-safe validation:
 
 ```tsx
 import { z } from 'zod';
-import { useAppForm } from 'baseui-tanstack-form/form';
+import { useAppForm } from 'baseui-tanstack-form';
 
 const registrationSchema = z.object({
   username: z
@@ -400,7 +401,7 @@ const userSchema = z.object({
 Create reusable form sections using the `withForm` HOC:
 
 ```tsx
-import { useAppForm, withForm } from 'baseui-tanstack-form/form';
+import { useAppForm, withForm } from 'baseui-tanstack-form';
 
 // Reusable address form section
 const AddressForm = withForm({

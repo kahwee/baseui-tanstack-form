@@ -3,21 +3,29 @@
     "target": "es2022",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "rootDir": "src",
-    "outDir": "dist",
-    "declaration": true,
-    "declarationDir": "dist/types",
-    "types": ["vitest/globals", "@testing-library/jest-dom"],
-    "paths": {
-      "react": ["./node_modules/@types/react"]
-    }
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.browser.tsx", "src/setup-tests.ts"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.browser.tsx",
+    "src/setup-tests.ts"
+  ]
 }

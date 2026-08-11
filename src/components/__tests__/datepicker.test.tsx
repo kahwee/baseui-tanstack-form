@@ -9,18 +9,8 @@ type TestSchema = {
   eventDate: string | null;
 };
 
-/**
- * DatePicker Component Tests
- *
- * Note: These tests are skipped because react-input-mask (a dependency of BaseUI's
- * DatePicker) is not fully compatible with React 19 in jsdom environments.
- * The library tries to access DOM properties that don't exist in jsdom, resulting in
- * "Cannot read properties of undefined (reading 'disabled')" errors.
- *
- * This is a known limitation with react-input-mask and jsdom + React 19.
- * Browser tests would pass. The component works correctly in real browsers.
- */
-describe.skip('DatePicker Component', () => {
+/** DatePicker component tests for the package's supported React 18 runtime. */
+describe('DatePicker Component', () => {
   it('renders with label', () => {
     function TestForm() {
       const form = useAppForm({

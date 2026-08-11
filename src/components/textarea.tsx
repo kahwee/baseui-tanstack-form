@@ -46,9 +46,6 @@ export function TextareaField({
   const field = useFieldContext<string>();
   const { hasError, errorMessage } = useFieldError(field);
 
-  // Generate unique IDs for ARIA attributes
-  const errorId = hasError && errorMessage ? `${field.name}-error` : undefined;
-
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
       <Textarea
@@ -58,7 +55,6 @@ export function TextareaField({
         onBlur={field.handleBlur}
         error={hasError}
         aria-invalid={hasError}
-        aria-describedby={errorId}
         {...restProps}
       />
     </FormControl>

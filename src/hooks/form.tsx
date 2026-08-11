@@ -18,9 +18,15 @@ import { DatePickerField } from '../components/datepicker';
 function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext();
   return (
-    <form.Subscribe selector={(state) => state.isSubmitting}>
-      {(isSubmitting) => (
-        <Button type="submit" disabled={isSubmitting}>
+    <form.Subscribe
+      selector={(state) => [state.canSubmit, state.isSubmitting] as const}
+    >
+      {([canSubmit, isSubmitting]) => (
+        <Button
+          type="submit"
+          disabled={!canSubmit || isSubmitting}
+          isLoading={isSubmitting}
+        >
           {label}
         </Button>
       )}

@@ -23,9 +23,13 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(rootDir, 'src/index.tsx'),
+      entry: {
+        index: resolve(rootDir, 'src/index.tsx'),
+        zod: resolve(rootDir, 'src/zod.ts'),
+      },
       formats: ['es', 'cjs'],
-      fileName: (format) => (format === 'cjs' ? 'index.cjs' : 'index.js'),
+      fileName: (format, entryName) =>
+        format === 'cjs' ? `${entryName}.cjs` : `${entryName}.js`,
     },
     rollupOptions: {
       external: [

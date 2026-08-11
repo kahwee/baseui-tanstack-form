@@ -72,9 +72,6 @@ export function DatePickerField({
     return value;
   };
 
-  // Generate unique IDs for ARIA attributes
-  const errorId = hasError && errorMessage ? `${field.name}-error` : undefined;
-
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
       <BaseDatePicker
@@ -95,7 +92,6 @@ export function DatePickerField({
         }}
         error={hasError}
         aria-invalid={hasError}
-        aria-describedby={errorId}
         {...restProps}
       />
     </FormControl>
