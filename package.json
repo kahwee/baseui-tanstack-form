@@ -43,7 +43,7 @@
     "prepare": "husky",
     "prepublishOnly": "bun run clean && bun run check",
     "check": "bun run lint && bun run typecheck && bun run test && bun run build && bun run test:package",
-    "test:package": "node scripts/test-package.mjs"
+    "test:package": "bun scripts/test-package.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -96,7 +96,8 @@
     "protocol-buffers-schema": "^3.6.1",
     "ws": "^8.21.0",
     "minimatch": "^10.2.5",
-    "brace-expansion": "^5.0.8",
+    "brace-expansion": "^5.0.9",
+    "nanoid": "^3.3.18",
     "flatted": "^3.4.3"
   },
   "peerDependencies": {
