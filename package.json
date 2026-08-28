@@ -2,10 +2,10 @@
   "name": "baseui-tanstack-form",
   "version": "1.0.0",
   "type": "module",
-  "packageManager": "bun@1.3.14",
+  "packageManager": "bun@1.4.0",
   "engines": {
     "node": ">=20.19.0",
-    "bun": ">=1.3.14"
+    "bun": ">=1.4.0"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
