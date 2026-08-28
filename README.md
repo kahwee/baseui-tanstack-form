@@ -524,8 +524,8 @@ These v2 components preserve the same controlled form behavior while providing t
 
 ### Prerequisites
 
-- Bun 1.3.14+ (the repository pins Bun 1.3.14)
-- Bun 1.3.14+
+- Bun 1.4.0+ (the repository pins Bun 1.4.0)
+- Bun 1.4.0+
 
 ### Setup
 
