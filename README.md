@@ -525,7 +525,7 @@ These v2 components preserve the same controlled form behavior while providing t
 ### Prerequisites
 
 - Bun 1.4.0+ (the repository pins Bun 1.4.0)
-- Bun 1.4.0+
+- React 18.3.x and TypeScript 6.0.x for local tooling (React 19 / TypeScript 7 are not supported yet)
 
 ### Setup
 
@@ -561,12 +561,13 @@ bun install
 
 ### Tech Stack
 
-- **Build Tool**: Vite v6.4+
-- **Testing**: Vitest v4.0+ with React Testing Library
-- **Documentation**: Storybook v10.0+
-- **Linting**: ESLint v9+ with TypeScript support
-- **Formatting**: Prettier v3.6+
-- **Type Checking**: TypeScript v5.9+
+- **UI**: React 18.3.x with BaseUI 18.2+
+- **Build Tool**: Vite v8.2+
+- **Testing**: Vitest v4.1+ with React Testing Library
+- **Documentation**: Storybook v10.5+
+- **Linting**: ESLint v10+ with TypeScript support
+- **Formatting**: Prettier v3.9+
+- **Type Checking**: TypeScript v6.0.x
 
 ### Project Structure
 
