@@ -15,7 +15,7 @@ This guide is designed for AI assistants and developers working on this project.
 ### Build & Development Tools
 - **Build Tool**: Vite v8.1+ (ESM-first bundler)
 - **Testing**: Vitest v4.1+ with React Testing Library v16.3+ (jsdom environment)
-- **Documentation**: Storybook v10.5+ (ESM-only)
+- **Documentation**: Storybook v10.6+ (ESM-only)
 - **Linting**: ESLint v10.7+ with TypeScript support
 - **Formatting**: Prettier v3.9+
 - **Git Hooks**: Husky v9.1+
