@@ -524,7 +524,7 @@ These v2 components preserve the same controlled form behavior while providing t
 
 ### Prerequisites
 
-- Bun 1.4.1+ (the repository pins Bun 1.4.1)
+- Bun 1.4.2+ (the repository pins Bun 1.4.2)
 - React 18.3.x and TypeScript 6.0.x for local tooling (React 19 / TypeScript 7 are not supported yet)
 
 ### Setup
