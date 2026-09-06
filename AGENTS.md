@@ -65,7 +65,7 @@ baseui-tanstack-form/
 ├── vitest.config.ts        # Vitest configuration
 ├── vite.config.ts          # Vite configuration
 ├── tsconfig.json           # TypeScript configuration
-├── eslint.config.js        # ESLint v9 flat config
+├── eslint.config.js        # ESLint v10 flat config
 └── package.json            # Dependencies and scripts
 ```
 
