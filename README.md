@@ -562,7 +562,7 @@ bun install
 ### Tech Stack
 
 - **UI**: React 18.3.x with BaseUI 18.2+
-- **Build Tool**: Vite v8.2+
+- **Build Tool**: Vite v8.3+
 - **Testing**: Vitest v4.1+ with React Testing Library
 - **Documentation**: Storybook v10.6+
 - **Linting**: ESLint v10+ with TypeScript support
