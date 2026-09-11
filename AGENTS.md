@@ -13,7 +13,7 @@ This guide is designed for AI assistants and developers working on this project.
 - **Zod**: v4.1.12+ - TypeScript-first schema validation
 
 ### Build & Development Tools
-- **Build Tool**: Vite v8.1+ (ESM-first bundler)
+- **Build Tool**: Vite v8.3+ (ESM-first bundler)
 - **Testing**: Vitest v4.1+ with React Testing Library v16.3+ (jsdom environment)
 - **Documentation**: Storybook v10.6+ (ESM-only)
 - **Linting**: ESLint v10.7+ with TypeScript support
