@@ -51,11 +51,17 @@ const CheckboxGroupStory = (args: CheckboxGroupStoryProps) => {
 
             <Block marginTop="16px">
               <LabelSmall>Selected Values:</LabelSmall>
-              <ParagraphSmall color="contentSecondary">
-                {form.state.values.selectedOptions.length > 0
-                  ? form.state.values.selectedOptions.join(', ')
-                  : 'None selected'}
-              </ParagraphSmall>
+              <form.Subscribe
+                selector={(state) => state.values.selectedOptions}
+              >
+                {(selectedOptions) => (
+                  <ParagraphSmall color="contentSecondary">
+                    {selectedOptions.length > 0
+                      ? selectedOptions.join(', ')
+                      : 'None selected'}
+                  </ParagraphSmall>
+                )}
+              </form.Subscribe>
             </Block>
 
             <Block marginTop="16px">

@@ -40,10 +40,13 @@ const CheckboxStory = (args: CheckboxStoryProps) => {
             </form.AppField>
 
             <Block marginTop="16px">
-              <ParagraphSmall color="contentSecondary">
-                Current value:{' '}
-                {form.state.values.checkboxValue ? 'Checked' : 'Unchecked'}
-              </ParagraphSmall>
+              <form.Subscribe selector={(state) => state.values.checkboxValue}>
+                {(checkboxValue) => (
+                  <ParagraphSmall color="contentSecondary">
+                    Current value: {checkboxValue ? 'Checked' : 'Unchecked'}
+                  </ParagraphSmall>
+                )}
+              </form.Subscribe>
             </Block>
 
             <Block marginTop="16px">
