@@ -1,22 +1,19 @@
-import { useFieldContext } from '../hooks/form-context';
-import { FormControl, type FormControlProps } from 'baseui/form-control';
-import {
-  DatePicker as BaseDatePicker,
-  type DatepickerProps,
-} from 'baseui/datepicker';
-import { useFieldError } from './use-field-error';
+import { DatePicker as BaseDatePicker, type DatepickerProps } from 'baseui/datepicker'
+import { FormControl, type FormControlProps } from 'baseui/form-control'
+import { useFieldContext } from '../hooks/form-context'
+import { useFieldError } from './use-field-error'
 
 /**
  * Props for the DatePickerField component
  */
 export type DatePickerFieldProps = {
   /** Label text displayed above the date picker */
-  label: FormControlProps['label'];
+  label: FormControlProps['label']
   /** Additional props for the FormControl wrapper */
-  formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>;
+  formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>
 } & Omit<DatepickerProps, 'value' | 'onChange' | 'error' | 'range'> & {
-    range?: false;
-  };
+    range?: false
+  }
 
 /**
  * Date picker component integrated with TanStack Form
@@ -42,35 +39,31 @@ export type DatePickerFieldProps = {
  * @param restProps - All other BaseUI DatePicker props (placeholder, minDate, maxDate, etc.)
  * @returns Rendered date picker field with validation support and ARIA attributes
  */
-export function DatePickerField({
-  label,
-  formControlProps,
-  ...restProps
-}: DatePickerFieldProps) {
-  const field = useFieldContext<Date | string | null>();
-  const { hasError, errorMessage } = useFieldError(field);
+export function DatePickerField({ label, formControlProps, ...restProps }: DatePickerFieldProps) {
+  const field = useFieldContext<Date | string | null>()
+  const { hasError, errorMessage } = useFieldError(field)
 
   // Convert value to appropriate format for DatePicker
   const getValue = () => {
-    const value = field.state.value;
+    const value = field.state.value
 
     if (value === null || value === undefined) {
-      return null;
+      return null
     }
 
     if (typeof value === 'string') {
       // Convert string to Date
-      return new Date(value);
+      return new Date(value)
     }
 
     if (Array.isArray(value)) {
       // For arrays, return first element if it exists
-      return value.length > 0 ? value[0] : null;
+      return value.length > 0 ? value[0] : null
     }
 
     // Return Date object as is
-    return value;
-  };
+    return value
+  }
 
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
@@ -79,15 +72,15 @@ export function DatePickerField({
         onChange={({ date }) => {
           // Handle single date
           if (date && !Array.isArray(date)) {
-            field.handleChange(date);
+            field.handleChange(date)
           }
           // Handle range (not fully supported in this implementation)
           else if (Array.isArray(date) && date.length > 0 && date[0]) {
-            field.handleChange(date[0]);
+            field.handleChange(date[0])
           }
           // Handle null
           else {
-            field.handleChange(null);
+            field.handleChange(null)
           }
         }}
         error={hasError}
@@ -95,5 +88,5 @@ export function DatePickerField({
         {...restProps}
       />
     </FormControl>
-  );
+  )
 }

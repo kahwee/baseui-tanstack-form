@@ -1,5 +1,5 @@
-import type { StorybookConfig } from '@storybook/react-vite';
-import type { PluginOption } from 'vite';
+import type { StorybookConfig } from '@storybook/react-vite'
+import type { PluginOption } from 'vite'
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -15,13 +15,13 @@ const config: StorybookConfig = {
     if (config.plugins) {
       config.plugins = (config.plugins as PluginOption[]).filter((plugin) => {
         if (plugin && typeof plugin === 'object' && 'name' in plugin) {
-          return plugin.name !== 'vite:dts';
+          return plugin.name !== 'vite:dts'
         }
-        return true;
-      });
+        return true
+      })
     }
-    return config;
-  }
-};
+    return config
+  },
+}
 
-export default config;
+export default config

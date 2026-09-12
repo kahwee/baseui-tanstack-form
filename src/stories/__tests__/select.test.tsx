@@ -1,8 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import React from 'react';
-import { render, screen } from '../../test-utils/rtl';
-import userEvent from '@testing-library/user-event';
-import { useAppForm } from '../../hooks/form';
+import userEvent from '@testing-library/user-event'
+import { describe, expect, it } from 'vitest'
+import { useAppForm } from '../../hooks/form'
+import { render, screen } from '../../test-utils/rtl'
 
 /**
  * Tests for the Select component (Single and Multi)
@@ -30,7 +29,7 @@ const fleetwoodMacAlbums = [
     label: 'Fleetwood Mac (1975)',
     description: 'Often called the "White Album"',
   },
-];
+]
 
 const fleetwoodMacMembers = [
   {
@@ -50,7 +49,7 @@ const fleetwoodMacMembers = [
   },
   { id: 'mick-fleetwood', label: 'Mick Fleetwood', description: 'Drums' },
   { id: 'john-mcvie', label: 'John McVie', description: 'Bass Guitar' },
-];
+]
 
 describe('Select Component Tests', () => {
   describe('SelectSingle', () => {
@@ -60,7 +59,7 @@ describe('Select Component Tests', () => {
           defaultValues: {
             favoriteAlbum: '',
           },
-        });
+        })
 
         return (
           <form>
@@ -74,14 +73,14 @@ describe('Select Component Tests', () => {
               )}
             </form.AppField>
           </form>
-        );
+        )
       }
 
-      render(<TestForm />);
+      render(<TestForm />)
 
       // Verify label is rendered
-      expect(screen.getByText('Favorite Album')).toBeInTheDocument();
-    });
+      expect(screen.getByText('Favorite Album')).toBeInTheDocument()
+    })
 
     it('displays default selected value', () => {
       function TestForm() {
@@ -89,28 +88,25 @@ describe('Select Component Tests', () => {
           defaultValues: {
             favoriteAlbum: 'rumours',
           },
-        });
+        })
 
         return (
           <form>
             <form.AppField name="favoriteAlbum">
               {(field) => (
-                <field.SelectSingle
-                  label="Favorite Album"
-                  options={fleetwoodMacAlbums}
-                />
+                <field.SelectSingle label="Favorite Album" options={fleetwoodMacAlbums} />
               )}
             </form.AppField>
           </form>
-        );
+        )
       }
 
-      render(<TestForm />);
+      render(<TestForm />)
 
       // The select should show the default selected value
-      expect(screen.getByText('Rumours (1977)')).toBeInTheDocument();
-    });
-  });
+      expect(screen.getByText('Rumours (1977)')).toBeInTheDocument()
+    })
+  })
 
   describe('SelectMulti', () => {
     it('renders with a label', () => {
@@ -119,7 +115,7 @@ describe('Select Component Tests', () => {
           defaultValues: {
             favoriteMembers: [] as string[],
           },
-        });
+        })
 
         return (
           <form>
@@ -133,14 +129,14 @@ describe('Select Component Tests', () => {
               )}
             </form.AppField>
           </form>
-        );
+        )
       }
 
-      render(<TestForm />);
+      render(<TestForm />)
 
       // Verify label is rendered
-      expect(screen.getByText('Favorite Band Members')).toBeInTheDocument();
-    });
+      expect(screen.getByText('Favorite Band Members')).toBeInTheDocument()
+    })
 
     it('displays default selected values', () => {
       function TestForm() {
@@ -148,31 +144,28 @@ describe('Select Component Tests', () => {
           defaultValues: {
             favoriteMembers: ['stevie-nicks', 'mick-fleetwood'] as string[],
           },
-        });
+        })
 
         return (
           <form>
             <form.AppField name="favoriteMembers">
               {(field) => (
-                <field.SelectMulti
-                  label="Favorite Band Members"
-                  options={fleetwoodMacMembers}
-                />
+                <field.SelectMulti label="Favorite Band Members" options={fleetwoodMacMembers} />
               )}
             </form.AppField>
           </form>
-        );
+        )
       }
 
-      render(<TestForm />);
+      render(<TestForm />)
 
       // Verify selected values are displayed
-      expect(screen.getByText('Stevie Nicks')).toBeInTheDocument();
-      expect(screen.getByText('Mick Fleetwood')).toBeInTheDocument();
-    });
+      expect(screen.getByText('Stevie Nicks')).toBeInTheDocument()
+      expect(screen.getByText('Mick Fleetwood')).toBeInTheDocument()
+    })
 
     it('handles form submission with multi-select values', async () => {
-      let submittedData: { favoriteMembers: string[] } | null = null;
+      let submittedData: { favoriteMembers: string[] } | null = null
 
       function TestForm() {
         const form = useAppForm({
@@ -180,40 +173,37 @@ describe('Select Component Tests', () => {
             favoriteMembers: ['stevie-nicks'],
           },
           onSubmit: ({ value }) => {
-            submittedData = value;
+            submittedData = value
           },
-        });
+        })
 
         return (
           <form
             onSubmit={(e) => {
-              e.preventDefault();
-              form.handleSubmit();
+              e.preventDefault()
+              form.handleSubmit()
             }}
           >
             <form.AppField name="favoriteMembers">
               {(field) => (
-                <field.SelectMulti
-                  label="Favorite Band Members"
-                  options={fleetwoodMacMembers}
-                />
+                <field.SelectMulti label="Favorite Band Members" options={fleetwoodMacMembers} />
               )}
             </form.AppField>
             <button type="submit">Submit</button>
           </form>
-        );
+        )
       }
 
-      render(<TestForm />);
+      render(<TestForm />)
 
       // Submit the form
-      const submitButton = screen.getByText('Submit');
-      await userEvent.click(submitButton);
+      const submitButton = screen.getByText('Submit')
+      await userEvent.click(submitButton)
 
       // Verify the submitted data contains the default selected values
       expect(submittedData).toEqual({
         favoriteMembers: ['stevie-nicks'],
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

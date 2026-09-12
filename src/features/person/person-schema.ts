@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Zod v4 enhanced schema showcasing modern features
 export const personSchema = z.object({
@@ -49,21 +49,21 @@ export const personSchema = z.object({
     .min(0, 'Age cannot be negative')
     .max(150, 'Age must be realistic')
     .optional(),
-});
+})
 
 // Custom validation example with refine
 export const personSchemaWithCustomValidation = personSchema.refine(
   (data) => {
     // Custom logic: if isOriginalMember is true, age must be provided
     if (data.isOriginalMember && !data.age) {
-      return false;
+      return false
     }
-    return true;
+    return true
   },
   {
     message: 'Original members must provide their age',
     path: ['age'], // Error will be shown on the age field
   },
-);
+)
 
-export type Person = z.infer<typeof personSchema>;
+export type Person = z.infer<typeof personSchema>

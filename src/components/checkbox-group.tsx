@@ -1,50 +1,43 @@
-import type { ReactNode } from 'react';
-import { useFieldContext } from '../hooks/form-context';
-import { FormControl, type FormControlProps } from 'baseui/form-control';
-import { Checkbox, type CheckboxProps } from 'baseui/checkbox-v2';
-import { useFieldError } from './use-field-error';
+import { Checkbox, type CheckboxProps } from 'baseui/checkbox-v2'
+import { FormControl, type FormControlProps } from 'baseui/form-control'
+import type { ReactNode } from 'react'
+import { useFieldContext } from '../hooks/form-context'
+import { useFieldError } from './use-field-error'
 
 /**
  * Configuration for a single checkbox option
  */
 export type CheckboxOption = {
   /** Unique value for this checkbox option */
-  value: string;
+  value: string
   /** Label text or component displayed next to the checkbox */
-  label: ReactNode;
+  label: ReactNode
   /** BaseUI style overrides for this checkbox */
-  overrides?: CheckboxProps['overrides'];
+  overrides?: CheckboxProps['overrides']
   /** Whether this checkbox option is disabled */
-  disabled?: boolean;
-};
+  disabled?: boolean
+}
 
 /**
  * Props for the CheckboxGroupField component
  */
 export type CheckboxGroupFieldProps = {
   /** Label text displayed above the checkbox group */
-  label: FormControlProps['label'];
+  label: FormControlProps['label']
   /** Array of checkbox options to display */
-  options: CheckboxOption[];
+  options: CheckboxOption[]
   /** Whether to display checkboxes horizontally (true) or vertically (false) */
-  inline?: boolean;
+  inline?: boolean
   /** Additional props for the FormControl wrapper */
-  formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
+  formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>
   /** Props applied to all checkboxes in the group */
   checkboxProps?: Partial<
     Omit<
       CheckboxProps,
-      | 'checked'
-      | 'onChange'
-      | 'onBlur'
-      | 'error'
-      | 'children'
-      | 'value'
-      | 'disabled'
-      | 'overrides'
+      'checked' | 'onChange' | 'onBlur' | 'error' | 'children' | 'value' | 'disabled' | 'overrides'
     >
-  >;
-};
+  >
+}
 
 /**
  * Checkbox group component integrated with TanStack Form
@@ -84,36 +77,36 @@ export function CheckboxGroupField({
   formControlProps,
   checkboxProps,
 }: CheckboxGroupFieldProps) {
-  const field = useFieldContext<string[]>();
-  const { hasError, errorMessage } = useFieldError(field);
+  const field = useFieldContext<string[]>()
+  const { hasError, errorMessage } = useFieldError(field)
 
   // Ensure field.state.value is always an array
-  const selectedValues = Array.isArray(field.state.value)
-    ? field.state.value
-    : [];
+  const selectedValues = Array.isArray(field.state.value) ? field.state.value : []
 
   const handleChange = (value: string, checked: boolean) => {
     if (checked) {
       // Add value to array if not present
-      field.handleChange(Array.from(new Set([...selectedValues, value])));
+      field.handleChange(Array.from(new Set([...selectedValues, value])))
     } else {
       // Remove value from array
-      field.handleChange(selectedValues.filter((val) => val !== value));
+      field.handleChange(selectedValues.filter((val) => val !== value))
     }
-  };
+  }
 
   // Convert label to string for aria-label
-  const ariaLabel = typeof label === 'string' ? label : field.name;
+  const ariaLabel = typeof label === 'string' ? label : field.name
 
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
-      <div
-        role="group"
+      <fieldset
         aria-label={ariaLabel}
         aria-invalid={hasError}
         style={{
           display: inline ? 'flex' : 'block',
           gap: inline ? '16px' : undefined,
+          border: 0,
+          margin: 0,
+          padding: 0,
         }}
       >
         {options.map((option) => (
@@ -130,7 +123,7 @@ export function CheckboxGroupField({
             {option.label}
           </Checkbox>
         ))}
-      </div>
+      </fieldset>
     </FormControl>
-  );
+  )
 }

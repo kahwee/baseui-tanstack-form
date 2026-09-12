@@ -1,11 +1,10 @@
-import React from 'react';
-import { withForm } from '../../hooks/form';
-import { formOpts } from './shared-form';
-import { Card, hasThumbnail, StyledBody, StyledAction } from 'baseui/card';
-import { HeadingSmall } from 'baseui/typography';
-import { Block } from 'baseui/block';
-import { Button } from 'baseui/button';
-import Delete from 'baseui/icon/delete';
+import { Block } from 'baseui/block'
+import { Button } from 'baseui/button'
+import { Card, hasThumbnail, StyledAction, StyledBody } from 'baseui/card'
+import Delete from 'baseui/icon/delete'
+import { HeadingSmall } from 'baseui/typography'
+import { withForm } from '../../hooks/form'
+import { formOpts } from './shared-form'
 
 export const GroupForm = withForm({
   ...formOpts,
@@ -63,8 +62,7 @@ export const GroupForm = withForm({
                     {
                       id: 'Tusk',
                       label: 'Tusk (1979)',
-                      description:
-                        'Double album, experimental follow-up to Rumours',
+                      description: 'Double album, experimental follow-up to Rumours',
                     },
                     {
                       id: 'Fleetwood Mac',
@@ -107,28 +105,22 @@ export const GroupForm = withForm({
               {(field) => (
                 <div key={`s${field.state.value.length}`}>
                   {field.state.value.map((_, index) => (
-                    <Block
-                      key={index}
-                      marginBottom="16px"
-                      display="flex"
-                      flexDirection="column"
-                    >
+                    /* biome-ignore lint/suspicious/noArrayIndexKey: Form rows do not expose a stable identifier. */
+                    <Block key={index} marginBottom="16px" display="flex" flexDirection="column">
                       <Block
                         display="flex"
                         alignItems="center"
                         justifyContent="space-between"
                         marginBottom="8px"
                       >
-                        <HeadingSmall margin="0">
-                          Person #{index + 1}
-                        </HeadingSmall>
+                        <HeadingSmall margin="0">Person #{index + 1}</HeadingSmall>
                         <Button
                           kind="tertiary"
                           size="mini"
                           shape="circle"
                           onClick={() => {
                             // Remove this person from the array
-                            field.removeValue(index);
+                            field.removeValue(index)
                           }}
                         >
                           <Delete size={24} />
@@ -185,9 +177,7 @@ export const GroupForm = withForm({
                         )}
                       </form.AppField>
                       <form.AppField name={`people[${index}].isOriginalMember`}>
-                        {(subField) => (
-                          <subField.Checkbox label="Original Band Member" />
-                        )}
+                        {(subField) => <subField.Checkbox label="Original Band Member" />}
                       </form.AppField>
                     </Block>
                   ))}
@@ -218,6 +208,6 @@ export const GroupForm = withForm({
           </form.AppForm>
         </StyledAction>
       </Card>
-    );
+    )
   },
-});
+})

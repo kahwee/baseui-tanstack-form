@@ -1,20 +1,19 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useAppForm } from '../hooks/form';
-import { Block } from 'baseui/block';
-import { Card, hasThumbnail, StyledBody } from 'baseui/card';
-import { ParagraphSmall, LabelSmall } from 'baseui/typography';
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Block } from 'baseui/block'
+import { Card, hasThumbnail, StyledBody } from 'baseui/card'
+import { LabelSmall, ParagraphSmall } from 'baseui/typography'
+import { useAppForm } from '../hooks/form'
 
 interface CheckboxOption {
-  value: string;
-  label: string;
+  value: string
+  label: string
 }
 
 interface CheckboxGroupStoryProps {
-  label: string;
-  inline?: boolean;
-  options: CheckboxOption[];
-  defaultValues?: string[];
+  label: string
+  inline?: boolean
+  options: CheckboxOption[]
+  defaultValues?: string[]
 }
 
 const CheckboxGroupStory = (args: CheckboxGroupStoryProps) => {
@@ -23,18 +22,18 @@ const CheckboxGroupStory = (args: CheckboxGroupStoryProps) => {
       selectedOptions: args.defaultValues || [],
     },
     onSubmit: ({ value }) => {
-      console.info('Form submitted with values:', value);
-      alert(`Selected: ${value.selectedOptions.join(', ')}`);
+      console.info('Form submitted with values:', value)
+      alert(`Selected: ${value.selectedOptions.join(', ')}`)
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="600px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
@@ -51,14 +50,10 @@ const CheckboxGroupStory = (args: CheckboxGroupStoryProps) => {
 
             <Block marginTop="16px">
               <LabelSmall>Selected Values:</LabelSmall>
-              <form.Subscribe
-                selector={(state) => state.values.selectedOptions}
-              >
+              <form.Subscribe selector={(state) => state.values.selectedOptions}>
                 {(selectedOptions) => (
                   <ParagraphSmall color="contentSecondary">
-                    {selectedOptions.length > 0
-                      ? selectedOptions.join(', ')
-                      : 'None selected'}
+                    {selectedOptions.length > 0 ? selectedOptions.join(', ') : 'None selected'}
                   </ParagraphSmall>
                 )}
               </form.Subscribe>
@@ -73,8 +68,8 @@ const CheckboxGroupStory = (args: CheckboxGroupStoryProps) => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 const meta = {
   title: 'Form Components / CheckboxGroup',
@@ -100,10 +95,10 @@ const meta = {
       description: 'Initially selected values',
     },
   },
-} satisfies Meta<typeof CheckboxGroupStory>;
+} satisfies Meta<typeof CheckboxGroupStory>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 const interestsOptions: CheckboxOption[] = [
   { value: 'technology', label: 'Technology' },
@@ -111,7 +106,7 @@ const interestsOptions: CheckboxOption[] = [
   { value: 'art', label: 'Art' },
   { value: 'music', label: 'Music' },
   { value: 'sports', label: 'Sports' },
-];
+]
 
 const programmingLanguages: CheckboxOption[] = [
   { value: 'javascript', label: 'JavaScript' },
@@ -120,14 +115,14 @@ const programmingLanguages: CheckboxOption[] = [
   { value: 'java', label: 'Java' },
   { value: 'csharp', label: 'C#' },
   { value: 'go', label: 'Go' },
-];
+]
 
 const notificationPreferences: CheckboxOption[] = [
   { value: 'email', label: 'Email notifications' },
   { value: 'sms', label: 'SMS notifications' },
   { value: 'push', label: 'Push notifications' },
   { value: 'inapp', label: 'In-app notifications' },
-];
+]
 
 const daysOfWeek: CheckboxOption[] = [
   { value: 'monday', label: 'Monday' },
@@ -137,7 +132,7 @@ const daysOfWeek: CheckboxOption[] = [
   { value: 'friday', label: 'Friday' },
   { value: 'saturday', label: 'Saturday' },
   { value: 'sunday', label: 'Sunday' },
-];
+]
 
 export const Default: Story = {
   args: {
@@ -146,7 +141,7 @@ export const Default: Story = {
     options: interestsOptions,
     defaultValues: [],
   },
-};
+}
 
 export const Inline: Story = {
   args: {
@@ -155,7 +150,7 @@ export const Inline: Story = {
     options: programmingLanguages,
     defaultValues: [],
   },
-};
+}
 
 export const WithDefaultValues: Story = {
   args: {
@@ -164,7 +159,7 @@ export const WithDefaultValues: Story = {
     options: notificationPreferences,
     defaultValues: ['email', 'push'],
   },
-};
+}
 
 export const DaysOfWeek: Story = {
   args: {
@@ -173,7 +168,7 @@ export const DaysOfWeek: Story = {
     options: daysOfWeek,
     defaultValues: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
   },
-};
+}
 
 export const ManyOptions: Story = {
   args: {
@@ -182,7 +177,7 @@ export const ManyOptions: Story = {
     options: programmingLanguages,
     defaultValues: ['javascript', 'typescript'],
   },
-};
+}
 
 export const CompactInline: Story = {
   args: {
@@ -191,4 +186,4 @@ export const CompactInline: Story = {
     options: notificationPreferences,
     defaultValues: [],
   },
-};
+}

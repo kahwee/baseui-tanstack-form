@@ -1,17 +1,16 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useAppForm } from '../hooks/form';
-import { Block } from 'baseui/block';
-import { Card, hasThumbnail, StyledBody } from 'baseui/card';
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Block } from 'baseui/block'
+import { Card, hasThumbnail, StyledBody } from 'baseui/card'
+import { useAppForm } from '../hooks/form'
 
 interface TextareaStoryProps {
-  label: string;
-  placeholder: string;
-  caption?: string;
-  disabled?: boolean;
-  required?: boolean;
-  rows?: number;
-  defaultValue?: string;
+  label: string
+  placeholder: string
+  caption?: string
+  disabled?: boolean
+  required?: boolean
+  rows?: number
+  defaultValue?: string
 }
 
 const TextareaStory = (args: TextareaStoryProps) => {
@@ -20,18 +19,18 @@ const TextareaStory = (args: TextareaStoryProps) => {
       textareaValue: args.defaultValue || '',
     },
     onSubmit: async ({ value }) => {
-      console.info('Form submitted with values:', value);
-      alert(`Submitted: ${value.textareaValue}`);
+      console.info('Form submitted with values:', value)
+      alert(`Submitted: ${value.textareaValue}`)
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="600px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
@@ -60,8 +59,8 @@ const TextareaStory = (args: TextareaStoryProps) => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 const meta = {
   title: 'Form Components / Textarea',
@@ -99,10 +98,10 @@ const meta = {
       description: 'Initial value of the textarea',
     },
   },
-} satisfies Meta<typeof TextareaStory>;
+} satisfies Meta<typeof TextareaStory>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
@@ -114,7 +113,7 @@ export const Default: Story = {
     rows: 4,
     defaultValue: '',
   },
-};
+}
 
 export const Biography: Story = {
   args: {
@@ -126,7 +125,7 @@ export const Biography: Story = {
     rows: 6,
     defaultValue: '',
   },
-};
+}
 
 export const Comments: Story = {
   args: {
@@ -138,7 +137,7 @@ export const Comments: Story = {
     rows: 5,
     defaultValue: '',
   },
-};
+}
 
 export const Address: Story = {
   args: {
@@ -150,7 +149,7 @@ export const Address: Story = {
     rows: 3,
     defaultValue: '',
   },
-};
+}
 
 export const LargeText: Story = {
   args: {
@@ -162,7 +161,7 @@ export const LargeText: Story = {
     rows: 12,
     defaultValue: '',
   },
-};
+}
 
 export const Disabled: Story = {
   args: {
@@ -174,7 +173,7 @@ export const Disabled: Story = {
     rows: 4,
     defaultValue: 'This is some pre-filled content that cannot be edited.',
   },
-};
+}
 
 export const WithDefaultValue: Story = {
   args: {
@@ -187,4 +186,4 @@ export const WithDefaultValue: Story = {
     defaultValue:
       'These are some initial notes that were previously saved.\nYou can edit them as needed.',
   },
-};
+}

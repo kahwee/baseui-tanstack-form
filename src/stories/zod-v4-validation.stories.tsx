@@ -1,10 +1,9 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useAppForm } from '../hooks/form';
-import { Block } from 'baseui/block';
-import { Card, hasThumbnail, StyledBody, StyledAction } from 'baseui/card';
-import { HeadingSmall, ParagraphSmall } from 'baseui/typography';
-import { z } from 'zod';
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Block } from 'baseui/block'
+import { Card, hasThumbnail, StyledAction, StyledBody } from 'baseui/card'
+import { HeadingSmall, ParagraphSmall } from 'baseui/typography'
+import { z } from 'zod'
+import { useAppForm } from '../hooks/form'
 
 /**
  * Zod v4 Validation Examples
@@ -21,10 +20,7 @@ const zodV4Schema = z.object({
     .trim()
     .min(3, 'Username must be at least 3 characters')
     .max(20, 'Username must not exceed 20 characters')
-    .regex(
-      /^[a-zA-Z0-9_]+$/,
-      'Username can only contain letters, numbers, and underscores',
-    ),
+    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
 
   // Email validation
   email: z.string().email('Please enter a valid email address').toLowerCase(),
@@ -68,12 +64,8 @@ const zodV4Schema = z.object({
   }),
 
   // Optional fields with default values
-  bio: z
-    .string()
-    .max(500, 'Bio must not exceed 500 characters')
-    .optional()
-    .default(''),
-});
+  bio: z.string().max(500, 'Bio must not exceed 500 characters').optional().default(''),
+})
 
 const ZodV4ValidationForm = () => {
   const form = useAppForm({
@@ -90,40 +82,38 @@ const ZodV4ValidationForm = () => {
     },
     validators: {
       onChange: ({ value }) => {
-        const result = zodV4Schema.safeParse(value);
+        const result = zodV4Schema.safeParse(value)
         if (!result.success) {
-          return result.error.format();
+          return result.error.format()
         }
-        return undefined;
+        return undefined
       },
     },
     onSubmit: async (values) => {
       // Validate on submit
-      const result = zodV4Schema.safeParse(values);
+      const result = zodV4Schema.safeParse(values)
       if (!result.success) {
-        console.error('Validation errors:', result.error.format());
-        alert('Please fix the validation errors');
+        console.error('Validation errors:', result.error.format())
+        alert('Please fix the validation errors')
       } else {
-        console.info('Form submitted successfully:', result.data);
-        alert('Form submitted successfully! Check console for values.');
+        console.info('Form submitted successfully:', result.data)
+        alert('Form submitted successfully! Check console for values.')
       }
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="600px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
-            <HeadingSmall marginBottom="8px">
-              Zod v4 Advanced Validation
-            </HeadingSmall>
+            <HeadingSmall marginBottom="8px">Zod v4 Advanced Validation</HeadingSmall>
             <ParagraphSmall marginBottom="24px" color="contentSecondary">
               All fields are validated using Zod v4 with real-time feedback
             </ParagraphSmall>
@@ -135,8 +125,7 @@ const ZodV4ValidationForm = () => {
                   label="Username"
                   placeholder="Enter your username (letters, numbers, underscore)"
                   formControlProps={{
-                    caption:
-                      '3-20 characters, alphanumeric and underscore only',
+                    caption: '3-20 characters, alphanumeric and underscore only',
                   }}
                 />
               )}
@@ -172,8 +161,7 @@ const ZodV4ValidationForm = () => {
                   placeholder="Enter a strong password"
                   type="password"
                   formControlProps={{
-                    caption:
-                      'Min 8 chars with uppercase, lowercase, and number',
+                    caption: 'Min 8 chars with uppercase, lowercase, and number',
                   }}
                 />
               )}
@@ -181,13 +169,7 @@ const ZodV4ValidationForm = () => {
 
             {/* Age field with number validation */}
             <form.AppField name="age">
-              {(field) => (
-                <field.Input
-                  label="Age"
-                  placeholder="Enter your age"
-                  type="number"
-                />
-              )}
+              {(field) => <field.Input label="Age" placeholder="Enter your age" type="number" />}
             </form.AppField>
 
             {/* Role field with enum validation */}
@@ -234,9 +216,7 @@ const ZodV4ValidationForm = () => {
 
             {/* Terms checkbox with literal validation */}
             <form.AppField name="agreeToTerms">
-              {(field) => (
-                <field.Checkbox label="I agree to the terms and conditions" />
-              )}
+              {(field) => <field.Checkbox label="I agree to the terms and conditions" />}
             </form.AppField>
           </StyledBody>
 
@@ -248,8 +228,8 @@ const ZodV4ValidationForm = () => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 // Transform example - data transformation on successful validation
 const transformSchema = z
@@ -260,7 +240,7 @@ const transformSchema = z
   .transform((data) => ({
     fullName: `${data.firstName} ${data.lastName}`,
     initials: `${data.firstName[0]}${data.lastName[0]}`.toUpperCase(),
-  }));
+  }))
 
 const TransformExampleForm = () => {
   const form = useAppForm({
@@ -269,49 +249,35 @@ const TransformExampleForm = () => {
       lastName: '',
     },
     onSubmit: async (values) => {
-      const result = transformSchema.safeParse(values);
+      const result = transformSchema.safeParse(values)
       if (result.success) {
-        console.info('Transformed data:', result.data);
-        alert(
-          `Full Name: ${result.data.fullName}\nInitials: ${result.data.initials}`,
-        );
+        console.info('Transformed data:', result.data)
+        alert(`Full Name: ${result.data.fullName}\nInitials: ${result.data.initials}`)
       }
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="600px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit();
+          e.preventDefault()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
-            <HeadingSmall marginBottom="8px">
-              Zod v4 Transform Example
-            </HeadingSmall>
+            <HeadingSmall marginBottom="8px">Zod v4 Transform Example</HeadingSmall>
             <ParagraphSmall marginBottom="24px" color="contentSecondary">
               Data is automatically transformed on validation
             </ParagraphSmall>
 
             <form.AppField name="firstName">
-              {(field) => (
-                <field.Input
-                  label="First Name"
-                  placeholder="Enter your first name"
-                />
-              )}
+              {(field) => <field.Input label="First Name" placeholder="Enter your first name" />}
             </form.AppField>
 
             <form.AppField name="lastName">
-              {(field) => (
-                <field.Input
-                  label="Last Name"
-                  placeholder="Enter your last name"
-                />
-              )}
+              {(field) => <field.Input label="Last Name" placeholder="Enter your last name" />}
             </form.AppField>
           </StyledBody>
 
@@ -323,8 +289,8 @@ const TransformExampleForm = () => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 // Refine example - custom cross-field validation
 const refineSchema = z
@@ -341,15 +307,15 @@ const refineSchema = z
   .refine(
     (data) => {
       if (data.startDate && data.endDate) {
-        return new Date(data.startDate) < new Date(data.endDate);
+        return new Date(data.startDate) < new Date(data.endDate)
       }
-      return true;
+      return true
     },
     {
       message: 'End date must be after start date',
       path: ['endDate'],
     },
-  );
+  )
 
 const RefineExampleForm = () => {
   const form = useAppForm({
@@ -361,46 +327,40 @@ const RefineExampleForm = () => {
     },
     validators: {
       onBlur: ({ value }) => {
-        const result = refineSchema.safeParse(value);
+        const result = refineSchema.safeParse(value)
         if (!result.success) {
-          return result.error.format();
+          return result.error.format()
         }
-        return undefined;
+        return undefined
       },
     },
     onSubmit: async (values) => {
-      const result = refineSchema.safeParse(values);
+      const result = refineSchema.safeParse(values)
       if (result.success) {
-        console.info('Valid data:', result.data);
-        alert('Form validated successfully!');
+        console.info('Valid data:', result.data)
+        alert('Form validated successfully!')
       }
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="600px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit();
+          e.preventDefault()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
-            <HeadingSmall marginBottom="8px">
-              Zod v4 Refine Example
-            </HeadingSmall>
+            <HeadingSmall marginBottom="8px">Zod v4 Refine Example</HeadingSmall>
             <ParagraphSmall marginBottom="24px" color="contentSecondary">
               Custom cross-field validation with refine()
             </ParagraphSmall>
 
             <form.AppField name="password">
               {(field) => (
-                <field.Input
-                  label="Password"
-                  type="password"
-                  placeholder="Enter password"
-                />
+                <field.Input label="Password" type="password" placeholder="Enter password" />
               )}
             </form.AppField>
 
@@ -415,23 +375,11 @@ const RefineExampleForm = () => {
             </form.AppField>
 
             <form.AppField name="startDate">
-              {(field) => (
-                <field.Input
-                  label="Start Date"
-                  type="date"
-                  placeholder="YYYY-MM-DD"
-                />
-              )}
+              {(field) => <field.Input label="Start Date" type="date" placeholder="YYYY-MM-DD" />}
             </form.AppField>
 
             <form.AppField name="endDate">
-              {(field) => (
-                <field.Input
-                  label="End Date"
-                  type="date"
-                  placeholder="YYYY-MM-DD"
-                />
-              )}
+              {(field) => <field.Input label="End Date" type="date" placeholder="YYYY-MM-DD" />}
             </form.AppField>
           </StyledBody>
 
@@ -443,8 +391,8 @@ const RefineExampleForm = () => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 const meta = {
   title: 'Validation / Zod v4',
@@ -473,17 +421,17 @@ This example demonstrates the powerful validation capabilities of Zod v4 integra
       },
     },
   },
-} satisfies Meta<typeof ZodV4ValidationForm>;
+} satisfies Meta<typeof ZodV4ValidationForm>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
-export const AdvancedValidation: Story = {};
+export const AdvancedValidation: Story = {}
 
 export const TransformExample: Story = {
   render: () => <TransformExampleForm />,
-};
+}
 
 export const RefineExample: Story = {
   render: () => <RefineExampleForm />,
-};
+}

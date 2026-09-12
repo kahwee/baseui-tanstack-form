@@ -1,17 +1,17 @@
-import { useFieldContext } from '../hooks/form-context';
-import { FormControl, type FormControlProps } from 'baseui/form-control';
-import { Input, type InputProps } from 'baseui/input';
-import { useFieldError } from './use-field-error';
+import { FormControl, type FormControlProps } from 'baseui/form-control'
+import { Input, type InputProps } from 'baseui/input'
+import { useFieldContext } from '../hooks/form-context'
+import { useFieldError } from './use-field-error'
 
 /**
  * Props for the InputField component
  */
 export type InputFieldProps = {
   /** Label text displayed above the input field */
-  label: FormControlProps['label'];
+  label: FormControlProps['label']
   /** Additional props for the FormControl wrapper */
-  formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>;
-} & Omit<InputProps, 'value' | 'onChange' | 'onBlur' | 'error'>;
+  formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>
+} & Omit<InputProps, 'value' | 'onChange' | 'onBlur' | 'error'>
 
 /**
  * Input field component integrated with TanStack Form
@@ -37,13 +37,9 @@ export type InputFieldProps = {
  * @param restProps - All other BaseUI Input props (placeholder, type, disabled, etc.)
  * @returns Rendered input field with validation support and ARIA attributes
  */
-export function InputField({
-  label,
-  formControlProps,
-  ...restProps
-}: InputFieldProps) {
-  const field = useFieldContext<string>();
-  const { hasError, errorMessage } = useFieldError(field);
+export function InputField({ label, formControlProps, ...restProps }: InputFieldProps) {
+  const field = useFieldContext<string>()
+  const { hasError, errorMessage } = useFieldError(field)
 
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
@@ -57,5 +53,5 @@ export function InputField({
         {...restProps}
       />
     </FormControl>
-  );
+  )
 }

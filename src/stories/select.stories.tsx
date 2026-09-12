@@ -1,9 +1,8 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useAppForm } from '../hooks/form';
-import { Block } from 'baseui/block';
-import { Card, hasThumbnail, StyledBody } from 'baseui/card';
-import { HeadingSmall, LabelSmall } from 'baseui/typography';
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Block } from 'baseui/block'
+import { Card, hasThumbnail, StyledBody } from 'baseui/card'
+import { HeadingSmall, LabelSmall } from 'baseui/typography'
+import { useAppForm } from '../hooks/form'
 
 // Fleetwood Mac members data
 const fleetwoodMacMembers = [
@@ -30,7 +29,7 @@ const fleetwoodMacMembers = [
     description: 'Guitar, Vocals (Former Member)',
     disabled: true,
   },
-];
+]
 
 // Fleetwood Mac albums data
 const fleetwoodMacAlbums = [
@@ -59,13 +58,13 @@ const fleetwoodMacAlbums = [
     label: 'Tango in the Night (1987)',
     description: 'Second-highest selling album',
   },
-];
+]
 
 // Interface for Select story props
 interface SelectStoryProps {
-  defaultAlbum?: string;
-  defaultMembers?: string[];
-  showFormValues?: boolean;
+  defaultAlbum?: string
+  defaultMembers?: string[]
+  showFormValues?: boolean
 }
 
 // Demo component for select stories
@@ -74,26 +73,21 @@ const SelectStoryComponent = (args: SelectStoryProps) => {
     defaultValues: {
       favoriteAlbum: args.defaultAlbum || '',
       favoriteMembers: args.defaultMembers || [],
-      currentMembers: [
-        'stevie-nicks',
-        'lindsey-buckingham',
-        'mick-fleetwood',
-        'john-mcvie',
-      ],
+      currentMembers: ['stevie-nicks', 'lindsey-buckingham', 'mick-fleetwood', 'john-mcvie'],
     },
     onSubmit: ({ value }) => {
-      console.info('Form submitted with values:', value);
-      alert(JSON.stringify(value, null, 2));
+      console.info('Form submitted with values:', value)
+      alert(JSON.stringify(value, null, 2))
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="800px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
@@ -172,8 +166,8 @@ const SelectStoryComponent = (args: SelectStoryProps) => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 const meta = {
   title: 'Form Components / Select',
@@ -196,10 +190,10 @@ const meta = {
       description: 'Show real-time form values',
     },
   },
-} satisfies Meta<typeof SelectStoryComponent>;
+} satisfies Meta<typeof SelectStoryComponent>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
@@ -207,7 +201,7 @@ export const Default: Story = {
     defaultMembers: [],
     showFormValues: true,
   },
-};
+}
 
 export const WithDefaults: Story = {
   args: {
@@ -215,7 +209,7 @@ export const WithDefaults: Story = {
     defaultMembers: ['stevie-nicks', 'mick-fleetwood'],
     showFormValues: true,
   },
-};
+}
 
 export const EmptyState: Story = {
   args: {
@@ -223,4 +217,4 @@ export const EmptyState: Story = {
     defaultMembers: [],
     showFormValues: false,
   },
-};
+}

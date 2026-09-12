@@ -6,7 +6,7 @@
  * developer experience.
  */
 
-import { z } from 'zod';
+import { z } from 'zod'
 
 /**
  * Extract the first error message from a Zod validation result
@@ -27,20 +27,15 @@ import { z } from 'zod';
  * }
  * ```
  */
-export function getFirstZodError(
-  error: z.ZodError,
-  path?: string,
-): string | null {
+export function getFirstZodError(error: z.ZodError, path?: string): string | null {
   if (path) {
     // Get errors for specific field
-    const fieldErrors = error.issues.filter((err) =>
-      err.path.join('.').startsWith(path),
-    );
-    return fieldErrors[0]?.message ?? null;
+    const fieldErrors = error.issues.filter((err) => err.path.join('.').startsWith(path))
+    return fieldErrors[0]?.message ?? null
   }
 
   // Get first error overall
-  return error.issues[0]?.message ?? null;
+  return error.issues[0]?.message ?? null
 }
 
 /**
@@ -66,10 +61,10 @@ export function getAllZodErrors(error: z.ZodError, path?: string): string[] {
   if (path) {
     return error.issues
       .filter((err) => err.path.join('.').startsWith(path))
-      .map((err) => err.message);
+      .map((err) => err.message)
   }
 
-  return error.issues.map((err) => err.message);
+  return error.issues.map((err) => err.message)
 }
 
 /**
@@ -91,16 +86,16 @@ export function getAllZodErrors(error: z.ZodError, path?: string): string[] {
  * ```
  */
 export function zodErrorsToFieldMap(error: z.ZodError): Record<string, string> {
-  const errorMap: Record<string, string> = {};
+  const errorMap: Record<string, string> = {}
 
   for (const err of error.issues) {
-    const path = err.path.join('.');
+    const path = err.path.join('.')
     if (path && !errorMap[path]) {
-      errorMap[path] = err.message;
+      errorMap[path] = err.message
     }
   }
 
-  return errorMap;
+  return errorMap
 }
 
 /**
@@ -129,12 +124,12 @@ export function zodErrorsToFieldMap(error: z.ZodError): Record<string, string> {
  */
 export function createZodValidator<T extends z.ZodType>(schema: T) {
   return ({ value }: { value: unknown }) => {
-    const result = schema.safeParse(value);
+    const result = schema.safeParse(value)
     if (!result.success) {
-      return result.error.format();
+      return result.error.format()
     }
-    return undefined;
-  };
+    return undefined
+  }
 }
 
 /**
@@ -158,18 +153,15 @@ export function createZodValidator<T extends z.ZodType>(schema: T) {
  * }}
  * ```
  */
-export function createZodFieldValidator<T extends z.ZodType>(
-  schema: T,
-  fieldName?: string,
-) {
+export function createZodFieldValidator<T extends z.ZodType>(schema: T, fieldName?: string) {
   return ({ value }: { value: unknown }) => {
-    const input = fieldName ? { [fieldName]: value } : value;
-    const result = schema.safeParse(input);
+    const input = fieldName ? { [fieldName]: value } : value
+    const result = schema.safeParse(input)
 
-    if (result.success) return undefined;
+    if (result.success) return undefined
 
-    return getFirstZodError(result.error, fieldName) ?? undefined;
-  };
+    return getFirstZodError(result.error, fieldName) ?? undefined
+  }
 }
 
 /**
@@ -194,11 +186,8 @@ export function createZodFieldValidator<T extends z.ZodType>(
  * });
  * ```
  */
-export async function validateAsync<T extends z.ZodType>(
-  schema: T,
-  value: unknown,
-) {
-  return schema.safeParseAsync(value);
+export async function validateAsync<T extends z.ZodType>(schema: T, value: unknown) {
+  return schema.safeParseAsync(value)
 }
 
 /**
@@ -220,11 +209,7 @@ export const commonSchemas = {
     }),
 
   /** URL validation (optional, allows empty string) */
-  urlOptional: z
-    .string()
-    .url('Please enter a valid URL')
-    .optional()
-    .or(z.literal('')),
+  urlOptional: z.string().url('Please enter a valid URL').optional().or(z.literal('')),
 
   /** Username validation (3-20 chars, alphanumeric + underscore) */
   username: z
@@ -232,10 +217,7 @@ export const commonSchemas = {
     .trim()
     .min(3, 'Username must be at least 3 characters')
     .max(20, 'Username must not exceed 20 characters')
-    .regex(
-      /^[a-zA-Z0-9_]+$/,
-      'Username can only contain letters, numbers, and underscores',
-    ),
+    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
 
   /** Strong password validation */
   password: z
@@ -244,10 +226,7 @@ export const commonSchemas = {
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
     .regex(/[0-9]/, 'Password must contain at least one number')
-    .regex(
-      /[^A-Za-z0-9]/,
-      'Password must contain at least one special character',
-    ),
+    .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
 
   /** Phone number validation (US format) */
   phoneUS: z
@@ -256,9 +235,7 @@ export const commonSchemas = {
     .or(z.string().regex(/^\(\d{3}\)\s*\d{3}-\d{4}$/, 'Invalid phone format')),
 
   /** ZIP code validation (US) */
-  zipCodeUS: z
-    .string()
-    .regex(/^\d{5}(-\d{4})?$/, 'ZIP code must be 5 or 9 digits'),
+  zipCodeUS: z.string().regex(/^\d{5}(-\d{4})?$/, 'ZIP code must be 5 or 9 digits'),
 
   /** Credit card number validation (basic) */
   creditCard: z
@@ -266,18 +243,18 @@ export const commonSchemas = {
     .regex(/^\d{13,19}$/, 'Invalid credit card number')
     .refine((val) => {
       // Luhn algorithm validation
-      let sum = 0;
-      let isEven = false;
+      let sum = 0
+      let isEven = false
       for (let i = val.length - 1; i >= 0; i--) {
-        let digit = parseInt(val[i], 10);
+        let digit = parseInt(val[i], 10)
         if (isEven) {
-          digit *= 2;
-          if (digit > 9) digit -= 9;
+          digit *= 2
+          if (digit > 9) digit -= 9
         }
-        sum += digit;
-        isEven = !isEven;
+        sum += digit
+        isEven = !isEven
       }
-      return sum % 10 === 0;
+      return sum % 10 === 0
     }, 'Invalid credit card number'),
 
   /** Age validation (18-120) */
@@ -288,9 +265,7 @@ export const commonSchemas = {
     .max(120, 'Please enter a valid age'),
 
   /** Date string validation (YYYY-MM-DD) */
-  dateString: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
+  dateString: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
 
   /** Non-empty string */
   nonEmptyString: z.string().trim().min(1, 'This field is required'),
@@ -305,7 +280,7 @@ export const commonSchemas = {
   mustBeTrue: z.literal(true, {
     message: 'You must accept to continue',
   }),
-};
+}
 
 /**
  * Create password confirmation schema with refine
@@ -333,13 +308,13 @@ export function createPasswordMatchSchema(
     .passthrough()
     .refine(
       (data: Record<string, unknown>) => {
-        return data[passwordField] === data[confirmField];
+        return data[passwordField] === data[confirmField]
       },
       {
         message: 'Passwords do not match',
         path: [confirmField],
       },
-    );
+    )
 }
 
 /**
@@ -365,16 +340,16 @@ export function createDateRangeSchema(startField: string, endField: string) {
     .passthrough()
     .refine(
       (data: Record<string, unknown>) => {
-        const start = data[startField];
-        const end = data[endField];
+        const start = data[startField]
+        const end = data[endField]
         if (typeof start === 'string' && typeof end === 'string') {
-          return new Date(start) < new Date(end);
+          return new Date(start) < new Date(end)
         }
-        return true;
+        return true
       },
       {
         message: 'End date must be after start date',
         path: [endField],
       },
-    );
+    )
 }

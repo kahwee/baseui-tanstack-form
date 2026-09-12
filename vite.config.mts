@@ -1,10 +1,10 @@
-import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'node:path';
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 
-const rootDir = dirname(fileURLToPath(import.meta.url));
+const rootDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   plugins: [
@@ -28,8 +28,7 @@ export default defineConfig({
         zod: resolve(rootDir, 'src/zod.ts'),
       },
       formats: ['es', 'cjs'],
-      fileName: (format, entryName) =>
-        format === 'cjs' ? `${entryName}.cjs` : `${entryName}.js`,
+      fileName: (format, entryName) => (format === 'cjs' ? `${entryName}.cjs` : `${entryName}.js`),
     },
     rollupOptions: {
       external: [
@@ -45,4 +44,4 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
   },
-});
+})

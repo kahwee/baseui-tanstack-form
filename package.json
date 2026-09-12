@@ -31,8 +31,10 @@
     "dev": "vite",
     "build": "vite build",
     "clean": "rm -rf dist coverage",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
     "typecheck": "tsc --noEmit --skipLibCheck",
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
@@ -42,11 +44,11 @@
     "test:ui": "vitest --ui",
     "prepare": "husky",
     "prepublishOnly": "bun run clean && bun run check",
-    "check": "bun run lint && bun run typecheck && bun run test && bun run build && bun run test:package",
+    "check": "bun run format:check && bun run lint && bun run typecheck && bun run test && bun run build && bun run test:package",
     "test:package": "bun scripts/test-package.mjs"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@biomejs/biome": "2.5.13",
     "@storybook/addon-docs": "^10.6.0",
     "@storybook/addon-links": "^10.6.0",
     "@storybook/builder-vite": "^10.6.0",
@@ -57,22 +59,12 @@
     "@testing-library/react": "^16.3.3",
     "@types/react": "18.3.31",
     "@types/react-dom": "18.3.7",
-    "@typescript-eslint/eslint-plugin": "^8.70.0",
-    "@typescript-eslint/parser": "^8.70.0",
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/coverage-istanbul": "^5.0.0",
     "@vitest/ui": "^5.0.0",
     "baseui": "^18.2.0",
-    "eslint": "^10.10.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.6",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-storybook": "^10.6.0",
-    "globals": "^17.12.0",
     "husky": "^9.1.7",
     "jsdom": "^30.0.1",
-    "prettier": "^3.9.6",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "storybook": "^10.6.0",
@@ -88,9 +80,6 @@
     "@babel/core": "^7.29.7",
     "@vitest/ui": {
       "flatted": "^3.4.3"
-    },
-    "eslint-plugin-react": {
-      "minimatch": "^10.2.5"
     },
     "picomatch": "^4.0.5",
     "protocol-buffers-schema": "^3.6.1",
@@ -120,11 +109,5 @@
     "url": "https://github.com/kahwee/baseui-tanstack-form.git"
   },
   "license": "MIT",
-  "prettier": {
-    "singleQuote": true,
-    "semi": true,
-    "tabWidth": 2,
-    "printWidth": 80
-  },
   "sideEffects": false
 }
