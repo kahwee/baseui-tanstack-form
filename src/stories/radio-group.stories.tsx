@@ -52,9 +52,13 @@ const RadioGroupStory = (args: RadioGroupStoryProps) => {
 
             <Block marginTop="16px">
               <LabelSmall>Selected Value:</LabelSmall>
-              <ParagraphSmall color="contentSecondary">
-                {form.state.values.selectedOption || 'None selected'}
-              </ParagraphSmall>
+              <form.Subscribe selector={(state) => state.values.selectedOption}>
+                {(selectedOption) => (
+                  <ParagraphSmall color="contentSecondary">
+                    {selectedOption || 'None selected'}
+                  </ParagraphSmall>
+                )}
+              </form.Subscribe>
             </Block>
 
             <Block marginTop="16px">
