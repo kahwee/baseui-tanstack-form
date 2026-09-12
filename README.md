@@ -549,8 +549,10 @@ bun install
 | `bun run dev` | Start Vite development server |
 | `bun run build` | Build library for production |
 | `bun run clean` | Remove build artifacts |
-| `bun run lint` | Run ESLint |
-| `bun run lint:fix` | Fix ESLint errors |
+| `bun run format` | Format with Biome |
+| `bun run format:check` | Check Biome formatting |
+| `bun run lint` | Run Biome lint |
+| `bun run lint:fix` | Fix Biome lint issues |
 | `bun run typecheck` | Run TypeScript type checking |
 | `bun run test` | Run tests with Vitest |
 | `bun run test:watch` | Run tests in watch mode |
@@ -558,15 +560,15 @@ bun install
 | `bun run test:coverage` | Generate coverage report |
 | `bun run storybook` | Start Storybook dev server |
 | `bun run build:storybook` | Build Storybook for production |
+| `bun run check` | Full CI check suite |
 
 ### Tech Stack
 
 - **UI**: React 18.3.x with BaseUI 18.2+
 - **Build Tool**: Vite v8.3+
-- **Testing**: Vitest v4.1+ with React Testing Library
+- **Testing**: Vitest v5+ with React Testing Library
 - **Documentation**: Storybook v10.6+
-- **Linting**: ESLint v10+ with TypeScript support
-- **Formatting**: Prettier v3.9+
+- **Linting / Formatting**: Biome 2.5+
 - **Type Checking**: TypeScript v6.0.x
 
 ### Project Structure

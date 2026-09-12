@@ -14,10 +14,9 @@ This guide is designed for AI assistants and developers working on this project.
 
 ### Build & Development Tools
 - **Build Tool**: Vite v8.3+ (ESM-first bundler)
-- **Testing**: Vitest v4.1+ with React Testing Library v16.3+ (jsdom environment)
+- **Testing**: Vitest v5+ with React Testing Library v16.3+ (jsdom environment)
 - **Documentation**: Storybook v10.6+ (ESM-only)
-- **Linting**: ESLint v10.7+ with TypeScript support
-- **Formatting**: Prettier v3.9+
+- **Linting / Formatting**: Biome 2.5+ (`biome lint` / `biome format`)
 - **Git Hooks**: Husky v9.1+
 
 ## 🛠️ Available Commands
@@ -27,8 +26,10 @@ This guide is designed for AI assistants and developers working on this project.
 | `bun run dev` | Start development server | Vite |
 | `bun run build` | Build library for production | Vite + TypeScript |
 | `bun run clean` | Remove dist and coverage directories | bash |
-| `bun run lint` | Run ESLint checks | ESLint v10 |
-| `bun run lint:fix` | Auto-fix ESLint errors | ESLint v10 |
+| `bun run format` | Format with Biome | Biome |
+| `bun run format:check` | Check Biome formatting | Biome |
+| `bun run lint` | Run Biome lint checks | Biome |
+| `bun run lint:fix` | Auto-fix Biome lint issues | Biome |
 | `bun run typecheck` | Run TypeScript type checking | TypeScript |
 | `bun run test` | Run all tests once | Vitest |
 | `bun run test:watch` | Run tests in watch mode (auto-rerun) | Vitest |
@@ -36,6 +37,7 @@ This guide is designed for AI assistants and developers working on this project.
 | `bun run test:coverage` | Generate test coverage report | Vitest |
 | `bun run storybook` | Start Storybook dev server (port 6006) | Storybook v10 |
 | `bun run build:storybook` | Build Storybook for production | Storybook v10 |
+| `bun run check` | format:check + lint + typecheck + test + build + test:package | bun scripts |
 
 ## 📁 Project Structure
 
@@ -1147,7 +1149,7 @@ https://kahwee.github.io/baseui-tanstack-form/
 ### Pre-commit Hooks
 
 Husky runs the following checks before each commit:
-- ESLint checks (`bun run lint`)
+- Biome lint checks (`bun run lint`)
 - TypeScript type checking (`bun run typecheck`)
 
 If checks fail, the commit will be blocked. Fix the issues or use `--no-verify` to bypass (not recommended).
@@ -1158,7 +1160,7 @@ Before submitting a PR:
 - ✅ All tests pass: `bun run test`
 - ✅ No linting errors: `bun run lint`
 - ✅ No type errors: `bun run typecheck`
-- ✅ Code is formatted: Prettier runs automatically
+- ✅ Code is formatted: `bun run format:check` (Biome)
 - ✅ Tests have good coverage: `bun run test:coverage`
 - ✅ Storybook builds: `bun run build:storybook`
 - ✅ Library builds: `bun run build`
