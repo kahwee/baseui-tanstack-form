@@ -1,11 +1,10 @@
-import React from 'react';
-import type { Preview, Decorator } from '@storybook/react-vite';
-import { LightTheme, BaseProvider } from 'baseui';
-import { Provider as StyletronProvider } from 'styletron-react';
-import { Client as Styletron } from 'styletron-engine-atomic';
+import type { Decorator, Preview } from '@storybook/react-vite'
+import { BaseProvider, LightTheme } from 'baseui'
+import { Client as Styletron } from 'styletron-engine-atomic'
+import { Provider as StyletronProvider } from 'styletron-react'
 
 // Initialize Styletron
-const engine = new Styletron();
+const engine = new Styletron()
 
 // BaseUI decorator to wrap all stories
 export const withBaseUI: Decorator = (Story) => {
@@ -15,8 +14,8 @@ export const withBaseUI: Decorator = (Story) => {
         <Story />
       </BaseProvider>
     </StyletronProvider>
-  );
-};
+  )
+}
 
 const preview: Preview = {
   parameters: {
@@ -30,8 +29,8 @@ const preview: Preview = {
     backgrounds: {
       options: {
         light: { name: 'light', value: LightTheme.colors.backgroundPrimary },
-        dark: { name: 'dark', value: '#333333' }
-      }
+        dark: { name: 'dark', value: '#333333' },
+      },
     },
   },
 
@@ -39,9 +38,9 @@ const preview: Preview = {
 
   initialGlobals: {
     backgrounds: {
-      value: 'light'
-    }
-  }
-};
+      value: 'light',
+    },
+  },
+}
 
-export default preview;
+export default preview

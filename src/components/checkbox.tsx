@@ -1,23 +1,17 @@
-import { useFieldContext } from '../hooks/form-context';
-import { FormControl, type FormControlProps } from 'baseui/form-control';
-import {
-  Checkbox as BaseCheckbox,
-  type CheckboxProps,
-} from 'baseui/checkbox-v2';
-import { useFieldError } from './use-field-error';
+import { Checkbox as BaseCheckbox, type CheckboxProps } from 'baseui/checkbox-v2'
+import { FormControl, type FormControlProps } from 'baseui/form-control'
+import { useFieldContext } from '../hooks/form-context'
+import { useFieldError } from './use-field-error'
 
 /**
  * Props for the CheckboxField component
  */
 export type CheckboxFieldProps = {
   /** Label text displayed next to the checkbox */
-  label: string;
+  label: string
   /** Additional props for the FormControl wrapper */
-  formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>;
-} & Omit<
-  CheckboxProps,
-  'checked' | 'onChange' | 'onBlur' | 'error' | 'children'
->;
+  formControlProps?: Partial<Omit<FormControlProps, 'error' | 'label'>>
+} & Omit<CheckboxProps, 'checked' | 'onChange' | 'onBlur' | 'error' | 'children'>
 
 /**
  * Single checkbox component integrated with TanStack Form
@@ -41,13 +35,9 @@ export type CheckboxFieldProps = {
  * @param restProps - All other BaseUI Checkbox props (disabled, overrides, etc.)
  * @returns Rendered checkbox field with validation support and ARIA attributes
  */
-export function CheckboxField({
-  label,
-  formControlProps,
-  ...restProps
-}: CheckboxFieldProps) {
-  const field = useFieldContext<boolean>();
-  const { hasError, errorMessage } = useFieldError(field);
+export function CheckboxField({ label, formControlProps, ...restProps }: CheckboxFieldProps) {
+  const field = useFieldContext<boolean>()
+  const { hasError, errorMessage } = useFieldError(field)
 
   return (
     <FormControl error={errorMessage} {...formControlProps}>
@@ -62,5 +52,5 @@ export function CheckboxField({
         {label}
       </BaseCheckbox>
     </FormControl>
-  );
+  )
 }

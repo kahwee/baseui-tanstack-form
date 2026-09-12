@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { personSchema } from '../person/person-schema';
+import { z } from 'zod'
+import { personSchema } from '../person/person-schema'
 
 // Zod v4 enhanced schema with advanced features
 export const groupSchema = z.object({
@@ -11,17 +11,12 @@ export const groupSchema = z.object({
     .max(100, 'Group name must not exceed 100 characters'),
 
   // Optional description with character limit
-  description: z
-    .string()
-    .max(1000, 'Description must not exceed 1000 characters')
-    .optional(),
+  description: z.string().max(1000, 'Description must not exceed 1000 characters').optional(),
 
   // Flexible date handling with union (Zod v4 improved union types)
   established: z
     .union([
-      z
-        .string()
-        .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
+      z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
       z.date(),
       z.instanceof(Date),
     ])
@@ -83,28 +78,28 @@ export const groupSchema = z.object({
     .min(0, 'Rating must be at least 0')
     .max(5, 'Rating must not exceed 5')
     .optional(),
-});
+})
 
 // Transform example: convert group name to uppercase
 export const groupSchemaWithTransform = groupSchema.transform((data) => ({
   ...data,
   name: data.name.toUpperCase(),
-}));
+}))
 
 // Custom validation example with superRefine (Zod v4)
 export const groupSchemaWithCustomValidation = groupSchema.refine(
   (data) => {
     // Custom logic: if group is active, it must have a contact email
     if (data.isActive && !data.contactEmail) {
-      return false;
+      return false
     }
-    return true;
+    return true
   },
   {
     message: 'Active groups must provide a contact email',
     path: ['contactEmail'],
   },
-);
+)
 
 // Discriminated union example (Zod v4 improved discriminated unions)
 export const musicGroupType = z.discriminatedUnion('groupType', [
@@ -123,7 +118,7 @@ export const musicGroupType = z.discriminatedUnion('groupType', [
     name: z.string(),
     choirMaster: z.string(),
   }),
-]);
+])
 
-export type Group = z.infer<typeof groupSchema>;
-export type MusicGroupType = z.infer<typeof musicGroupType>;
+export type Group = z.infer<typeof groupSchema>
+export type MusicGroupType = z.infer<typeof musicGroupType>

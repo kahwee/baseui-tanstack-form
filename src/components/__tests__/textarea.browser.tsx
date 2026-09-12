@@ -1,7 +1,6 @@
-import React from 'react';
-import { render, screen } from '../../test-utils/rtl';
-import userEvent from '@testing-library/user-event';
-import { useAppForm } from '../../hooks/form';
+import userEvent from '@testing-library/user-event'
+import { useAppForm } from '../../hooks/form'
+import { render, screen } from '../../test-utils/rtl'
 
 describe('Form Components', () => {
   describe('Textarea component', () => {
@@ -11,7 +10,7 @@ describe('Form Components', () => {
           defaultValues: {
             comments: '',
           },
-        });
+        })
 
         return (
           <form>
@@ -19,24 +18,22 @@ describe('Form Components', () => {
               {(field) => <field.Textarea label="Comments" />}
             </form.AppField>
           </form>
-        );
+        )
       }
 
-      render(<TestTextareaForm />);
+      render(<TestTextareaForm />)
 
       // Find the textarea
-      const textareaLabel = screen.getByText('Comments');
-      const textarea = textareaLabel
-        .closest('span')
-        ?.parentElement?.querySelector('textarea');
-      expect(textarea).not.toBeNull();
+      const textareaLabel = screen.getByText('Comments')
+      const textarea = textareaLabel.closest('span')?.parentElement?.querySelector('textarea')
+      expect(textarea).not.toBeNull()
 
       // Type text into the textarea
       if (textarea) {
-        await userEvent.type(textarea, 'This is a test comment');
+        await userEvent.type(textarea, 'This is a test comment')
         // Check that the textarea value was updated
-        expect(textarea).toHaveValue('This is a test comment');
+        expect(textarea).toHaveValue('This is a test comment')
       }
-    });
-  });
-});
+    })
+  })
+})

@@ -1,14 +1,13 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useAppForm } from '../hooks/form';
-import { Block } from 'baseui/block';
-import { Card, hasThumbnail, StyledBody } from 'baseui/card';
-import { ParagraphSmall, LabelSmall } from 'baseui/typography';
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Block } from 'baseui/block'
+import { Card, hasThumbnail, StyledBody } from 'baseui/card'
+import { LabelSmall, ParagraphSmall } from 'baseui/typography'
+import { useAppForm } from '../hooks/form'
 
 interface DatePickerStoryProps {
-  label: string;
-  disabled?: boolean;
-  defaultDate?: Date | null;
+  label: string
+  disabled?: boolean
+  defaultDate?: Date | null
 }
 
 const DatePickerStory = (args: DatePickerStoryProps) => {
@@ -17,28 +16,26 @@ const DatePickerStory = (args: DatePickerStoryProps) => {
       dateValue: args.defaultDate || null,
     },
     onSubmit: ({ value }) => {
-      console.info('Form submitted with values:', value);
+      console.info('Form submitted with values:', value)
       alert(
         `Selected date: ${value.dateValue ? new Date(value.dateValue).toLocaleDateString() : 'None'}`,
-      );
+      )
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="600px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
             <form.AppField name="dateValue">
-              {(field) => (
-                <field.DatePicker label={args.label} disabled={args.disabled} />
-              )}
+              {(field) => <field.DatePicker label={args.label} disabled={args.disabled} />}
             </form.AppField>
 
             <Block marginTop="16px">
@@ -59,8 +56,8 @@ const DatePickerStory = (args: DatePickerStoryProps) => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 const meta = {
   title: 'Form Components / DatePicker',
@@ -82,10 +79,10 @@ const meta = {
       description: 'Initial date value',
     },
   },
-} satisfies Meta<typeof DatePickerStory>;
+} satisfies Meta<typeof DatePickerStory>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
@@ -93,7 +90,7 @@ export const Default: Story = {
     disabled: false,
     defaultDate: null,
   },
-};
+}
 
 export const BirthDate: Story = {
   args: {
@@ -101,7 +98,7 @@ export const BirthDate: Story = {
     disabled: false,
     defaultDate: null,
   },
-};
+}
 
 export const AppointmentDate: Story = {
   args: {
@@ -109,7 +106,7 @@ export const AppointmentDate: Story = {
     disabled: false,
     defaultDate: new Date(),
   },
-};
+}
 
 export const WithDefaultDate: Story = {
   args: {
@@ -117,7 +114,7 @@ export const WithDefaultDate: Story = {
     disabled: false,
     defaultDate: new Date('2024-01-15'),
   },
-};
+}
 
 export const Disabled: Story = {
   args: {
@@ -125,7 +122,7 @@ export const Disabled: Story = {
     disabled: true,
     defaultDate: new Date(),
   },
-};
+}
 
 export const EventDate: Story = {
   args: {
@@ -133,7 +130,7 @@ export const EventDate: Story = {
     disabled: false,
     defaultDate: null,
   },
-};
+}
 
 export const DeadlineDate: Story = {
   args: {
@@ -141,4 +138,4 @@ export const DeadlineDate: Story = {
     disabled: false,
     defaultDate: null,
   },
-};
+}

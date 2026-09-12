@@ -1,42 +1,37 @@
-import type { ReactNode } from 'react';
-import { useFieldContext } from '../hooks/form-context';
-import { FormControl } from 'baseui/form-control';
-import {
-  RadioGroup,
-  Radio,
-  type RadioProps,
-  type RadioGroupProps,
-} from 'baseui/radio-v2';
-import type { FormControlProps } from 'baseui/form-control';
-import { useFieldError } from './use-field-error';
+import type { FormControlProps } from 'baseui/form-control'
+import { FormControl } from 'baseui/form-control'
+import { Radio, RadioGroup, type RadioGroupProps, type RadioProps } from 'baseui/radio-v2'
+import type { ReactNode } from 'react'
+import { useFieldContext } from '../hooks/form-context'
+import { useFieldError } from './use-field-error'
 
 /**
  * Configuration for a single radio button option
  */
 export type RadioOption = {
   /** Unique value for this radio option */
-  value: string;
+  value: string
   /** Label text or component displayed next to the radio button */
-  label: ReactNode;
+  label: ReactNode
   /** Optional description text displayed below the label */
-  description?: string;
+  description?: string
   /** BaseUI style overrides for this radio button */
-  overrides?: RadioProps['overrides'];
+  overrides?: RadioProps['overrides']
   /** Whether this radio option is disabled */
-  disabled?: boolean;
-};
+  disabled?: boolean
+}
 
 /**
  * Props for the RadioGroupField component
  */
 export type RadioGroupFieldProps = {
   /** Label text displayed above the radio group */
-  label: FormControlProps['label'];
+  label: FormControlProps['label']
   /** Array of radio button options to display */
-  options: RadioOption[];
+  options: RadioOption[]
   /** Additional props for the FormControl wrapper */
-  formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-} & Omit<RadioGroupProps, 'value' | 'onChange' | 'onBlur' | 'error'>;
+  formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>
+} & Omit<RadioGroupProps, 'value' | 'onChange' | 'onBlur' | 'error'>
 
 /**
  * Radio group component integrated with TanStack Form
@@ -73,8 +68,8 @@ export function RadioGroupField({
   formControlProps,
   ...restProps
 }: RadioGroupFieldProps) {
-  const field = useFieldContext<string>();
-  const { hasError, errorMessage } = useFieldError(field);
+  const field = useFieldContext<string>()
+  const { hasError, errorMessage } = useFieldError(field)
 
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
@@ -100,5 +95,5 @@ export function RadioGroupField({
         ))}
       </RadioGroup>
     </FormControl>
-  );
+  )
 }

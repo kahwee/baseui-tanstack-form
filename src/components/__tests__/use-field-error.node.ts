@@ -1,43 +1,43 @@
-import { renderHook } from '@testing-library/react';
-import { useFieldError } from '../use-field-error';
-import { createFormHookContexts } from '@tanstack/react-form';
+import { createFormHookContexts } from '@tanstack/react-form'
+import { renderHook } from '@testing-library/react'
+import { useFieldError } from '../use-field-error'
 
 // Create a type for test field errors that can handle all our test cases
 interface TestField {
-  name: string;
-  getMeta: () => { errors?: string[] };
+  name: string
+  getMeta: () => { errors?: string[] }
   form: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getAllErrors: () => any;
-  };
+    // biome-ignore lint/suspicious/noExplicitAny: Test double accepts intentionally malformed values.
+    getAllErrors: () => any
+  }
 }
 
 // For intentionally invalid fields in tests
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyObject = Record<string, any>;
+// biome-ignore lint/suspicious/noExplicitAny: Tests construct intentionally malformed objects.
+type AnyObject = Record<string, any>
 
 // Use any type for test injections with intentional bad inputs
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TestFieldInput = any;
+// biome-ignore lint/suspicious/noExplicitAny: Invalid runtime inputs are the subject of these tests.
+type TestFieldInput = any
 
 describe('useFieldError', () => {
   // Test for invalid field inputs
   describe('Input validation and error handling', () => {
     it('should safely handle undefined field', () => {
       const { result } = renderHook(() => {
-        return useFieldError(undefined as TestFieldInput);
-      });
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+        return useFieldError(undefined as TestFieldInput)
+      })
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should safely handle null field', () => {
       const { result } = renderHook(() => {
-        return useFieldError(null as TestFieldInput);
-      });
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+        return useFieldError(null as TestFieldInput)
+      })
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should handle field with missing getMeta function', () => {
       const invalidField: AnyObject = {
@@ -46,13 +46,13 @@ describe('useFieldError', () => {
         form: {
           getAllErrors: () => ({}),
         },
-      };
+      }
       const { result } = renderHook(() => {
-        return useFieldError(invalidField as TestFieldInput);
-      });
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+        return useFieldError(invalidField as TestFieldInput)
+      })
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should handle field with missing form.getAllErrors function', () => {
       const invalidField: AnyObject = {
@@ -61,13 +61,13 @@ describe('useFieldError', () => {
         form: {
           getAllErrors: undefined,
         },
-      };
+      }
       const { result } = renderHook(() => {
-        return useFieldError(invalidField as TestFieldInput);
-      });
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+        return useFieldError(invalidField as TestFieldInput)
+      })
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should handle error thrown in getAllErrors', () => {
       const errorField: AnyObject = {
@@ -75,16 +75,14 @@ describe('useFieldError', () => {
         getMeta: () => ({}),
         form: {
           getAllErrors: () => {
-            throw new Error('Test error');
+            throw new Error('Test error')
           },
         },
-      };
-      const { result } = renderHook(() =>
-        useFieldError(errorField as TestField),
-      );
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+      }
+      const { result } = renderHook(() => useFieldError(errorField as TestField))
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should handle field with non-string name', () => {
       const invalidField: AnyObject = {
@@ -97,14 +95,14 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
       const { result } = renderHook(() => {
-        return useFieldError(invalidField as TestFieldInput);
-      });
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
-  });
+        return useFieldError(invalidField as TestFieldInput)
+      })
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
+  })
 
   // Parameterized test for field errors
   describe('Error detection and reporting', () => {
@@ -142,9 +140,7 @@ describe('useFieldError', () => {
         field: {
           name: 'people[0].firstName',
           fieldErrors: [],
-          formErrors: [
-            { 'people[0].firstName': { _errors: ['First name is required'] } },
-          ],
+          formErrors: [{ 'people[0].firstName': { _errors: ['First name is required'] } }],
         },
         expected: { hasError: true, errorMessage: 'First name is required' },
       },
@@ -153,9 +149,7 @@ describe('useFieldError', () => {
         field: {
           name: 'people[0].firstName',
           fieldErrors: [],
-          formErrors: [
-            { 'people.0.firstName': { _errors: ['First name is required'] } },
-          ],
+          formErrors: [{ 'people.0.firstName': { _errors: ['First name is required'] } }],
         },
         expected: { hasError: true, errorMessage: 'First name is required' },
       },
@@ -223,7 +217,7 @@ describe('useFieldError', () => {
         },
         expected: { hasError: true, errorMessage: 'Username is required' },
       },
-    ];
+    ]
 
     // Run all the test cases using forEach instead of test.each
     testCases.forEach(({ name, field, expected }) => {
@@ -238,15 +232,15 @@ describe('useFieldError', () => {
               },
             }),
           },
-        };
+        }
 
-        const { result } = renderHook(() => useFieldError(testField));
+        const { result } = renderHook(() => useFieldError(testField))
 
-        expect(result.current.hasError).toBe(expected.hasError);
-        expect(result.current.errorMessage).toBe(expected.errorMessage);
-      });
-    });
-  });
+        expect(result.current.hasError).toBe(expected.hasError)
+        expect(result.current.errorMessage).toBe(expected.errorMessage)
+      })
+    })
+  })
 
   // Test complex nested structures
   describe('Complex nested error structures', () => {
@@ -268,9 +262,7 @@ describe('useFieldError', () => {
                               '2': {
                                 profile: {
                                   contact: {
-                                    _errors: [
-                                      'Contact information is incomplete',
-                                    ],
+                                    _errors: ['Contact information is incomplete'],
                                   },
                                 },
                               },
@@ -285,15 +277,13 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
+      const { result } = renderHook(() => useFieldError(field))
 
-      expect(result.current.hasError).toBe(true);
-      expect(result.current.errorMessage).toBe(
-        'Contact information is incomplete',
-      );
-    });
+      expect(result.current.hasError).toBe(true)
+      expect(result.current.errorMessage).toBe('Contact information is incomplete')
+    })
 
     it('should handle deep dot notation paths', () => {
       const field: TestField = {
@@ -312,15 +302,13 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
+      const { result } = renderHook(() => useFieldError(field))
 
-      expect(result.current.hasError).toBe(true);
-      expect(result.current.errorMessage).toBe(
-        'Contact information is incomplete',
-      );
-    });
+      expect(result.current.hasError).toBe(true)
+      expect(result.current.errorMessage).toBe('Contact information is incomplete')
+    })
 
     it('should handle mixed notation in nested paths', () => {
       const field: TestField = {
@@ -341,16 +329,16 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
+      const { result } = renderHook(() => useFieldError(field))
 
       // This mixed notation is challenging and might not be found
       // Testing the robustness of the algorithm
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
-  });
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
+  })
 
   // Group edge cases together with parameterized tests
   describe('Edge cases', () => {
@@ -450,7 +438,7 @@ describe('useFieldError', () => {
                 errors: [
                   {
                     username: {
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      // biome-ignore lint/suspicious/noExplicitAny: Deliberately violates the runtime shape.
                       _errors: 'Not an array' as any, // intentionally using string instead of array
                     },
                   },
@@ -505,23 +493,23 @@ describe('useFieldError', () => {
           },
         },
       },
-    ];
+    ]
 
     // Run all edge cases with forEach, they should all return no error
     edgeCases.forEach(({ name, field }) => {
       it(`should handle ${name}`, () => {
-        const { result } = renderHook(() => useFieldError(field));
+        const { result } = renderHook(() => useFieldError(field))
 
-        expect(result.current.hasError).toBe(false);
-        expect(result.current.errorMessage).toBeNull();
-      });
-    });
-  });
+        expect(result.current.hasError).toBe(false)
+        expect(result.current.errorMessage).toBeNull()
+      })
+    })
+  })
 
   // Testing with TanStack Form
   it('should work with TanStack form contexts', () => {
     // Create TanStack Form contexts for the test
-    createFormHookContexts();
+    createFormHookContexts()
 
     const field: TestField = {
       name: 'people[0].firstName',
@@ -537,13 +525,13 @@ describe('useFieldError', () => {
           },
         }),
       },
-    };
+    }
 
-    const { result } = renderHook(() => useFieldError(field));
+    const { result } = renderHook(() => useFieldError(field))
 
-    expect(result.current.hasError).toBe(true);
-    expect(result.current.errorMessage).toBe('First name is required');
-  });
+    expect(result.current.hasError).toBe(true)
+    expect(result.current.errorMessage).toBe('First name is required')
+  })
 
   describe('Error mapping traversal', () => {
     it('should handle errorMap format', () => {
@@ -561,14 +549,14 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
+      const { result } = renderHook(() => useFieldError(field))
 
-      expect(result.current.hasError).toBe(true);
-      expect(result.current.errorMessage).toBe('Username is required');
-    });
-  });
+      expect(result.current.hasError).toBe(true)
+      expect(result.current.errorMessage).toBe('Username is required')
+    })
+  })
 
   // Additional tests to improve coverage
   describe('Additional edge cases for improved coverage', () => {
@@ -582,12 +570,12 @@ describe('useFieldError', () => {
             form: { errors: [] },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+      const { result } = renderHook(() => useFieldError(field))
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should handle partial errors in nested structures', () => {
       // This covers the case where errors are found in the deep nested structure
@@ -614,12 +602,12 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+      const { result } = renderHook(() => useFieldError(field))
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should handle various object types in traversal', () => {
       // This addresses lines 188-196 where object traversal happens
@@ -643,12 +631,12 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+      const { result } = renderHook(() => useFieldError(field))
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should handle non-object values during traversal', () => {
       // This covers lines 230-232 where a value is not an object
@@ -666,12 +654,12 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+      const { result } = renderHook(() => useFieldError(field))
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should handle nested errors with complex path structure', () => {
       // This specifically targets the branch conditions in traverseNestedFields
@@ -701,12 +689,12 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+      const { result } = renderHook(() => useFieldError(field))
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should handle traverseNestedFields with valid path but no _errors', () => {
       // This specifically targets line 194 where _errors is checked
@@ -728,12 +716,12 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
-      expect(result.current.hasError).toBe(false);
-      expect(result.current.errorMessage).toBeNull();
-    });
+      const { result } = renderHook(() => useFieldError(field))
+      expect(result.current.hasError).toBe(false)
+      expect(result.current.errorMessage).toBeNull()
+    })
 
     it('should find errors using traverseNestedFields', () => {
       // This specifically targets line 194 return and lines 230-232 error setting
@@ -761,13 +749,13 @@ describe('useFieldError', () => {
             },
           }),
         },
-      };
+      }
 
-      const { result } = renderHook(() => useFieldError(field));
+      const { result } = renderHook(() => useFieldError(field))
 
       // This should match using the traverseNestedFields function
-      expect(result.current.hasError).toBe(true);
-      expect(result.current.errorMessage).toBe('Total must be positive');
-    });
-  });
-});
+      expect(result.current.hasError).toBe(true)
+      expect(result.current.errorMessage).toBe('Total must be positive')
+    })
+  })
+})

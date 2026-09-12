@@ -1,21 +1,21 @@
-import * as React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useAppForm } from '../hooks/form';
-import { Block } from 'baseui/block';
-import { Card, hasThumbnail, StyledBody } from 'baseui/card';
-import { ParagraphSmall, LabelSmall } from 'baseui/typography';
-import { RadioGroup, Radio, ALIGN, LABEL_PLACEMENT } from 'baseui/radio-v2';
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Block } from 'baseui/block'
+import { Card, hasThumbnail, StyledBody } from 'baseui/card'
+import { ALIGN, LABEL_PLACEMENT, Radio, RadioGroup } from 'baseui/radio-v2'
+import { LabelSmall, ParagraphSmall } from 'baseui/typography'
+import * as React from 'react'
+import { useAppForm } from '../hooks/form'
 
 interface RadioOption {
-  value: string;
-  label: string;
+  value: string
+  label: string
 }
 
 interface RadioGroupStoryProps {
-  label: string;
-  disabled?: boolean;
-  options: RadioOption[];
-  defaultValue?: string;
+  label: string
+  disabled?: boolean
+  options: RadioOption[]
+  defaultValue?: string
 }
 
 const RadioGroupStory = (args: RadioGroupStoryProps) => {
@@ -24,18 +24,18 @@ const RadioGroupStory = (args: RadioGroupStoryProps) => {
       selectedOption: args.defaultValue || '',
     },
     onSubmit: ({ value }) => {
-      console.info('Form submitted with values:', value);
-      alert(`Selected: ${value.selectedOption}`);
+      console.info('Form submitted with values:', value)
+      alert(`Selected: ${value.selectedOption}`)
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="600px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
@@ -70,11 +70,11 @@ const RadioGroupStory = (args: RadioGroupStoryProps) => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 const RadioV2DescriptionExample = () => {
-  const [value, setValue] = React.useState('2');
+  const [value, setValue] = React.useState('2')
 
   return (
     <RadioGroup
@@ -90,8 +90,8 @@ const RadioV2DescriptionExample = () => {
       </Radio>
       <Radio value="3">Three</Radio>
     </RadioGroup>
-  );
-};
+  )
+}
 
 const meta = {
   title: 'Form Components / RadioGroup',
@@ -117,49 +117,49 @@ const meta = {
       description: 'Initially selected value',
     },
   },
-} satisfies Meta<typeof RadioGroupStory>;
+} satisfies Meta<typeof RadioGroupStory>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 const sizeOptions: RadioOption[] = [
   { value: 'small', label: 'Small' },
   { value: 'medium', label: 'Medium' },
   { value: 'large', label: 'Large' },
   { value: 'xlarge', label: 'Extra Large' },
-];
+]
 
 const shippingOptions: RadioOption[] = [
   { value: 'standard', label: 'Standard Shipping (5-7 business days)' },
   { value: 'express', label: 'Express Shipping (2-3 business days)' },
   { value: 'overnight', label: 'Overnight Shipping (next business day)' },
-];
+]
 
 const paymentMethods: RadioOption[] = [
   { value: 'card', label: 'Credit/Debit Card' },
   { value: 'paypal', label: 'PayPal' },
   { value: 'bank', label: 'Bank Transfer' },
   { value: 'crypto', label: 'Cryptocurrency' },
-];
+]
 
 const roleOptions: RadioOption[] = [
   { value: 'admin', label: 'Administrator' },
   { value: 'user', label: 'Regular User' },
   { value: 'moderator', label: 'Moderator' },
   { value: 'guest', label: 'Guest' },
-];
+]
 
 const subscriptionPlans: RadioOption[] = [
   { value: 'free', label: 'Free Plan - $0/month' },
   { value: 'basic', label: 'Basic Plan - $9.99/month' },
   { value: 'pro', label: 'Pro Plan - $19.99/month' },
   { value: 'enterprise', label: 'Enterprise Plan - Contact us' },
-];
+]
 
 const yesNoOptions: RadioOption[] = [
   { value: 'yes', label: 'Yes' },
   { value: 'no', label: 'No' },
-];
+]
 
 export const Default: Story = {
   args: {
@@ -168,7 +168,7 @@ export const Default: Story = {
     options: sizeOptions,
     defaultValue: '',
   },
-};
+}
 
 export const V2Description: Story = {
   args: {
@@ -184,7 +184,7 @@ export const V2Description: Story = {
       },
     },
   },
-};
+}
 
 export const Shipping: Story = {
   args: {
@@ -193,7 +193,7 @@ export const Shipping: Story = {
     options: shippingOptions,
     defaultValue: 'standard',
   },
-};
+}
 
 export const Payment: Story = {
   args: {
@@ -202,7 +202,7 @@ export const Payment: Story = {
     options: paymentMethods,
     defaultValue: '',
   },
-};
+}
 
 export const UserRole: Story = {
   args: {
@@ -211,7 +211,7 @@ export const UserRole: Story = {
     options: roleOptions,
     defaultValue: 'user',
   },
-};
+}
 
 export const SubscriptionPlan: Story = {
   args: {
@@ -220,7 +220,7 @@ export const SubscriptionPlan: Story = {
     options: subscriptionPlans,
     defaultValue: 'free',
   },
-};
+}
 
 export const YesNo: Story = {
   args: {
@@ -229,7 +229,7 @@ export const YesNo: Story = {
     options: yesNoOptions,
     defaultValue: '',
   },
-};
+}
 
 export const Disabled: Story = {
   args: {
@@ -238,7 +238,7 @@ export const Disabled: Story = {
     options: sizeOptions,
     defaultValue: 'medium',
   },
-};
+}
 
 export const WithDefaultSelection: Story = {
   args: {
@@ -247,4 +247,4 @@ export const WithDefaultSelection: Story = {
     options: sizeOptions,
     defaultValue: 'medium',
   },
-};
+}

@@ -1,17 +1,16 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useAppForm } from '../hooks/form';
-import { Block } from 'baseui/block';
-import { Card, hasThumbnail, StyledBody } from 'baseui/card';
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Block } from 'baseui/block'
+import { Card, hasThumbnail, StyledBody } from 'baseui/card'
+import { useAppForm } from '../hooks/form'
 
 interface InputStoryProps {
-  label: string;
-  placeholder: string;
-  type: string;
-  caption?: string;
-  disabled?: boolean;
-  required?: boolean;
-  defaultValue?: string;
+  label: string
+  placeholder: string
+  type: string
+  caption?: string
+  disabled?: boolean
+  required?: boolean
+  defaultValue?: string
 }
 
 const InputStory = (args: InputStoryProps) => {
@@ -20,18 +19,18 @@ const InputStory = (args: InputStoryProps) => {
       inputValue: args.defaultValue || '',
     },
     onSubmit: async ({ value }) => {
-      console.info('Form submitted with values:', value);
-      alert(`Submitted: ${value.inputValue}`);
+      console.info('Form submitted with values:', value)
+      alert(`Submitted: ${value.inputValue}`)
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="600px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
@@ -60,8 +59,8 @@ const InputStory = (args: InputStoryProps) => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 const meta = {
   title: 'Form Components / Input',
@@ -100,10 +99,10 @@ const meta = {
       description: 'Initial value of the input',
     },
   },
-} satisfies Meta<typeof InputStory>;
+} satisfies Meta<typeof InputStory>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
@@ -115,7 +114,7 @@ export const Default: Story = {
     required: false,
     defaultValue: '',
   },
-};
+}
 
 export const Email: Story = {
   args: {
@@ -127,7 +126,7 @@ export const Email: Story = {
     required: true,
     defaultValue: '',
   },
-};
+}
 
 export const Password: Story = {
   args: {
@@ -139,9 +138,9 @@ export const Password: Story = {
     required: true,
     defaultValue: '',
   },
-};
+}
 
-export const Number: Story = {
+export const NumberInput: Story = {
   args: {
     label: 'Age',
     placeholder: 'Enter your age',
@@ -151,7 +150,7 @@ export const Number: Story = {
     required: false,
     defaultValue: '',
   },
-};
+}
 
 export const Phone: Story = {
   args: {
@@ -163,7 +162,7 @@ export const Phone: Story = {
     required: false,
     defaultValue: '',
   },
-};
+}
 
 export const URL: Story = {
   args: {
@@ -175,7 +174,7 @@ export const URL: Story = {
     required: false,
     defaultValue: '',
   },
-};
+}
 
 export const Disabled: Story = {
   args: {
@@ -187,7 +186,7 @@ export const Disabled: Story = {
     required: false,
     defaultValue: 'Pre-filled value',
   },
-};
+}
 
 export const WithDefaultValue: Story = {
   args: {
@@ -199,4 +198,4 @@ export const WithDefaultValue: Story = {
     required: true,
     defaultValue: 'John Doe',
   },
-};
+}

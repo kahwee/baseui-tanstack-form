@@ -1,13 +1,13 @@
-import { InputField } from '../components/input';
-import { createFormHook } from '@tanstack/react-form';
-import { fieldContext, formContext, useFormContext } from './form-context';
-import { Button } from 'baseui/button';
-import { TextareaField } from '../components/textarea';
-import { RadioGroupField } from '../components/radio-group';
-import { SelectSingleField, SelectMultiField } from '../components/select';
-import { CheckboxField } from '../components/checkbox';
-import { CheckboxGroupField } from '../components/checkbox-group';
-import { DatePickerField } from '../components/datepicker';
+import { createFormHook } from '@tanstack/react-form'
+import { Button } from 'baseui/button'
+import { CheckboxField } from '../components/checkbox'
+import { CheckboxGroupField } from '../components/checkbox-group'
+import { DatePickerField } from '../components/datepicker'
+import { InputField } from '../components/input'
+import { RadioGroupField } from '../components/radio-group'
+import { SelectMultiField, SelectSingleField } from '../components/select'
+import { TextareaField } from '../components/textarea'
+import { fieldContext, formContext, useFormContext } from './form-context'
 
 /**
  * Submit button component that shows loading state during form submission
@@ -16,22 +16,16 @@ import { DatePickerField } from '../components/datepicker';
  * @returns Rendered submit button with loading state
  */
 function SubscribeButton({ label }: { label: string }) {
-  const form = useFormContext();
+  const form = useFormContext()
   return (
-    <form.Subscribe
-      selector={(state) => [state.canSubmit, state.isSubmitting] as const}
-    >
+    <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting] as const}>
       {([canSubmit, isSubmitting]) => (
-        <Button
-          type="submit"
-          disabled={!canSubmit || isSubmitting}
-          isLoading={isSubmitting}
-        >
+        <Button type="submit" disabled={!canSubmit || isSubmitting} isLoading={isSubmitting}>
           {label}
         </Button>
       )}
     </form.Subscribe>
-  );
+  )
 }
 
 /**
@@ -94,4 +88,4 @@ export const { useAppForm, withForm } = createFormHook({
   },
   fieldContext,
   formContext,
-});
+})

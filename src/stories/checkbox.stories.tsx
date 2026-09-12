@@ -1,14 +1,13 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useAppForm } from '../hooks/form';
-import { Block } from 'baseui/block';
-import { Card, hasThumbnail, StyledBody } from 'baseui/card';
-import { ParagraphSmall } from 'baseui/typography';
+import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Block } from 'baseui/block'
+import { Card, hasThumbnail, StyledBody } from 'baseui/card'
+import { ParagraphSmall } from 'baseui/typography'
+import { useAppForm } from '../hooks/form'
 
 interface CheckboxStoryProps {
-  label: string;
-  disabled?: boolean;
-  defaultChecked?: boolean;
+  label: string
+  disabled?: boolean
+  defaultChecked?: boolean
 }
 
 const CheckboxStory = (args: CheckboxStoryProps) => {
@@ -17,26 +16,24 @@ const CheckboxStory = (args: CheckboxStoryProps) => {
       checkboxValue: args.defaultChecked || false,
     },
     onSubmit: ({ value }) => {
-      console.info('Form submitted with values:', value);
-      alert(`Checkbox is ${value.checkboxValue ? 'checked' : 'unchecked'}`);
+      console.info('Form submitted with values:', value)
+      alert(`Checkbox is ${value.checkboxValue ? 'checked' : 'unchecked'}`)
     },
-  });
+  })
 
   return (
     <Block padding="24px" width="100%" maxWidth="600px" margin="0 auto">
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
         }}
       >
         <Card overrides={{}} hasThumbnail={hasThumbnail}>
           <StyledBody>
             <form.AppField name="checkboxValue">
-              {(field) => (
-                <field.Checkbox label={args.label} disabled={args.disabled} />
-              )}
+              {(field) => <field.Checkbox label={args.label} disabled={args.disabled} />}
             </form.AppField>
 
             <Block marginTop="16px">
@@ -58,8 +55,8 @@ const CheckboxStory = (args: CheckboxStoryProps) => {
         </Card>
       </form>
     </Block>
-  );
-};
+  )
+}
 
 const meta = {
   title: 'Form Components / Checkbox',
@@ -81,10 +78,10 @@ const meta = {
       description: 'Initial checked state of the checkbox',
     },
   },
-} satisfies Meta<typeof CheckboxStory>;
+} satisfies Meta<typeof CheckboxStory>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
@@ -92,7 +89,7 @@ export const Default: Story = {
     disabled: false,
     defaultChecked: false,
   },
-};
+}
 
 export const Newsletter: Story = {
   args: {
@@ -100,7 +97,7 @@ export const Newsletter: Story = {
     disabled: false,
     defaultChecked: false,
   },
-};
+}
 
 export const RememberMe: Story = {
   args: {
@@ -108,7 +105,7 @@ export const RememberMe: Story = {
     disabled: false,
     defaultChecked: true,
   },
-};
+}
 
 export const Notifications: Story = {
   args: {
@@ -116,7 +113,7 @@ export const Notifications: Story = {
     disabled: false,
     defaultChecked: false,
   },
-};
+}
 
 export const Disabled: Story = {
   args: {
@@ -124,7 +121,7 @@ export const Disabled: Story = {
     disabled: true,
     defaultChecked: false,
   },
-};
+}
 
 export const DisabledChecked: Story = {
   args: {
@@ -132,7 +129,7 @@ export const DisabledChecked: Story = {
     disabled: true,
     defaultChecked: true,
   },
-};
+}
 
 export const Privacy: Story = {
   args: {
@@ -140,13 +137,12 @@ export const Privacy: Story = {
     disabled: false,
     defaultChecked: false,
   },
-};
+}
 
 export const Marketing: Story = {
   args: {
-    label:
-      'I agree to receive marketing communications from this company and its partners',
+    label: 'I agree to receive marketing communications from this company and its partners',
     disabled: false,
     defaultChecked: false,
   },
-};
+}

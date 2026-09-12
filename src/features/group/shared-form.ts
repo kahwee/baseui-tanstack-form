@@ -1,5 +1,5 @@
-import { formOptions } from '@tanstack/react-form';
-import { Group } from './group-schema';
+import { formOptions } from '@tanstack/react-form'
+import type { Group } from './group-schema'
 
 export const formOpts = formOptions({
   defaultValues: {
@@ -9,4 +9,4 @@ export const formOpts = formOptions({
     albums: [],
     awards: [],
   } as Group,
-});
+})

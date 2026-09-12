@@ -1,18 +1,18 @@
-import { useFieldContext } from '../hooks/form-context';
-import { FormControl } from 'baseui/form-control';
-import { Textarea, type TextareaProps } from 'baseui/textarea';
-import type { FormControlProps } from 'baseui/form-control';
-import { useFieldError } from './use-field-error';
+import type { FormControlProps } from 'baseui/form-control'
+import { FormControl } from 'baseui/form-control'
+import { Textarea, type TextareaProps } from 'baseui/textarea'
+import { useFieldContext } from '../hooks/form-context'
+import { useFieldError } from './use-field-error'
 
 /**
  * Props for the TextareaField component
  */
 export type TextareaFieldProps = {
   /** Label text displayed above the textarea */
-  label: FormControlProps['label'];
+  label: FormControlProps['label']
   /** Additional props for the FormControl wrapper */
-  formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>;
-} & Omit<TextareaProps, 'value' | 'onChange' | 'onBlur' | 'error'>;
+  formControlProps?: Partial<Omit<FormControlProps, 'label' | 'error'>>
+} & Omit<TextareaProps, 'value' | 'onChange' | 'onBlur' | 'error'>
 
 /**
  * Multi-line textarea component integrated with TanStack Form
@@ -38,13 +38,9 @@ export type TextareaFieldProps = {
  * @param restProps - All other BaseUI Textarea props (placeholder, rows, disabled, etc.)
  * @returns Rendered textarea field with validation support and ARIA attributes
  */
-export function TextareaField({
-  label,
-  formControlProps,
-  ...restProps
-}: TextareaFieldProps) {
-  const field = useFieldContext<string>();
-  const { hasError, errorMessage } = useFieldError(field);
+export function TextareaField({ label, formControlProps, ...restProps }: TextareaFieldProps) {
+  const field = useFieldContext<string>()
+  const { hasError, errorMessage } = useFieldError(field)
 
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
@@ -58,5 +54,5 @@ export function TextareaField({
         {...restProps}
       />
     </FormControl>
-  );
+  )
 }

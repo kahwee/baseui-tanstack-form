@@ -1,9 +1,8 @@
-import React from 'react';
-import { withForm } from '../../hooks/form';
-import { Card, hasThumbnail, StyledBody, StyledAction } from 'baseui/card';
-import { HeadingSmall } from 'baseui/typography';
-import { Block } from 'baseui/block';
-import { formOpts } from '../group/shared-form';
+import { Block } from 'baseui/block'
+import { Card, hasThumbnail, StyledAction, StyledBody } from 'baseui/card'
+import { HeadingSmall } from 'baseui/typography'
+import { withForm } from '../../hooks/form'
+import { formOpts } from '../group/shared-form'
 
 export const PersonForm = withForm({
   ...formOpts,
@@ -17,9 +16,7 @@ export const PersonForm = withForm({
         <StyledBody>
           <HeadingSmall>{title}</HeadingSmall>
           <Block marginBottom="16px">
-            <form.AppField name="name">
-              {(field) => <field.Input label="Name" />}
-            </form.AppField>
+            <form.AppField name="name">{(field) => <field.Input label="Name" />}</form.AppField>
           </Block>
         </StyledBody>
         <StyledAction>
@@ -28,6 +25,6 @@ export const PersonForm = withForm({
           </form.AppForm>
         </StyledAction>
       </Card>
-    );
+    )
   },
-});
+})
