@@ -10,7 +10,7 @@ This guide is designed for AI assistants and developers working on this project.
 - **BaseUI**: v18.2+ - Uber's design system
 - **Styletron**: v6.1+ - CSS-in-JS styling engine
 - **TanStack Form**: v1.33+ - Headless form state management
-- **Zod**: v4.1.12+ - TypeScript-first schema validation
+- **Zod**: v4.6+ - TypeScript-first schema validation
 
 ### Build & Development Tools
 - **Build Tool**: Vite v8.3+ (ESM-first bundler)
@@ -65,7 +65,7 @@ baseui-tanstack-form/
 ├── dist/                   # Build output (git ignored)
 ├── coverage/               # Test coverage reports (git ignored)
 ├── vitest.config.ts        # Vitest configuration
-├── vite.config.ts          # Vite configuration
+├── vite.config.mts         # Vite configuration
 ├── tsconfig.json           # TypeScript configuration
 ├── biome.json              # Formatting and linting
 └── package.json            # Dependencies and scripts
