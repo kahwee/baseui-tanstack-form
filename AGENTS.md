@@ -6,7 +6,7 @@ This guide is designed for AI assistants and developers working on this project.
 
 ### Core Dependencies
 - **React**: v18.3.1 - UI library (BaseUI 18.2 currently relies on React 18 default-prop behavior)
-- **TypeScript**: v6.0+ (strict mode enabled; TypeScript 7 is not yet supported by the lint/declaration toolchain)
+- **TypeScript**: v7.0.2+ (strict mode enabled; `@typescript/typescript6` provides the JavaScript Compiler API required by the declaration toolchain)
 - **BaseUI**: v18.2+ - Uber's design system
 - **Styletron**: v6.1+ - CSS-in-JS styling engine
 - **TanStack Form**: v1.33+ - Headless form state management
