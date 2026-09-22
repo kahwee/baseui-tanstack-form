@@ -39,6 +39,16 @@ This guide is designed for AI assistants and developers working on this project.
 | `bun run build:storybook` | Build Storybook for production | Storybook v10 |
 | `bun run check` | format:check + lint + typecheck + test + build + test:package | bun scripts |
 
+### Greenkeeping
+
+- Start dependency maintenance with `bun outdated` and `bun audit`.
+- Prefer focused compatible upgrades and commit `bun.lock` with `package.json`.
+- Keep the Bun version in `package.json` and GitHub Actions aligned.
+- Keep React 18 until BaseUI no longer depends on its default-prop behavior;
+  treat React 19 as a deliberate compatibility project, not routine upkeep.
+- Isolate major TanStack Form, Vite, Vitest, or Storybook upgrades and run
+  `bun run check` plus `bun run build:storybook` before committing.
+
 ## 📁 Project Structure
 
 ```
@@ -947,7 +957,7 @@ const schema = z.object({
 
 ## 🧪 Testing
 
-This project uses **Vitest v4** with **React Testing Library v14.3+** for comprehensive component testing.
+This project uses **Vitest v5** with **React Testing Library v16.3+** for comprehensive component testing.
 
 ### Quick Start
 
