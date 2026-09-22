@@ -2,20 +2,11 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import dts from 'vite-plugin-dts'
 
 const rootDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-  plugins: [
-    react(),
-    dts({
-      include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: ['src/**/*.stories.tsx', 'src/**/__tests__/**'],
-      outDir: 'dist',
-      rollupTypes: false,
-    }),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': resolve(rootDir, 'src'),
