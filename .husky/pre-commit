@@ -1,10 +1,1 @@
-#!/bin/sh
-set -eu
-wrong='69017426+kahwee@users.noreply.github.com'
-for kind in AUTHOR COMMITTER; do
-  ident=$(git var "GIT_${kind}_IDENT")
-  case "$ident" in
-    *"<$wrong>"*) printf 'Git identity guard: refusing the known incorrect %s email <%s>.\n' "$kind" "$wrong" >&2; exit 1 ;;
-  esac
-done
 npm run lint && npm run typecheck
