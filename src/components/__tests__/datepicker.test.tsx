@@ -1,5 +1,6 @@
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
+import { toDatePickerValue, toSingleDate } from '../datepicker'
 import { useAppForm } from '../../hooks/form'
 import { render, screen } from '../../test-utils/rtl'
 
@@ -10,6 +11,25 @@ type TestSchema = {
 
 /** DatePicker component tests for the package's supported React 18 runtime. */
 describe('DatePicker Component', () => {
+  it('normalizes stored dates for the calendar', () => {
+    const date = new Date('2025-06-15T12:00:00.000Z')
+
+    expect(toDatePickerValue(date)).toBe(date)
+    expect(toDatePickerValue(date.toISOString())).toEqual(date)
+    expect(toDatePickerValue(null)).toBeNull()
+    expect(toDatePickerValue('not-a-date')).toBeNull()
+    expect(toDatePickerValue(new Date('invalid'))).toBeNull()
+  })
+
+  it('normalizes calendar callbacks to a single date or null', () => {
+    const date = new Date('2025-06-15T12:00:00.000Z')
+
+    expect(toSingleDate(date)).toBe(date)
+    expect(toSingleDate([date])).toBe(date)
+    expect(toSingleDate([])).toBeNull()
+    expect(toSingleDate(null)).toBeNull()
+  })
+
   it('renders with label', () => {
     function TestForm() {
       const form = useAppForm({
@@ -83,6 +103,27 @@ describe('DatePicker Component', () => {
     // The datepicker input should be rendered and handle string conversion
     const input = container.querySelector('input')
     expect(input).toBeInTheDocument()
+  })
+
+  it('treats an invalid string date as an empty value', () => {
+    function TestForm() {
+      const form = useAppForm({
+        defaultValues: {
+          birthDate: null,
+          eventDate: 'not-a-date',
+        } as TestSchema,
+      })
+
+      return (
+        <form.AppField name="eventDate">
+          {(field) => <field.DatePicker label="Event Date" placeholder="Select a date" />}
+        </form.AppField>
+      )
+    }
+
+    render(<TestForm />)
+
+    expect(screen.getByPlaceholderText('Select a date')).toHaveValue('')
   })
 
   it('renders with null value', () => {

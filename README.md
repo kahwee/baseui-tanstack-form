@@ -17,6 +17,26 @@ npm install baseui-tanstack-form @tanstack/react-form baseui react@18 react-dom@
 Provide Base Web's `StyletronProvider` and `BaseProvider` at your app root. Your
 app's existing providers can be reused.
 
+```tsx
+import type { ReactNode } from 'react';
+import { BaseProvider, LightTheme } from 'baseui';
+import { Client as Styletron } from 'styletron-engine-atomic';
+import { Provider as StyletronProvider } from 'styletron-react';
+
+const engine = new Styletron();
+
+export function AppProviders({ children }: { children: ReactNode }) {
+  return (
+    <StyletronProvider value={engine}>
+      <BaseProvider theme={LightTheme}>{children}</BaseProvider>
+    </StyletronProvider>
+  );
+}
+```
+
+Render the form below inside `AppProviders`. Create the Styletron client once for
+a browser app; server-rendered apps should use their framework's Styletron SSR setup.
+
 ## First form
 
 ```tsx
@@ -65,7 +85,9 @@ bun run storybook
 ```
 
 `bun run check` runs formatting, lint, types, tests, the library build, and a
-package export check. Use `bun run build:storybook` for documentation changes.
+package export check. Use `bun run build:storybook` after changing stories,
+Storybook configuration, or their dependencies. The unit suite uses jsdom;
+building Storybook does not run browser interaction tests.
 
 More detail: [form composition](FORM_COMPOSITION.md), [testing](TESTING.md),
 and [source code](https://github.com/kahwee/baseui-tanstack-form).

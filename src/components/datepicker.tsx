@@ -15,6 +15,19 @@ export type DatePickerFieldProps = {
     range?: false
   }
 
+/** Keep malformed persisted dates out of Base Web's calendar. */
+export function toDatePickerValue(value: Date | string | null): Date | null {
+  const date = typeof value === 'string' ? new Date(value) : value
+  return date instanceof Date && !Number.isNaN(date.getTime()) ? date : null
+}
+
+/** The field stores one date even if a calendar sends a range value. */
+export function toSingleDate(
+  value: Date | Array<Date | null | undefined> | null | undefined,
+): Date | null {
+  return Array.isArray(value) ? (value[0] ?? null) : (value ?? null)
+}
+
 /**
  * Date picker component integrated with TanStack Form
  *
@@ -43,45 +56,12 @@ export function DatePickerField({ label, formControlProps, ...restProps }: DateP
   const field = useFieldContext<Date | string | null>()
   const { hasError, errorMessage } = useFieldError(field)
 
-  // Convert value to appropriate format for DatePicker
-  const getValue = () => {
-    const value = field.state.value
-
-    if (value === null || value === undefined) {
-      return null
-    }
-
-    if (typeof value === 'string') {
-      // Convert string to Date
-      return new Date(value)
-    }
-
-    if (Array.isArray(value)) {
-      // For arrays, return first element if it exists
-      return value.length > 0 ? value[0] : null
-    }
-
-    // Return Date object as is
-    return value
-  }
-
   return (
     <FormControl label={label} error={errorMessage} {...formControlProps}>
       <BaseDatePicker
-        value={getValue()}
+        value={toDatePickerValue(field.state.value)}
         onChange={({ date }) => {
-          // Handle single date
-          if (date && !Array.isArray(date)) {
-            field.handleChange(date)
-          }
-          // Handle range (not fully supported in this implementation)
-          else if (Array.isArray(date) && date.length > 0 && date[0]) {
-            field.handleChange(date[0])
-          }
-          // Handle null
-          else {
-            field.handleChange(null)
-          }
+          field.handleChange(toSingleDate(date))
         }}
         error={hasError}
         aria-invalid={hasError}

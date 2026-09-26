@@ -13,6 +13,11 @@ for every edit.
   entry points. Their values come from native change events.
 - Preserve root and `/zod` exports, including ESM and CommonJS entry points.
   Public additions belong in `src/index.tsx` or the relevant subpath entry.
+- Submission examples must use `onSubmit: ({ value }) => ...` and
+  `form.handleSubmit()`. Use `form.Subscribe` for reactive values, dot paths for
+  nested fields, and `mode="array"` with array helpers for repeated fields.
+  Typecheck changed examples against the package; do not borrow APIs from other
+  form libraries.
 - Keep `bun.lock` with dependency changes and the Bun version aligned with CI.
 
 ## Verification
@@ -23,3 +28,9 @@ for every edit.
   dependencies. Documentation-only changes need a diff and link check.
 - Add behavior tests for changes to form controls or Zod helpers. Keep test
   providers in `src/test-utils/rtl.tsx`.
+- Unit tests use jsdom, with 70% coverage thresholds in the separate coverage
+  command. Do not describe excluded `.browser.tsx` files as executed coverage.
+- For greenkeeping, run `bun outdated` and `bun audit`, align Vitest and its
+  coverage/UI packages, and keep Storybook addons on the same stable release.
+  Preserve the React 18 compatibility pin. Update `CHANGELOG.md` with a version
+  bump; a local bump is not a published release.

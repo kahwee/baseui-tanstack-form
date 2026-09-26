@@ -7,8 +7,8 @@ library correctness and current tooling without requiring React 19.
 
 - Fixed CommonJS packaging under `type: module` by emitting `dist/index.cjs`.
 - Simplified the library build to ESM + CJS; removed the unused UMD build.
-- Let `vite-plugin-dts` own declaration generation instead of running a second
-  TypeScript declaration build.
+- Generate declarations with `tsc -p tsconfig.build.json` after Vite builds
+  the JavaScript entry points.
 - Externalized package subpaths (`baseui/*`, `react/*`, etc.) so they cannot be
   accidentally bundled into the library.
 - Added `sideEffects: false` for better consumer tree-shaking.
@@ -27,8 +27,7 @@ library correctness and current tooling without requiring React 19.
 ## Recommended next steps
 
 1. Add package-contract checks such as `publint` and `@arethetypeswrong/cli`.
-2. Add focused tests for root package imports from both ESM and CJS consumers.
-3. Consider separate entry points for the Zod helpers if you want Zod to become
-   an optional peer dependency.
-4. Consider a Base Web provider test harness shared by Storybook and Vitest to
-   eliminate duplicate setup code.
+2. Consider sharing provider setup between Storybook and Vitest.
+
+Root and `/zod` ESM/CommonJS import checks already run as part of `bun run check`.
+The `/zod` entry point exists; Zod remains a required peer for compatibility.

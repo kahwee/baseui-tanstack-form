@@ -14,10 +14,12 @@ This pass fixes the issues found during the package audit while preserving exist
 - Removed dangling `aria-describedby` references that pointed at IDs the package did not render. BaseUI `FormControl` remains responsible for error markup.
 - Prevented shared `CheckboxGroup` props from overriding option-level `disabled`, `overrides`, and error semantics.
 - Re-enabled the React 18 DatePicker unit suite and removed the stale React 19 explanation.
-- Removed declaration-output and React type-path workarounds from `tsconfig.json`; `vite-plugin-dts` owns declaration generation.
+- Removed React type-path workarounds from `tsconfig.json`; the current build generates declarations with `tsc -p tsconfig.build.json`.
 - Added a focused `baseui-tanstack-form/zod` export while retaining root Zod exports for compatibility.
 - Added a post-build package contract smoke test for root/Zod ESM and CommonJS outputs.
 
-## Verification
+## Original verification limits
 
-TypeScript/TSX syntax transpilation and JSON parsing were run successfully in the provided sandbox. A full install/lint/typecheck/test/build could not be executed because Bun is unavailable and the sandbox has no cached npm packages or registry network access. Run `bun install --frozen-lockfile && bun run check` in a normal development environment.
+TypeScript/TSX syntax transpilation and JSON parsing were run successfully in the provided sandbox. A full install/lint/typecheck/test/build could not be executed because Bun is unavailable and the sandbox has no cached npm packages or registry network access. Those limits describe the original audit environment, not the current repository.
+
+For current verification commands and what they cover, see [TESTING.md](TESTING.md).
