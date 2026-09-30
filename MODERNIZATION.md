@@ -1,7 +1,7 @@
 # Modernization notes
 
-This repository intentionally targets React 18. The modernization work focuses on
-library correctness and current tooling without requiring React 19.
+This repository intentionally targets React 18. These notes record the earlier
+packaging and API modernization; current commands are in [TESTING.md](TESTING.md).
 
 ## Changed
 
@@ -24,10 +24,10 @@ library correctness and current tooling without requiring React 19.
 - Prevented duplicate values in checkbox groups and made multi-select IDs
   consistent with other fields.
 
-## Recommended next steps
+## Current verification
 
-1. Add package-contract checks such as `publint` and `@arethetypeswrong/cli`.
-2. Consider sharing provider setup between Storybook and Vitest.
-
-Root and `/zod` ESM/CommonJS import checks already run as part of `bun run check`.
-The `/zod` entry point exists; Zod remains a required peer for compatibility.
+Root and `/zod` ESM/CommonJS import checks run as part of `bun run check`.
+Shared unit-test providers live in `src/test-utils/rtl.tsx`. The `/zod` entry
+exists; Zod remains a required peer for compatibility. Additional package
+metadata checks such as `publint` and `@arethetypeswrong/cli` are not part of
+this repository's current gate.

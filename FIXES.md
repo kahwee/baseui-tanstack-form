@@ -1,6 +1,7 @@
 # Codebase improvement pass
 
-This pass fixes the issues found during the package audit while preserving existing public APIs where practical.
+These historical notes record fixes from the original package audit.
+Use [TESTING.md](TESTING.md) for the current setup and verification commands.
 
 ## Fixed
 
