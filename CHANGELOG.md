@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4 (unreleased)
+
+- Update compatible development tooling and refresh dependency security fixes.
+
 ## 1.0.3 (unreleased)
 
 - Update the locked source-map-js development dependency to 1.2.2 to address its denial-of-service advisory.
