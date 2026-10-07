@@ -93,3 +93,7 @@ More detail: [form composition](FORM_COMPOSITION.md), [testing](TESTING.md),
 and [source code](https://github.com/kahwee/baseui-tanstack-form).
 
 MIT © KahWee Teng.
+
+## CI maintenance
+
+[GitHub Actions maintenance](.github/ACTIONS.md) covers workflows, parallel checks, action versions, and weekly updates.
