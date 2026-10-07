@@ -23,8 +23,15 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Check
-        run: bun run check
-
-      - name: Audit
-        run: bun audit
+      # Source checks are independent; package loading requires the build below.
+      - parallel:
+          - name: Formatting and lint
+            run: bun run format:check && bun run lint
+          - name: Type check
+            run: bun run typecheck
+          - name: Test
+            run: bun run test
+          - name: Audit
+            run: bun audit
+      - name: Build and verify package
+        run: bun run build && bun run test:package

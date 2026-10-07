@@ -39,18 +39,19 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Lint
-        run: bun run lint
+      # Finish all independent checks before building or deploying Storybook.
+      - parallel:
+          - name: Lint
+            run: bun run lint
 
-      - name: Type check
-        run: bun run typecheck
+          - name: Type check
+            run: bun run typecheck
 
-      - name: Test
-        run: bun run test
+          - name: Test
+            run: bun run test
 
-      - name: Audit
-        run: bun audit
-
+          - name: Audit
+            run: bun audit
       - name: Build Storybook
         run: bun run build:storybook
 
