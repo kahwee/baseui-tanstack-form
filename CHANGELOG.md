@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 (unreleased)
+
+- Refresh Storybook and its addons to 10.6.2, Vitest/coverage/UI to 5.0.4, Vite to 8.3.4, and Zod to 4.6.7. Preserve React 18 and matching type declarations.
+
 ## 1.0.4 (unreleased)
 
 - Update compatible development tooling and refresh dependency security fixes.
