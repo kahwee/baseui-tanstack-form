@@ -84,7 +84,7 @@ bun run check
 bun run storybook
 ```
 
-`bun run check` runs formatting, lint, types, tests, the library build, and a
+`bun run check` runs formatting, types, tests, the library build, and a
 package export check. Use `bun run build:storybook` after changing stories,
 Storybook configuration, or their dependencies. The unit suite uses jsdom;
 building Storybook does not run browser interaction tests.
@@ -97,3 +97,8 @@ MIT © KahWee Teng.
 ## CI maintenance
 
 [GitHub Actions maintenance](.github/ACTIONS.md) covers workflows, parallel checks, action versions, and weekly updates.
+
+Bun 1.4.4 owns formatting (`bun run format`, `bun run format:check`) and type checking
+(`bun run typecheck`). Biome has been removed. Bun formatting is not a replacement
+for Biome’s semantic lint rules; tests, strict type checks, and package builds remain
+the verification gates. TypeScript remains installed for declaration generation.

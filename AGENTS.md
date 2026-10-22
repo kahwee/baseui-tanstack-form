@@ -22,7 +22,7 @@ for every edit.
 
 ## Verification
 
-- Use `bun run check` for code and dependency changes. It covers format, lint,
+- Use `bun run check` for code and dependency changes. It covers format,
   types, tests, build, and package loading.
 - Build Storybook with `bun run build:storybook` when changing stories or their
   dependencies. Documentation-only changes need a diff and link check.

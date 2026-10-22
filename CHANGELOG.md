@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Use Bun 1.4.4 for formatting and type checking; remove Biome. Keep TypeScript for declaration output.
+- Pin GitHub Actions to verified stable release commits and use `bun ci` for frozen installs.
+
 ## 1.0.5 (unreleased)
 
 - Refresh Storybook and its addons to 10.6.2, Vitest/coverage/UI to 5.0.4, Vite to 8.3.4, and Zod to 4.6.7. Preserve React 18 and matching type declarations.

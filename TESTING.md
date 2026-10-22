@@ -16,7 +16,7 @@ bun run test:coverage
 bun run build:storybook
 ```
 
-`check` runs formatting, lint, typechecking, unit tests, the library build, and
+`check` runs formatting, typechecking, unit tests, the library build, and
 ESM/CommonJS package import checks. `test:coverage` separately enforces 70% for
 statements, branches, functions, and lines, with HTML output in `coverage/`.
 `build:storybook` verifies that the stories compile; it does not exercise browser

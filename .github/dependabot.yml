@@ -9,20 +9,20 @@ updates:
     # Base Web compatibility is verified on React 18; keep types aligned.
     ignore:
       - dependency-name: react
-        update-types: ["version-update:semver-major"]
+        update-types: ['version-update:semver-major']
       - dependency-name: react-dom
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@types/react"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@types/react-dom"
-        update-types: ["version-update:semver-major"]
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/react-dom'
+        update-types: ['version-update:semver-major']
     groups:
       react:
         patterns:
           - react
           - react-dom
-          - "@types/react"
-          - "@types/react-dom"
+          - '@types/react'
+          - '@types/react-dom'
       development-dependencies:
         dependency-type: development
         update-types:
@@ -36,4 +36,4 @@ updates:
     groups:
       github-actions:
         patterns:
-          - "*"
+          - '*'

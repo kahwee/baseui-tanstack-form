@@ -7,17 +7,17 @@ interface TestField {
   name: string
   getMeta: () => { errors?: string[] }
   form: {
-    // biome-ignore lint/suspicious/noExplicitAny: Test double accepts intentionally malformed values.
+    // Test double accepts intentionally malformed values.
     getAllErrors: () => any
   }
 }
 
 // For intentionally invalid fields in tests
-// biome-ignore lint/suspicious/noExplicitAny: Tests construct intentionally malformed objects.
+// Tests construct intentionally malformed objects.
 type AnyObject = Record<string, any>
 
 // Use any type for test injections with intentional bad inputs
-// biome-ignore lint/suspicious/noExplicitAny: Invalid runtime inputs are the subject of these tests.
+// Invalid runtime inputs are the subject of these tests.
 type TestFieldInput = any
 
 describe('useFieldError', () => {
@@ -438,7 +438,7 @@ describe('useFieldError', () => {
                 errors: [
                   {
                     username: {
-                      // biome-ignore lint/suspicious/noExplicitAny: Deliberately violates the runtime shape.
+                      // Deliberately violates the runtime shape.
                       _errors: 'Not an array' as any, // intentionally using string instead of array
                     },
                   },

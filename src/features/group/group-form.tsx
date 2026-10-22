@@ -105,7 +105,7 @@ export const GroupForm = withForm({
               {(field) => (
                 <div key={`s${field.state.value.length}`}>
                   {field.state.value.map((_, index) => (
-                    /* biome-ignore lint/suspicious/noArrayIndexKey: Form rows do not expose a stable identifier. */
+                    /* Form rows do not expose a stable identifier. */
                     <Block key={index} marginBottom="16px" display="flex" flexDirection="column">
                       <Block
                         display="flex"
