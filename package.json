@@ -29,7 +29,7 @@
   "author": "KahWee Teng <tengkahwee@gmail.com>",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && tsc -p tsconfig.build.json",
+    "build": "bun run typecheck && bun run build:artifacts",
     "clean": "rm -rf dist coverage",
     "format": "bun fmt .",
     "format:check": "bun fmt --check .",
@@ -42,8 +42,10 @@
     "test:ui": "vitest --ui",
     "prepare": "husky",
     "prepublishOnly": "bun run clean && bun run check",
-    "check": "bun run format:check && bun run typecheck && bun run test && bun run build && bun run test:package",
-    "test:package": "bun scripts/test-package.mjs"
+    "check": "bun run check:source && bun run build:artifacts && bun run test:package",
+    "test:package": "bun scripts/test-package.mjs",
+    "check:source": "bun run --parallel format:check typecheck test",
+    "build:artifacts": "vite build && tsc --noCheck -p tsconfig.build.json"
   },
   "devDependencies": {
     "@storybook/addon-docs": "^10.6.2",
