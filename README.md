@@ -114,3 +114,6 @@ On the session’s Linux executor, the median of three project-check runs was
 These include command startup and describe this checkout, not a CI speed guarantee.
 Declaration emission measured 0.886s with `--noCheck` versus
 1.256s with checking; generated `.d.ts` contents matched.
+
+See [build performance](docs/build-performance.md) for the Bun-hosted build,
+measured artifact timings, output verification, and benchmark scope.

@@ -63,3 +63,8 @@ remain visible. Builds and package checks wait for the source checks.
 Standalone `build` runs Bun checking first. After an explicit successful checker,
 CI uses `build:artifacts`; its TypeScript step emits declarations with `--noCheck`
 and does not provide a second semantic check.
+
+Package artifact commands host their existing build tools under Bun. Source gates
+still finish before artifact generation; tests and coverage keep their existing
+runtime. Bun package caches use the default `~/.bun/install/cache` directory.
+See [build performance](../docs/build-performance.md) for the controlled comparison.

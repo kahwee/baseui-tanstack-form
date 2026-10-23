@@ -1,6 +1,11 @@
 # Changelog
 
-## Unreleased
+## 1.0.6 (unreleased)
+
+- Remove stale Bun configuration so local and Actions dependency caches use the same default path.
+
+- Host existing artifact-build tools under Bun; preserve emitted package formats and declarations. Record three-run build benchmarks and identical-output fingerprints.
+- Refresh compatible dependencies, including available toolchain security patches.
 
 - Run independent source checks in parallel with Bun; keep build and package validation after successful checks.
 - Avoid repeating semantic type checks during declaration emission; standalone builds still run Bun checking first.

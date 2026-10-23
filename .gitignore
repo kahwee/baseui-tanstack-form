@@ -24,6 +24,10 @@ coverage*/
 *.tmp.*
 *.pyc
 *.pickle
-docs
+docs/*
+!docs/build-performance.md
+!docs/benchmarks/
+docs/benchmarks/*
+!docs/benchmarks/build-runtime-2026-10-22.json
 docs/_build/*
 env*
