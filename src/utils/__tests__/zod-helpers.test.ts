@@ -13,6 +13,20 @@ import {
 } from '../zod-helpers'
 
 describe('Zod Helpers', () => {
+  it('matches complete field paths without including similarly named siblings', () => {
+    const error = new z.ZodError([
+      { code: 'custom', path: ['username'], message: 'Username error' },
+      { code: 'custom', path: ['user', 'name'], message: 'Nested name error' },
+      { code: 'custom', path: ['user'], message: 'User error' },
+      { code: 'custom', path: ['items', 10], message: 'Tenth item error' },
+      { code: 'custom', path: ['items', 1, 'name'], message: 'First item error' },
+    ])
+
+    expect(getFirstZodError(error, 'user')).toBe('Nested name error')
+    expect(getAllZodErrors(error, 'user')).toEqual(['Nested name error', 'User error'])
+    expect(getAllZodErrors(error, 'items.1')).toEqual(['First item error'])
+  })
+
   describe('getFirstZodError', () => {
     it('returns first error message from validation result', () => {
       const schema = z.object({

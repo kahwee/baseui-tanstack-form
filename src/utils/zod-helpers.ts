@@ -30,7 +30,10 @@ import { z } from 'zod'
 export function getFirstZodError(error: z.ZodError, path?: string): string | null {
   if (path) {
     // Get errors for specific field
-    const fieldErrors = error.issues.filter((err) => err.path.join('.').startsWith(path))
+    const fieldErrors = error.issues.filter((err) => {
+      const issuePath = err.path.join('.')
+      return issuePath === path || issuePath.startsWith(`${path}.`)
+    })
     return fieldErrors[0]?.message ?? null
   }
 
@@ -60,7 +63,10 @@ export function getFirstZodError(error: z.ZodError, path?: string): string | nul
 export function getAllZodErrors(error: z.ZodError, path?: string): string[] {
   if (path) {
     return error.issues
-      .filter((err) => err.path.join('.').startsWith(path))
+      .filter((err) => {
+        const issuePath = err.path.join('.')
+        return issuePath === path || issuePath.startsWith(`${path}.`)
+      })
       .map((err) => err.message)
   }
 
