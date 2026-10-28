@@ -1,119 +1,56 @@
 # BaseUI TanStack Form
 
-React form fields that connect [TanStack Form](https://tanstack.com/form) to
-[Base Web](https://baseweb.design/). Includes text, choice, date, and submit
-controls, plus optional [Zod](https://zod.dev/) helpers.
+React form fields connecting TanStack Form to Base Web, with optional Zod helpers.
+This checkout supports **React 18.2–18.x**, not React 19.
 
-The current release supports React 18.2–18.x. See the
-[Storybook examples](https://kahwee.github.io/baseui-tanstack-form/) for each
-field and its states.
+[Storybook](https://kahwee.github.io/baseui-tanstack-form/) ·
+[Providers and usage](USAGE.md) · [Changelog](CHANGELOG.md)
 
-## Install
+## Install locally
 
-```bash
-npm install baseui-tanstack-form @tanstack/react-form baseui react@18 react-dom@18 zod@4 styletron-engine-atomic styletron-react
+`baseui-tanstack-form@1.0.6` is an **unpublished candidate**. The npm package endpoint
+returned 404 on October 28, 2026; the name is not confirmed as reserved.
+From this checkout, use Bun 1.4.4:
+
+```sh
+bun ci
+bun run check
+bun pm pack
+# In your React 18 app:
+npm install /path/to/baseui-tanstack-form-1.0.6.tgz @tanstack/react-form baseui react@18 react-dom@18 zod@4 styletron-engine-atomic styletron-react
 ```
 
-Provide Base Web's `StyletronProvider` and `BaseProvider` at your app root. Your
-app's existing providers can be reused.
-
-```tsx
-import type { ReactNode } from 'react';
-import { BaseProvider, LightTheme } from 'baseui';
-import { Client as Styletron } from 'styletron-engine-atomic';
-import { Provider as StyletronProvider } from 'styletron-react';
-
-const engine = new Styletron();
-
-export function AppProviders({ children }: { children: ReactNode }) {
-  return (
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>{children}</BaseProvider>
-    </StyletronProvider>
-  );
-}
-```
-
-Render the form below inside `AppProviders`. Create the Styletron client once for
-a browser app; server-rendered apps should use their framework's Styletron SSR setup.
-
-## First form
+Render inside [Base Web and Styletron providers](USAGE.md):
 
 ```tsx
 import { useAppForm } from 'baseui-tanstack-form';
 
 export function ContactForm() {
   const form = useAppForm({
-    defaultValues: { name: '', email: '' },
-    onSubmit: async ({ value }) => {
-      console.log(value);
-    },
+    defaultValues: { name: '' },
+    onSubmit: ({ value }) => { console.log(value); },
   });
-
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        void form.handleSubmit();
-      }}
-    >
+    <form onSubmit={(event) => { event.preventDefault(); void form.handleSubmit(); }}>
       <form.AppField name="name">
-        {(field) => <field.Input label="Name" placeholder="Your name" />}
+        {(field) => <field.Input label="Name" />}
       </form.AppField>
-      <form.AppField name="email">
-        {(field) => <field.Input label="Email" type="email" />}
-      </form.AppField>
-      <form.AppForm>
-        <form.SubscribeButton label="Send" />
-      </form.AppForm>
+      <form.AppForm><form.SubscribeButton label="Send" /></form.AppForm>
     </form>
   );
 }
 ```
 
-Available field controls: `Input`, `Textarea`, `SelectSingle`, `SelectMulti`,
-`Checkbox`, `CheckboxGroup`, `RadioGroup`, and `DatePicker`. Use `withForm` to
-compose reusable sections. Zod helpers are available from
-`baseui-tanstack-form/zod`.
+[Usage](USAGE.md) covers the controls and `/zod` exports;
+[form composition](FORM_COMPOSITION.md) covers reusable sections and arrays.
 
 ## Develop
 
-```bash
-bun install --frozen-lockfile
-bun run check
-bun run storybook
-```
+`bun run check` runs source checks, builds, and ESM/CommonJS package loading.
+Use `bun run storybook` to explore fields and `bun run build:storybook` after
+Storybook changes. Unit tests use jsdom; a Storybook build is not a browser test.
 
-`bun run check` runs formatting, types, tests, the library build, and a
-package export check. Use `bun run build:storybook` after changing stories,
-Storybook configuration, or their dependencies. The unit suite uses jsdom;
-building Storybook does not run browser interaction tests.
-
-More detail: [form composition](FORM_COMPOSITION.md), [testing](TESTING.md),
-and [source code](https://github.com/kahwee/baseui-tanstack-form).
+[Testing](TESTING.md) · [CI maintenance](.github/ACTIONS.md) ·
+[Build details and measurements](docs/build-performance.md)
 
 MIT © KahWee Teng.
-
-## CI maintenance
-
-[GitHub Actions maintenance](.github/ACTIONS.md) covers workflows, parallel checks, action versions, and weekly updates.
-
-Bun 1.4.4 owns formatting (`bun run format`, `bun run format:check`) and type checking
-(`bun run typecheck`). Biome has been removed. Bun formatting is not a replacement
-for Biome’s semantic lint rules; tests, strict type checks, and package builds remain
-the verification gates. TypeScript remains installed for declaration generation.
-
-`bun run check:source` runs formatting, Bun type checking, and tests in parallel.
-`bun run check` waits for those checks before building package artifacts.
-`bun run build` checks types before building. CI calls `build:artifacts` only after
-a successful Bun check; TypeScript emits declarations with `--noCheck` to avoid
-checking the same source again. Do not use `build:artifacts` as a validation command.
-
-On the session’s Linux executor, the median of three project-check runs was
-0.262s with Bun versus 2.631s with `bun x --no-install tsc --noEmit`.
-These include command startup and describe this checkout, not a CI speed guarantee.
-Declaration emission measured 0.886s with `--noCheck` versus
-1.256s with checking; generated `.d.ts` contents matched.
-
-See [build performance](docs/build-performance.md) for the Bun-hosted build,
-measured artifact timings, output verification, and benchmark scope.

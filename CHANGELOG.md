@@ -2,16 +2,18 @@
 
 ## 1.0.6 (unreleased)
 
-- Remove stale Bun configuration so local and Actions dependency caches use the same default path.
-
-- Host existing artifact-build tools under Bun; preserve emitted package formats and declarations. Record three-run build benchmarks and identical-output fingerprints.
-- Refresh compatible dependencies, including available toolchain security patches.
-
-- Run independent source checks in parallel with Bun; keep build and package validation after successful checks.
-- Avoid repeating semantic type checks during declaration emission; standalone builds still run Bun checking first.
-
-- Use Bun 1.4.4 for formatting and type checking; remove Biome. Keep TypeScript for declaration output.
-- Pin GitHub Actions to verified stable release commits and use `bun ci` for frozen installs.
+- Align Storybook and its official addons on 10.6.5; refresh the lockfile.
+- Clarify that the npm package is unpublished; keep quick-start examples here and
+  detailed usage and benchmark evidence in linked guides.
+- Use Bun 1.4.4 for formatting and type checking, replacing Biome. Run independent
+  source checks in parallel before building; keep semantic checking separate from
+  TypeScript’s `--noCheck` declaration emission.
+- Host artifact-build tools under Bun without changing package formats or declarations.
+  [Measured build results](docs/build-performance.md) preserve three-run timings and
+  identical-output fingerprints; compatible dependency security fixes are included.
+- Pin Actions to verified stable release commits and use frozen `bun ci` installs.
+- Preserve React 18 and matching types. Remove the stale Bun configuration so local
+  dependency-cache defaults match Actions.
 
 ## 1.0.5 (unreleased)
 

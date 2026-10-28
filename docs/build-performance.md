@@ -33,3 +33,22 @@ The obsolete `bunfig.toml` was removed. Its repository-local `.bun-cache` settin
 did not match Actions’ restored `~/.bun/install/cache` directory. Defaults now
 match CI. Unsupported Jest-runner and TypeScript-cache settings were removed;
 Vitest remains the actual test runner. React 18 compatibility is preserved.
+
+## Source checks and declaration generation
+
+Bun 1.4.4 owns formatting (`bun run format`, `bun run format:check`) and type checking
+(`bun run typecheck`). Biome has been removed. Bun formatting is not a replacement
+for Biome’s semantic lint rules; tests, strict type checks, and package builds remain
+the verification gates. TypeScript remains installed for declaration generation.
+
+`bun run check:source` runs formatting, Bun type checking, and tests in parallel.
+`bun run check` waits for those checks before building package artifacts.
+`bun run build` checks types before building. CI calls `build:artifacts` only after
+a successful Bun check; TypeScript emits declarations with `--noCheck` to avoid
+checking the same source again. Do not use `build:artifacts` as a validation command.
+
+On the session’s Linux executor, the median of three project-check runs was
+0.262s with Bun versus 2.631s with `bun x --no-install tsc --noEmit`.
+These include command startup and describe this checkout, not a CI speed guarantee.
+Declaration emission measured 0.886s with `--noCheck` versus
+1.256s with checking; generated `.d.ts` contents matched.
