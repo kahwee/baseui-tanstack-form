@@ -2,6 +2,8 @@
 
 ## 1.0.6 (unreleased)
 
+- Update Vitest and coverage tooling to 5.1.0 and the Vite React plugin to 6.2.1.
+
 - Align Storybook and its official addons on 10.6.5; refresh the lockfile.
 - Clarify that the npm package is unpublished; keep quick-start examples here and
   detailed usage and benchmark evidence in linked guides.
