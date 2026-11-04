@@ -2,6 +2,8 @@
 
 ## 1.0.6 (unreleased)
 
+- Pin patched glob and minimatch versions for the Storybook docgen dependency.
+
 - Update Vitest and coverage tooling to 5.1.0 and the Vite React plugin to 6.2.1.
 
 - Align Storybook and its official addons on 10.6.5; refresh the lockfile.
