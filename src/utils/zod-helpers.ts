@@ -96,8 +96,14 @@ export function zodErrorsToFieldMap(error: z.ZodError): Record<string, string> {
 
   for (const err of error.issues) {
     const path = err.path.join('.')
-    if (path && !errorMap[path]) {
-      errorMap[path] = err.message
+    if (path && !Object.hasOwn(errorMap, path)) {
+      // Define an own property so names such as __proto__ remain ordinary keys.
+      Object.defineProperty(errorMap, path, {
+        value: err.message,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      })
     }
   }
 

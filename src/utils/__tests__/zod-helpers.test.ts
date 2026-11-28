@@ -129,6 +129,25 @@ describe('Zod Helpers', () => {
   })
 
   describe('zodErrorsToFieldMap', () => {
+    it('preserves errors for field names inherited from Object.prototype', () => {
+      const fieldNames = ['constructor', 'toString', 'hasOwnProperty', '__proto__']
+      const error = new z.ZodError(
+        fieldNames.flatMap((name) => [
+          { code: 'custom' as const, path: [name], message: `${name} is required` },
+          { code: 'custom' as const, path: [name], message: 'Later error' },
+        ]),
+      )
+
+      const errorMap = zodErrorsToFieldMap(error)
+
+      expect(Object.keys(errorMap)).toEqual(fieldNames)
+      for (const name of fieldNames) {
+        expect(Object.hasOwn(errorMap, name)).toBe(true)
+        expect(errorMap[name]).toBe(`${name} is required`)
+      }
+      expect(Object.getPrototypeOf(errorMap)).toBe(Object.prototype)
+    })
+
     it('converts errors to field-error map', () => {
       const schema = z.object({
         username: z.string().min(3),
